@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.11"
+    ComputedModelVersion    "1.16"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -26,9 +26,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "hexren"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Oct 12 15:06:25 2011"
-  RTWModifiedTimeStamp	  240332781
-  ModelVersionFormat	  "1.%<AutoIncrement:11>"
+  LastModifiedDate	  "Wed Oct 12 23:40:22 2011"
+  RTWModifiedTimeStamp	  240359156
+  ModelVersionFormat	  "1.%<AutoIncrement:16>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -675,6 +675,21 @@ Model {
       ContinuousStateAttributes	"''"
     }
     Block {
+      BlockType		      Math
+      Operator		      "exp"
+      OutputSignalType	      "auto"
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as first input"
+      LockScale		      off
+      RndMeth		      "Floor"
+      SaturateOnIntegerOverflow	on
+      IntermediateResultsDataTypeStr "Inherit: Inherit via internal rule"
+      AlgorithmType	      "Newton-Raphson"
+      Iterations	      "3"
+    }
+    Block {
       BlockType		      Product
       Inputs		      "2"
       Multiplication	      "Element-wise(.*)"
@@ -725,12 +740,12 @@ Model {
   }
   System {
     Name		    "simulink_aufg2_a"
-    Location		    [4, 52, 1684, 1049]
+    Location		    [3520, 52, 5120, 1199]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
     ScreenColor		    "white"
-    PaperOrientation	    "landscape"
+    PaperOrientation	    "portrait"
     PaperPositionMode	    "auto"
     PaperType		    "A4"
     PaperUnits		    "centimeters"
@@ -739,7 +754,40 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "27"
+    SIDHighWatermark	    "28"
+    Block {
+      BlockType		      Sum
+      Name		      "(1-y²)"
+      SID		      "20"
+      Ports		      [2, 1]
+      Position		      [640, 297, 670, 328]
+      Inputs		      "+-"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Product
+      Name		      "6*(1-y²)*y'"
+      SID		      "23"
+      Ports		      [3, 1]
+      Position		      [785, 169, 815, 201]
+      Inputs		      "3"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Sum
+      Name		      "6*(1-y²)*y'-y"
+      SID		      "26"
+      Ports		      [2, 1]
+      Position		      [900, 177, 930, 208]
+      Inputs		      "+-"
+      InputSameDT	      off
+      OutDataTypeStr	      "Inherit: Inherit via internal rule"
+      SaturateOnIntegerOverflow	off
+    }
     Block {
       BlockType		      Constant
       Name		      "Constant"
@@ -752,7 +800,7 @@ Model {
       BlockType		      Constant
       Name		      "Contant1"
       SID		      "25"
-      Position		      [530, 195, 560, 225]
+      Position		      [620, 185, 650, 215]
       ShowName		      off
       Value		      "6"
     }
@@ -778,27 +826,6 @@ Model {
       InitialCondition	      "1"
     }
     Block {
-      BlockType		      Product
-      Name		      "Product"
-      SID		      "21"
-      Ports		      [2, 1]
-      Position		      [470, 302, 500, 333]
-      InputSameDT	      off
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Product
-      Name		      "Product1"
-      SID		      "23"
-      Ports		      [3, 1]
-      Position		      [785, 169, 815, 201]
-      Inputs		      "3"
-      InputSameDT	      off
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
       BlockType		      Scope
       Name		      "Scope"
       SID		      "27"
@@ -816,26 +843,12 @@ Model {
       SampleTime	      "0"
     }
     Block {
-      BlockType		      Sum
-      Name		      "Subtract"
-      SID		      "20"
-      Ports		      [2, 1]
-      Position		      [640, 297, 670, 328]
-      Inputs		      "+-"
-      InputSameDT	      off
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
-    }
-    Block {
-      BlockType		      Sum
-      Name		      "Subtract1"
-      SID		      "26"
-      Ports		      [2, 1]
-      Position		      [900, 182, 930, 213]
-      Inputs		      "+-"
-      InputSameDT	      off
-      OutDataTypeStr	      "Inherit: Inherit via internal rule"
-      SaturateOnIntegerOverflow	off
+      BlockType		      Math
+      Name		      "y²"
+      SID		      "28"
+      Ports		      [1, 1]
+      Position		      [460, 305, 490, 335]
+      Operator		      "square"
     }
     Line {
       SrcBlock		      "Integrator1"
@@ -847,7 +860,7 @@ Model {
       }
       Branch {
 	Points			[0, -45]
-	DstBlock		"Product1"
+	DstBlock		"6*(1-y²)*y'"
 	DstPort			1
       }
     }
@@ -858,27 +871,19 @@ Model {
       SrcPort		      1
       Points		      [30, 0]
       Branch {
-	Points			[0, -75; 485, 0; 0, 60]
-	DstBlock		"Subtract1"
+	Points			[0, -75; 485, 0; 0, 55]
+	DstBlock		"6*(1-y²)*y'-y"
 	DstPort			2
       }
       Branch {
 	Points			[80, 0; 0, 5]
 	Branch {
-	  Points		  [0, 80]
-	  Branch {
-	    Points		    [0, 5]
-	    DstBlock		    "Product"
-	    DstPort		    1
-	  }
-	  Branch {
-	    Points		    [0, 20]
-	    DstBlock		    "Product"
-	    DstPort		    2
-	  }
+	  DstBlock		  "Scope"
+	  DstPort		  1
 	}
 	Branch {
-	  DstBlock		  "Scope"
+	  Points		  [0, 95]
+	  DstBlock		  "y²"
 	  DstPort		  1
 	}
       }
@@ -886,40 +891,40 @@ Model {
     Line {
       SrcBlock		      "Constant"
       SrcPort		      1
-      DstBlock		      "Subtract"
+      DstBlock		      "(1-y²)"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Product"
+      SrcBlock		      "y²"
       SrcPort		      1
-      Points		      [60, 0; 0, 20; 60, 0]
-      DstBlock		      "Subtract"
+      Points		      [70, 0; 0, 20; 60, 0]
+      DstBlock		      "(1-y²)"
       DstPort		      2
     }
     Line {
-      SrcBlock		      "Subtract"
+      SrcBlock		      "(1-y²)"
       SrcPort		      1
       Points		      [45, 0; 0, -120]
-      DstBlock		      "Product1"
+      DstBlock		      "6*(1-y²)*y'"
       DstPort		      3
     }
     Line {
       SrcBlock		      "Contant1"
       SrcPort		      1
-      Points		      [100, 0; 0, -25]
-      DstBlock		      "Product1"
+      Points		      [10, 0; 0, -15]
+      DstBlock		      "6*(1-y²)*y'"
       DstPort		      2
     }
     Line {
-      SrcBlock		      "Product1"
+      SrcBlock		      "6*(1-y²)*y'"
       SrcPort		      1
-      DstBlock		      "Subtract1"
+      DstBlock		      "6*(1-y²)*y'-y"
       DstPort		      1
     }
     Line {
-      SrcBlock		      "Subtract1"
+      SrcBlock		      "6*(1-y²)*y'-y"
       SrcPort		      1
-      Points		      [15, 0; 0, 210; -865, 0; 0, -190]
+      Points		      [15, 0; 0, 215; -865, 0; 0, -190]
       DstBlock		      "Integrator1"
       DstPort		      1
     }
