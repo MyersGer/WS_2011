@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.10"
+    ComputedModelVersion    "1.11"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -26,9 +26,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "hexren"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Wed Oct 12 14:39:00 2011"
-  RTWModifiedTimeStamp	  240329531
-  ModelVersionFormat	  "1.%<AutoIncrement:10>"
+  LastModifiedDate	  "Wed Oct 12 15:06:25 2011"
+  RTWModifiedTimeStamp	  240332781
+  ModelVersionFormat	  "1.%<AutoIncrement:11>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -65,6 +65,7 @@ Model {
     $ObjectID		    1
     $ClassName		    "Simulink.SimulationData.ModelLoggingInfo"
     model_		    "simulink_aufg1_a"
+    signals_		    []
     overrideMode_	    [0.0]
     Array {
       Type		      "Cell"
@@ -724,7 +725,7 @@ Model {
   }
   System {
     Name		    "simulink_aufg2_a"
-    Location		    [0, 52, 1680, 1049]
+    Location		    [4, 52, 1684, 1049]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -801,20 +802,16 @@ Model {
       BlockType		      Scope
       Name		      "Scope"
       SID		      "27"
-      Ports		      [3]
+      Ports		      [1]
       Position		      [1060, 209, 1090, 241]
       Floating		      off
-      Location		      [178, 1128, 1458, 1797]
-      Open		      on
-      NumInputPorts	      "3"
+      Location		      [178, 1128, 1450, 1794]
+      Open		      off
+      NumInputPorts	      "1"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
-	axes2			"%<SignalLabel>"
-	axes3			"%<SignalLabel>"
       }
-      YMin		      "-5~-5~-5"
-      YMax		      "5~5~5"
       DataFormat	      "StructureWithTime"
       SampleTime	      "0"
     }
@@ -849,16 +846,9 @@ Model {
 	DstPort			1
       }
       Branch {
-	Points			[0, -45; 55, 0]
-	Branch {
-	  DstBlock		  "Product1"
-	  DstPort		  1
-	}
-	Branch {
-	  Points		  [0, -70; 690, 0; 0, 120]
-	  DstBlock		  "Scope"
-	  DstPort		  2
-	}
+	Points			[0, -45]
+	DstBlock		"Product1"
+	DstPort			1
       }
     }
     Line {
@@ -868,29 +858,28 @@ Model {
       SrcPort		      1
       Points		      [30, 0]
       Branch {
-	Points			[80, 0; 0, 85]
-	Branch {
-	  Points		  [0, 5]
-	  DstBlock		  "Product"
-	  DstPort		  1
-	}
-	Branch {
-	  Points		  [0, 20]
-	  DstBlock		  "Product"
-	  DstPort		  2
-	}
+	Points			[0, -75; 485, 0; 0, 60]
+	DstBlock		"Subtract1"
+	DstPort			2
       }
       Branch {
-	Points			[0, -75; 480, 0]
+	Points			[80, 0; 0, 5]
 	Branch {
-	  Points		  [5, 0; 0, 60]
-	  DstBlock		  "Subtract1"
-	  DstPort		  2
+	  Points		  [0, 80]
+	  Branch {
+	    Points		    [0, 5]
+	    DstBlock		    "Product"
+	    DstPort		    1
+	  }
+	  Branch {
+	    Points		    [0, 20]
+	    DstBlock		    "Product"
+	    DstPort		    2
+	  }
 	}
 	Branch {
-	  Points		  [130, 0; 0, 90]
 	  DstBlock		  "Scope"
-	  DstPort		  3
+	  DstPort		  1
 	}
       }
     }
@@ -930,18 +919,9 @@ Model {
     Line {
       SrcBlock		      "Subtract1"
       SrcPort		      1
-      Points		      [15, 0; 0, 30]
-      Branch {
-	Labels			[4, 0]
-	Points			[0, 180; -865, 0; 0, -190]
-	DstBlock		"Integrator1"
-	DstPort			1
-      }
-      Branch {
-	Points			[0, -15]
-	DstBlock		"Scope"
-	DstPort			1
-      }
+      Points		      [15, 0; 0, 210; -865, 0; 0, -190]
+      DstBlock		      "Integrator1"
+      DstPort		      1
     }
     Annotation {
       Name		      "y'"
