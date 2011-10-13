@@ -98,6 +98,13 @@
 		
 
 \section{Van-der-Pol-DGL}
+	\subsection{Betrachtete Gleichung}
+		\begin{align}
+		&y(0) = 0\\
+		&\dot{y}(0) = 1\\
+		&\ddot{y} = 6 \cdot (1-y^2) \cdot \dot{y} -y
+		\end{align}
+
 	\subsection{Simulink/Analogrechner}
 	\begin{figure}[htbp]
 	\centering
@@ -107,7 +114,25 @@
 	\end{figure}	
 	
 	\subsection{Zu DGL 1 Ordnung transformierte DGL}
-	
+		\begin{align}
+		&y=z_2\\
+		&y'=z_1\\
+		&y''=z_1'\\
+		&z_1' = 6 \cdot (1-z_2^2) \cdot z_1 - z_2\\
+		&z_2' = z_1\\
+		\end{align}
+		
+		\[
+		\begin{pmatrix}
+  			z_1' \\
+ 			z_2'
+ 		\end{pmatrix}	
+		\begin{pmatrix}
+  			6 \cdot (1-z_2^2) \cdot z_1 - z_2\\
+ 			z_1
+ 		\end{pmatrix}	 		
+		\]
+
 	\subsection{Iterationsgleichungen}
 		\subsubsection{Euler (expl)}	
 	
