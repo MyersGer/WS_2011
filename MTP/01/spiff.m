@@ -15,6 +15,7 @@ plot(vec_rk2_x, vec_rk2_y,'m');
 grid on;
 title('Approximation');
 legend('analytische Lösung', 'Vorwärts Euler','Rückwärts Euler', 'Runge-Kutta');
+axis([0, 0.05, 0, 0.5]);
 
 
 
