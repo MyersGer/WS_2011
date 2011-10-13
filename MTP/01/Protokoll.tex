@@ -5,6 +5,7 @@
 \usepackage[ngerman]{babel}
 \usepackage[automark]{scrpage2}
 \usepackage{amsmath,amssymb,amstext}
+%\usepackage{mathtools}
 \usepackage[]{color}
 \usepackage[]{enumerate}
 \usepackage{graphicx}
@@ -44,24 +45,40 @@
 
 \setcounter{tocdepth}{3}
 \tableofcontents
-%\bibpunct{(}{)}{;}{n}{,}{,}
+\listoffigures
+\lstlistoflistings
+
 
 \section{Steife Differentialgleichungen}
+	\subsection{Betrachtete Gleichung}
+		\begin{align}
+		&y(0) = 1\\
+		&y' = 10 - 500 \cdot y + 5000 \cdot x
+		\end{align}
+		
 	\subsection{Simulink/Analogrechner}
 	
 	\begin{figure}[htbp]
 	\centering
 		\includegraphics[scale=0.5]{simulink_aufg1_a}
-	\caption{abbildung 1}
-	\label{fig:abb1}
+	\caption{Simulink-Schaltbild: Steife DGL}
+	\label{fig:simulinkAufg1}
 	\end{figure}
 
 	\subsection{Iterationsgleichungen}
 		\subsubsection{Euler (expl)}
+		\begin{align}
+		&u_{j+1} = u_j + h \cdot ( 10 - 500 \cdot u_j + 5000 \cdot x_j )
+		\end{align}				
 		
 		\subsubsection{Euler (impl)}
 		
 		\subsubsection{Runge-Kutta 2}
+		\begin{align}
+		&k_{1_{j}} = f(x_j, u_i)\\
+		&k_{2_{j}} = f(x_j + h, u_j + h * k_{1_{j}})\\
+		&u_{j+1} = u_j + \frac{h}{2} \cdot ( k_{1_{j}} + k_{2_{j}} )
+		\end{align}			
 		
 	\subsection{Matlab Programme}
 		\subsubsection{Euler (expl)}
@@ -85,7 +102,7 @@
 	\begin{figure}[htbp]
 	\centering
 		\includegraphics[scale=0.4]{aufg2_a_simulink}
-	\caption{Simulink-Schaltbild Van-der-Pol-DGL}
+	\caption{Simulink-Schaltbild: Van-der-Pol-DGL}
 	\label{fig:simulinkAufg2}
 	\end{figure}	
 	
