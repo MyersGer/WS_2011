@@ -20,7 +20,7 @@
 %changehere
 \def\titletext{Praktikum 1 : DGL}
 \def\titletextshort{Praktikum 1}
-\author{André Harms, Oliver Steenbuck}
+\author{André Harm}
 
 \title{\titletext}
 
@@ -32,7 +32,7 @@
 \ihead{MT, Pareigis}
 \ifoot{Generiert am:\\ \today}
 
-\cfoot{Oliver Steenbuck \\ Andre Harms}
+\cfoot{André Harms}
 
 \ohead[]{\titletextshort}
 \ofoot[]{{\thepage} / \pageref{LastPage}}
@@ -68,16 +68,19 @@
 	\subsection{Iterationsgleichungen}
 		\subsubsection{Euler (expl)}
 		\begin{align}
-		&u_{j+1} = u_j + h \cdot ( 10 - 500 \cdot u_j + 5000 \cdot x_j )
+		&y_{j+1} = y_j + h \cdot ( 10 - 500 \cdot y_j + 5000 \cdot x_j )
 		\end{align}				
 		
 		\subsubsection{Euler (impl)}
+		\begin{align}
+		&y_{n+1} = \frac{\frac{y_n}{h}+10+5000x_{n+1}}{500+\frac{1}{h}}
+		\end{align}
 		
 		\subsubsection{Runge-Kutta 2}
 		\begin{align}
-		&k_{1_{j}} = f(x_j, u_i)\\
-		&k_{2_{j}} = f(x_j + h, u_j + h * k_{1_{j}})\\
-		&u_{j+1} = u_j + \frac{h}{2} \cdot ( k_{1_{j}} + k_{2_{j}} )
+		&k_{1_{j}} = h * (10-500y_j + 5000x_i)\\
+		&k_{2_{j}} = h * (10-500y_j - 250k_{1} - 250k_{1} + 5000x_{j}+2500h)\\
+		&y_{j+1} = y_j + k_2
 		\end{align}			
 		
 	\subsection{Matlab Programme}
@@ -85,13 +88,14 @@
 			\lstinputlisting[label=code_euler_expl,caption=Explizites Euler-Verfahren, language=Matlab]{euler_expl.m}
 		
 		\subsubsection{Euler (impl)}
-				\lstinputlisting[label=code_euler_impl,caption=Implizites Euler-Verfahren, language=Matlab]{euler_impl.m}
+			\lstinputlisting[label=code_euler_impl,caption=Implizites Euler-Verfahren, language=Matlab]{euler_impl.m}
 		
 		\subsubsection{Runge\-Kutta}
-				\lstinputlisting[label=code_runge_kutta,caption=Runge Kutta, language=Matlab]{rk2.m}
+			\lstinputlisting[label=code_runge_kutta,caption=Runge Kutta, language=Matlab]{rk2.m}
 		
-		\subsubsection{stiff}		
-		
+		\subsubsection{Stiff}		
+			\lstinputlisting[label=code_stiff,caption=Stiff, language=Matlab]{stiff.m}		
+			
 	\subsection{Ergebnisausdrucke}	
 		
 	\subsection{Interpretation der Ergebnisse}		
@@ -122,22 +126,23 @@
 		&z_2' = z_1\\
 		\end{align}
 		
-		\[
-		\begin{pmatrix}
-  			z_1' \\
- 			z_2'
- 		\end{pmatrix}	
-		\begin{pmatrix}
-  			6 \cdot (1-z_2^2) \cdot z_1 - z_2\\
- 			z_1
- 		\end{pmatrix}	 		
-		\]
-
 	\subsection{Iterationsgleichungen}
 		\subsubsection{Euler (expl)}	
-	
-		\subsubsection{Runge-Kutta 2}	
+		\begin{align}
+			&y_{1_{n+1}} = y_{1_n}+h*(-y_{2_n}+6*(1-y_{2_n}^{2})*y_{1_n})\\
+			&y_{2_{n+1}} = y_{2_n}+h*y_{1_n}\\
+			&y_{n+1} = x_{n}+h
+		\end{align}
 		
+		\subsubsection{Runge-Kutta 2}	
+		\begin{align}
+			&k_{1_{y1}} = h*(-y_{2_n}+6*(1-y_{2_n}^{2})*y_{1_n})\\
+			&k_{1_{y2}} = h*y_{1_n}\\
+			&k_{2_{y1}} = h*\lbrace -y_{2_n} - \frac{k_{1_{y_2}}}{2} + 6 * (1-(y_{2_n}+\frac{k_{1_{y2}}}{2}^{2})*(y_{1_n}+\frac{k_{1_{y1}}}{2}))\rbrace\\			
+			&k_{2_{y2}} = h*(y_{1_n}+\frac{k_{1_{y1}}}{2})\\			
+			&y_{1_{n+1}} = y_{1_{n}} * k_{2_{y1}}\\
+			&y_{2_{n+1}} = y_{2_{n}} * k_{2_{y2}}
+		\end{align}		
 	\subsection{Ergebnisausdrucke}	
 		
 	\subsection{Interpretation der Ergebnisse}	
