@@ -1,4 +1,4 @@
-	\documentclass[10pt]{scrartcl}
+\documentclass[10pt]{scrartcl}
 
 \usepackage[utf8]{inputenc}
 \usepackage{tabularx}
@@ -22,7 +22,7 @@
 %changehere
 \def\titletext{Praktikum 1 : Modellierung von Raumgestalten}
 \def\titletextshort{Praktikum 1}
-\author{André Harms, Oliver Steenbuck, Armin Steudte, Carsten Nötzel, Dennis Blauhut, Torben Becker}
+\author{André Harms, Oliver Steenbuck, Armin Steudte  \\ Carsten Noetzel, Dennis Blauhut, Torben Becker}
 
 \title{\titletext}
 
@@ -34,7 +34,8 @@
 \ihead{MI, Thiel Clemen}
 \ifoot{Generiert am:\\ \today}
 
-\cfoot{Oliver Steenbuck \\ André Harms \\  Armin Steudte \\ Carsten Nötzel \\ Dennis Blauhut \\ Torben Becker}
+\cfoot{Oliver Steenbuck \\ André Harms \\  Armin Steudte \\ Carsten Noetzel \\ Dennis Blauhut \\ Torben Becker}
+
 
 \ohead[]{\titletextshort}
 \ofoot[]{{\thepage} / \pageref{LastPage}}
@@ -94,6 +95,56 @@ Sollte sich herausstellen, dass eine 3-dimensionale Modellierung besser geeignet
 
 \section{Entitäten}
 
+	\subsection{Beschreibungen}
+	
+	\subsubsection{Verkehr}
+	\begin{tabular}{|c|c|}
+\hline Entität & Beschreibung \\ 
+\hline
+\hline Grünfläche &  \\ 
+\hline Wege &  \\ 
+\hline Parkplätze &  \\ 
+\hline Fahrradstellplätze &  \\ 
+\hline Verkehrszeichen &  \\ 
+\hline Ampel &  \\ 
+\hline 
+\end{tabular} 
+
+	\subsubsection{Inventar}
+\begin{tabular}{|c|c|}
+\hline Entität & Beschreibung \\
+\hline
+\hline Beleuchtungsquelle &  \\ 
+\hline Bank &  \\ 
+\hline Aschenbecher &  \\ 
+\hline Mülleimer &  \\ 
+\hline Abwasserschacht &  \\ 
+\hline WLAN AP &  \\ 
+\hline 
+\end{tabular}
+
+	\subsubsection{Architektur}
+\begin{tabular}{|c|c|}
+\hline Entität & Beschreibung \\
+\hline	
+\hline Gebäude &  \\ 
+\hline Mauer &  \\ 
+\hline Eingang &  \\ 
+\hline 
+\end{tabular} 
+
+	\subsection{Klassendiagramm}
+	Im folgenden wird das sich aus der vorhergehenden Sektion ergebende Klassendiagramm visualisiert (hier mit VisualParadigm).
+	Hier wurde, zum Zweck der Übersichtlichkeit darauf verzichtet darzustellen, dass alle Entitäten von \verb!Objekt! ableiten.
+      \begin{figure}[Htp]
+        \centering
+                \includegraphics[scale=0.6]{img/ClassDiagram.png}
+        \caption{Klassendiagramm}
+        \label{img:classDiagram}
+        \end{figure}  	
+	 
+	 
+
 \section{Ebenen}
 Eine Ebene ist eine Abstrahierung von Messungen, gef\"uhlten Werten bzw. Erfahrungswerten. Diese Werte werden auf einer Karte in Zonen dargestellt. Eine Zone besteht dabei aus mehreren quadratischen Feldern in der r\"aumlichen Darstellung. Dabei ist der Wert in der Mitte der Zone am h\"ochsten und flacht zum Rand der Zone hin ab. Eine Alternative w\"are, dass ein Wert pro Feld dargestellt wird.
 \newline Der Wert eines Feldes wird im prozentualen Anteil des maximal m\"oglichen Wertes angegeben und dem entsprechend mit einer Farbe verbunden, die anzeigt, ob etwas gut oder schlecht ist. Als Beispiel die Sicherheit, die auf einer Wiese deutlich h\"oher sein d\"urfte, als auf einer sechs spurigen Stra\"se in einer Gro\"sstadt.
@@ -103,7 +154,7 @@ Die Sicherheitsebene vergibt Werte f\"ur einzelne Bereiche in der r\"aumlichen D
 \newline Die Sicherheit kann direkten Einfluss nehmen auf das Wohlbefinden der Personen. Denn trotz eines guten Wohlbefindens, kann dieses gemindert werden, wenn die Sicherheit sinkt, indem eine kritische Situation entsteht.
 
 \subsection{Feel Good}
-In der Feel Good-Ebene wird das Befinden der Personen dargestellt. Auch in dieser Ebene wird die gleiche farbliche Gestaltung verwendet. Ist ein Bereich gr\"un bzw. wird gr\"uner, f\"uhlt sich die Person umso wohler. Ist der Bereich rot resp. wird r\"oter, f\"uhlt sich die Person unwohler. Das Wohlbefinden einer Person kann von unterschiedlichen Faktoren beeinflusst werden, wie z.B. die N\"ahe zur Stra\"se, Anzahl der Fahrzeuge auf der Stra\"se oder von vorhandenen Gr\"unfl\"achen bzw. Aufenthaltsbereichen mit oder ohne Sitzgelegenheiten.
+In der Feel Good-Ebene wird das Befinden der Personen dargestellt. Auch in dieser Ebene wird die gleiche farbliche Gestaltung verwendet. Ist ein Bereich gr\"un bzw. wird gr\"uner, f\"uhlt sich die Person umso wohler. Ist der Bereich rot resp. wird r\"oter, f\"uhlt sich die Person unwohler. Das Wohlbefinden einer Person kann von unterschiedlichen Faktoren beeinflusst werden, wie z.B. die N\"ahe zur Stra\"se, Anzahl der Fahrzeuge auf der Straße oder von vorhandenen Gr\"unfl\"achen bzw. Aufenthaltsbereichen mit oder ohne Sitzgelegenheiten.
 
 \subsection{Durchfluss}
 In dieser Ebene wird der maximal m\"ogliche Durchfluss eines gewissen Bereiches dargestellt. Es wird eine farbliche Darstellung gew\"ahlt, bei der gr\"un bedeutet, dass viele Personen pro Zeit diesen Bereich passieren k\"onnen respektive rot, wenn eher wenig Personen pro Zeit den Bereich durchqueren k\"onnen.
