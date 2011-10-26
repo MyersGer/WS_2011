@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="topo_tiles" tilewidth="32" tileheight="32">
+  <image source="F:/Unbenannt.png" width="100" height="100"/>
+ </tileset>
+ <layer name="Kachelebene 1" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt18sOgjAARUE0gv7/F7vRpGkoj1JorbOYDQQk9ySK0zAMU+SeMH7Ex+Pr59x2+l437rT3c1ozt92VPVLnlp4l3D8+V3vPX+kxt3vq3Nqz6FGmRw49zumRumcOPfTQQw896lvabsv7vh566KFHCz2WdtCjnR7xcT3KeXSm9p566NGy2nse9exM7T310KNltffUo68ee2z53fzXbc7YuISwR0/vPb316PHd9GqvwNZr4u8r/z/KdjjaI6THtS3WepC3f24LPc7tkXM/Pc7pkXs/PQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKC8N5K+N4I=
+  </data>
+ </layer>
+</map>
