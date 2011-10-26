@@ -61,15 +61,31 @@ Zur Veranschaulichung des Modellierungskonzepts wurde die Abbildung \ref{img:til
 Dieses ist in Abbildung \ref{img:google_maps} gekennzeichnet.\\
 Um die verschiedenen Geländemerkmale zu visualisieren, haben wir jeden Typ eine Farbe zugeordnet und die jeweiligen Kacheln des Typs in dieser Farbe eingefärbt. Die folgende Tabelle gibt eine Übersicht über die verwendeten Farben und die korrespondierenden Geländemerkmale:
 
+\definecolor{gebaude_durchgang}{rgb}{0.341176471,0.780392157,0.945098039}
+\definecolor{gebaude}{rgb}{1,0.921568627,0.474509804}
+\definecolor{gruenanlage}{rgb}{0.254901961,0.717647059,0.145098039}
+\definecolor{hof}{rgb}{0.050980392,0.48627451,0.690196078}
+\definecolor{gehweg}{rgb}{0.68627451,0.709803922,0.682352941}
+\definecolor{strasse}{rgb}{0.560784314,0.91372549,0.439215686}
+\definecolor{gehweg_sek}{rgb}{0.623529412,0.490196078,0.203921569}
+
 \begin{tabular}{|c|c|}
 \hline 
 \textbf{Farbe} & \textbf{Geländemerkmal} \\ 
 \hline 
-• & Gebäude \\
+\cellcolor{gebaude} & Gebäude \\
 \hline 
-• & Gebäudedurchgang\\
+\cellcolor{gebaude_durchgang} & Gebäudedurchgang\\
 \hline 
-• &  \\ 
+\cellcolor{gruenanlage} &  Grünanlage\\ 
+\hline 
+\cellcolor{hof} &  Hof\\ 
+\hline 
+\cellcolor{gehweg} & Gehweg\\ 
+\hline 
+\cellcolor{gehweg_sek} & Sekundär Gehweg\\
+\hline 
+\cellcolor{strasse} & Straße\\ 
 \hline 
 \end{tabular} 
 
@@ -91,7 +107,7 @@ Um die verschiedenen Geländemerkmale zu visualisieren, haben wir jeden Typ eine
         
         
         Um andere Aspekte als die räumlichen Gegebenheiten modellieren zu können, ist es möglich ein Layerkonzept zu verwenden. Hierbei werden die gewünschten Eigenschaften auf anderen Schichten modelliert. Diese Schichten lassen sich dann entsprechend verwenden und auswerten.
-Sollte sich herausstellen, dass eine 3-dimensionale Modellierung besser geeignet ist, besteht die Möglichkeit, zu einem 3-D Modell zu wechseln. Hier werden zusätliche Eigenschaften nicht mehr in Layer modelliert sondern in parallelen Räumen, sogenannte Spaces.
+Sollte sich herausstellen, dass eine 3-dimensionale Modellierung besser geeignet ist, besteht die Möglichkeit, zu einem 3-D Modell zu wechseln. Hier werden zusätzliche Eigenschaften nicht mehr in Layer modelliert sondern in parallelen Räumen, sogenannte Spaces.
 
 \section{Entitäten}
 
