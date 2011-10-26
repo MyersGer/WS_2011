@@ -96,6 +96,10 @@ Sollte sich herausstellen, dass eine 3-dimensionale Modellierung besser geeignet
 \section{Entitäten}
 
 	\subsection{Beschreibungen}
+	Nachfolgend folgen die Beschreibungen der einzelen Entitäten. Diese sind zur besseren Übersicht in drei Gruppen untergliedert. Die Gruppe \verb!Verkehr! enthält alle diejenigen Entitäten, die zur Verwaltung des Verkehrsflusses auf dem Campus genutzt werden können. Dabei ist mit Verkehr, sowohl der Fußgängerverkehr, als auch der Kraftverkehr gemeint.
+	Die Gruppe \ver!Inventar! hingegen, enthält alle diejenigen Entitäten die halbwegs bewegbar auf dem Campusgelände vertelt werden können. Die letzte Gruppe der \verb!Architektur! beinhaltet Entitäten die feste Strukturen darstellen und nicht beweglich sind.\\
+	Allen Entitäten leiten von der Klasse \verb!Object! ab und haben damit eine Positon auf dem Campusgelände und eine Dimension, die ihre Größe angibt. Jedem Objekt sind Einflussfaktoren zugeornet, die auf der Metaebene der Modells analysiert werden sollen. Dies sind \verb!Vergnügen!,
+	\verb!Sozialisierung!, \verb!Sicherheit! und \verb!Produktivität! die unter Abschnitt \ref{sec:Ebenen} vorgestellt werden.
 	
 	\subsubsection{Verkehr}
 	\begin{tabular}{|c|c|}
@@ -145,7 +149,7 @@ Sollte sich herausstellen, dass eine 3-dimensionale Modellierung besser geeignet
 	 
 	 
 
-\section{Ebenen}
+\section{Ebenen}\label{sec:Ebenen}
 Eine Ebene ist eine Abstrahierung von Messungen, gef\"uhlten Werten bzw. Erfahrungswerten. Diese Werte werden auf einer Karte in Zonen dargestellt. Eine Zone besteht dabei aus mehreren quadratischen Feldern in der r\"aumlichen Darstellung. Dabei ist der Wert in der Mitte der Zone am h\"ochsten und flacht zum Rand der Zone hin ab. Eine Alternative w\"are, dass ein Wert pro Feld dargestellt wird.
 \newline Der Wert eines Feldes wird im prozentualen Anteil des maximal m\"oglichen Wertes angegeben und dem entsprechend mit einer Farbe verbunden, die anzeigt, ob etwas gut oder schlecht ist. Als Beispiel die Sicherheit, die auf einer Wiese deutlich h\"oher sein d\"urfte, als auf einer sechs spurigen Stra\"se in einer Gro\"sstadt.
 
