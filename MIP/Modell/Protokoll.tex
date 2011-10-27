@@ -2,6 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage{tabularx}
+\usepackage{longtable}
 \usepackage[ngerman]{babel}
 \usepackage[automark]{scrpage2}
 \usepackage{amsmath,amssymb,amstext}
@@ -16,6 +17,7 @@
 \usepackage[numbers,square]{natbib}
 \usepackage{color}
 \usepackage{colortbl}
+\usepackage[absolute]{textpos}
 
 \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, breaklines=true, showstringspaces=false} 
 
@@ -34,7 +36,7 @@
 \ihead{MI, Thiel-Clemen}
 \ifoot{Generiert am:\\ \today}
 
-\cfoot{Oliver Steenbuck \\ André Harms \\  Armin Steudte \\ Carsten Noetzel \\ Dennis Blauhut \\ Torben Becker}
+\cfoot{Oliver Steenbuck, André Harms \\  Armin Steudte, Carsten Noetzel \\ Dennis Blauhut, Torben Becker}
 
 
 \ohead[]{\titletextshort}
@@ -89,21 +91,21 @@ Um die verschiedenen Geländemerkmale zu visualisieren, haben wir jeden Gelände
 \hline 
 \end{tabular} 
 
-
-      \begin{figure}[htbp]
+        
+	\begin{figure}[H]
         \centering
                 \includegraphics[scale=0.5]{img/tile_map_campus_pic}
         \caption{Ausschnitt von Campus als \glqq Tilebased Map\grqq{}}
         \label{img:tile_map}
-        \end{figure}  
+	\end{figure}                
         
-        
-      \begin{figure}[htbp]
+	\begin{figure}[H]
         \centering
                 \includegraphics[scale=0.5]{img/google_maps}
         \caption{Ausschnitt Google-Maps}
         \label{img:google_maps}
-        \end{figure}  
+	\end{figure}         
+  
         
         
         Um andere Aspekte als die räumlichen Gegebenheiten modellieren zu können, ist es möglich ein Ebenenkonzept zu verwenden. Hierbei werden die gewünschten Eigenschaften auf anderen Schichten modelliert. Diese Schichten lassen sich dann entsprechend verwenden und auswerten (vgl. Abschnitt \ref{sec:Ebenen}).
@@ -112,59 +114,58 @@ Sollte sich im Verlauf der Praktika herausstellen, dass eine dreidimensionale Mo
 \section{Entitäten}
 
 	\subsection{Beschreibungen}
-	Nachfolgend folgen die Beschreibungen der einzelen Entitäten. Diese sind zur besseren Übersicht in drei Gruppen untergliedert. Die Gruppe \verb!Verkehr! enthält alle diejenigen Entitäten, die zur Verwaltung des Verkehrsflusses auf dem Campus genutzt werden können. Dabei ist mit Verkehr, sowohl der Fußgängerverkehr, als auch der Kraftverkehr gemeint.
-	Die Gruppe \ver!Inventar! hingegen, enthält alle diejenigen Entitäten die halbwegs bewegbar auf dem Campusgelände vertelt werden können. Die letzte Gruppe der \verb!Architektur! beinhaltet Entitäten die feste Strukturen darstellen und nicht beweglich sind.\\
-	Allen Entitäten leiten von der Klasse \verb!Object! ab und haben damit eine Positon auf dem Campusgelände und eine Dimension, die ihre Größe angibt. Jedem Objekt sind Einflussfaktoren zugeornet, die auf der Metaebene der Modells analysiert werden sollen. Dies sind \verb!Vergnügen!,
-	\verb!Sozialisierung!, \verb!Sicherheit! und \verb!Produktivität! die unter Abschnitt \ref{sec:Ebenen} vorgestellt werden.
+	Nachfolgend folgen die Beschreibungen der einzelen Entitäten. Diese sind zur besseren Übersicht in drei Gruppen untergliedert. Die Gruppe \verb!Verkehr! enthält alle diejenigen Entitäten, die zur Modellierung des Verkehrsflusses auf dem Campus genutzt werden. Dabei ist mit Verkehr, sowohl der Fußgängerverkehr, als auch der Kraftverkehr gemeint.
+	Die Gruppe \verb!Inventar! hingegen, enthält alle diejenigen Entitäten die auf dem Campusgelände bewegt werden können. Die letzte Gruppe, \verb!Architektur! beinhaltet Entitäten die feste Strukturen darstellen und nicht beweglich sind.\\
+	Allen Entitäten leiten von der Klasse \verb!Object! ab und haben damit eine Positon auf dem Campusgelände sowie eine Dimension, die ihre Größe angibt. Jedem Objekt sind Einflussfaktoren zugeordnet, aus denen Metaebene des Modells algorithmisch abgeleitet wird. Dies sind \verb!Vergnügen!,
+	\verb!Sozialisierung!, \verb!Sicherheit! und \verb!Produktivität! diese sind im Detail in Abschnitt \ref{sec:Ebenen} beschrieben.
 	
 	\subsubsection{Verkehr}
-	\begin{tabular}{|c|c|}
-\hline Entität & Beschreibung \\ 
+\begin{longtable}{|p{0.25\textwidth}|p{0.75\textwidth}|}
+\hline \textbf{Entität} & \textbf{Beschreibung} \\ 
 \hline
-\hline Grünfläche &  \\ 
-\hline Wege &  \\ 
-\hline Parkplätze &  \\ 
-\hline Fahrradstellplätze &  \\ 
-\hline Verkehrszeichen &  \\ 
-\hline Ampel &  \\ 
+\hline Grünfläche & Parkähnliche in der Regel mit Gras bewachsene Fläche, z.B. zwichen BT5 und Stiftstraße. Andere Entitäten können auf der Grünfläche plaziert werden (z.B. Wege) \\ 
+\hline Wege & Repräsentiert einen Fuß oder Radweg mit einer bestimmten Beschaffenheit\\ 
+\hline Parkplätze & Eine Anzahl von Parkplätzen für Autos\\ 
+\hline Fahrradstellplätze & Eine Anzahl von Stellplätzen für Fahrräder \\ 
+\hline Verkehrszeichen & Ein Zeichen zur Verkehrsregelung, z.B. 'Geschwindigkeit 30' \\ 
+\hline Ampel & Eine Lichtsignalanlage zur Verkehrsregelung  \\ 
 \hline 
-\end{tabular} 
+\end{longtable}
 
 	\subsubsection{Inventar}
-\begin{tabular}{|c|c|}
-\hline Entität & Beschreibung \\
+\begin{longtable}{|p{0.25\textwidth}|p{0.75\textwidth}|}
+\hline \textbf{Entität} & \textbf{Beschreibung} \\
 \hline
-\hline Beleuchtungsquelle &  \\ 
-\hline Bank &  \\ 
-\hline Aschenbecher &  \\ 
-\hline Mülleimer &  \\ 
-\hline Abwasserschacht &  \\ 
-\hline WLAN AP &  \\ 
+\hline Beleuchtungsquelle & Eine Lichtquelle, die in der Regel halbfest montiert ist \\ 
+\hline Bank & Bittet Platz für eine Anzahl \verb!n! von Personen \\ 
+\hline Aschenbecher & Aschenbecher führen in de Regel zu Menschenansammlungen \\ 
+\hline Mülleimer & Führen direkt um sie herum zu seiner verschmutzen Umgebung, dafür aber in einiger Entfernung zu Sauberkeit\\ 
+\hline WLAN AP & Strahlt in einem bestimmten Radius WLAN aus das die Produktivität erhöht\\ 
 \hline 
-\end{tabular}
+\end{longtable}
 
 	\subsubsection{Architektur}
-\begin{tabular}{|c|c|}
-\hline Entität & Beschreibung \\
+\begin{longtable}{|p{0.25\textwidth}|p{0.75\textwidth}|}
+\hline \textbf{Entität} & \textbf{Beschreibung} \\
 \hline	
-\hline Gebäude &  \\ 
-\hline Mauer &  \\ 
-\hline Eingang &  \\ 
+\hline Gebäude & Eine Gebäude des Campus\\ 
+\hline Mauer & Eine freistehende oder in ein Gebäude integrierte Mauer die unter anderem den WLAN Empfang beschränkt\\ 
+\hline Eingang & Eingang in ein Gebäude \\ 
+\hline Abwasserschacht & z.B. zwischen BT5 und BT21 \\ 
 \hline 
-\end{tabular} 
+\end{longtable}
 
 	\subsection{Klassendiagramm}
 	Im folgenden wird das sich aus der vorhergehenden Sektion ergebende Klassendiagramm visualisiert (hier mit VisualParadigm).
 	Hier wurde, zum Zweck der Übersichtlichkeit darauf verzichtet darzustellen, dass alle Entitäten von \verb!Objekt! ableiten.
-      \begin{figure}[Htp]
-        \centering
-                \includegraphics[scale=0.6]{img/ClassDiagram.png}
-        \caption{Klassendiagramm}
-        \label{img:classDiagram}
-        \end{figure}  	
-	 
-	 
-
+	
+	\begin{figure}[H]
+    	\label{fig:fachlichesDatenmodellUebersicht}
+			\includegraphics[width=\textwidth]{img/ClassDiagram.png}
+            \caption{Klassendiagramm}
+             \label{img:classDiagram}
+	\end{figure} 	
+	
 \section{Ebenen}\label{sec:Ebenen}
 Eine Ebene ist eine Abstrahierung von Messungen, gef\"uhlten Werten bzw. Erfahrungswerten. Diese Werte werden auf einer Karte in Zonen dargestellt. Eine Zone besteht dabei aus mehreren quadratischen Feldern in der r\"aumlichen Darstellung. Dabei ist der Wert in der Mitte der Zone am h\"ochsten und flacht zum Rand der Zone hin ab. Eine Alternative w\"are, dass ein Wert pro Feld dargestellt wird.
 \newline Der Wert eines Feldes wird im prozentualen Anteil des maximal m\"oglichen Wertes angegeben und dem entsprechend mit einer Farbe verbunden, die anzeigt, ob etwas gut oder schlecht ist. Als Beispiel die Sicherheit, die auf einer Wiese deutlich h\"oher sein d\"urfte, als auf einer sechs spurigen Stra\"se in einer Gro\"sstadt.
