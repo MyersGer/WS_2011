@@ -18,8 +18,10 @@
 \usepackage{color}
 \usepackage{colortbl}
 \usepackage[absolute]{textpos}
+\usepackage{float}
 
 \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, breaklines=true, showstringspaces=false} 
+\restylefloat{figure}
 
 %changehere
 \def\titletext{Praktikum 1 : Modellierung von Raumgestalten}
@@ -50,8 +52,9 @@
 
 \setcounter{tocdepth}{3}
 \tableofcontents
-\listoffigures
-%\lstlistoflistings
+
+	\listoftables                                 												% 
+	\listoffigures   
 
 \section{Einleitung}
 
@@ -71,6 +74,8 @@ Um die verschiedenen Geländemerkmale zu visualisieren, haben wir jeden Gelände
 \definecolor{strasse}{rgb}{0.560784314,0.91372549,0.439215686}
 \definecolor{gehweg_sek}{rgb}{0.623529412,0.490196078,0.203921569}
 
+\begin{table}[h]	
+	\centering
 \begin{tabular}{|c|c|}
 \hline 
 \textbf{Farbe} & \textbf{Geländemerkmal} \\ 
@@ -90,18 +95,23 @@ Um die verschiedenen Geländemerkmale zu visualisieren, haben wir jeden Gelände
 \cellcolor{strasse} & Straße\\ 
 \hline 
 \end{tabular} 
+	\label{tab:colorMap}
+	\caption{Farbbedeutungen in der räumlichen Darstellung}	
+\end{table}	
+
+
 
         
 	\begin{figure}[H]
-        \centering
-                \includegraphics[scale=0.5]{img/tile_map_campus_pic}
+        
+                \includegraphics[width=\textwidth]{img/tile_map_campus_pic}
         \caption{Ausschnitt von Campus als \glqq Tilebased Map\grqq{}}
         \label{img:tile_map}
 	\end{figure}                
         
 	\begin{figure}[H]
         \centering
-                \includegraphics[scale=0.5]{img/google_maps}
+                \includegraphics[width=\textwidth]{img/google_maps}
         \caption{Ausschnitt Google-Maps}
         \label{img:google_maps}
 	\end{figure}         
@@ -120,6 +130,11 @@ Sollte sich im Verlauf der Praktika herausstellen, dass eine dreidimensionale Mo
 	\verb!Sozialisierung!, \verb!Sicherheit! und \verb!Produktivität! diese sind im Detail in Abschnitt \ref{sec:Ebenen} beschrieben.
 	
 	\subsubsection{Verkehr}
+	
+	
+
+\begin{table}[!htb]
+	\centering
 \begin{longtable}{|p{0.25\textwidth}|p{0.75\textwidth}|}
 \hline \textbf{Entität} & \textbf{Beschreibung} \\ 
 \hline
@@ -130,9 +145,17 @@ Sollte sich im Verlauf der Praktika herausstellen, dass eine dreidimensionale Mo
 \hline Verkehrszeichen & Ein Zeichen zur Verkehrsregelung, z.B. 'Geschwindigkeit 30' \\ 
 \hline Ampel & Eine Lichtsignalanlage zur Verkehrsregelung  \\ 
 \hline 
-\end{longtable}
+\end{longtable}	
+	\label{tab:entitiesTraffic}
+	\caption{Entitätsliste: Verkehr}	
+\end{table}		
 
-	\subsubsection{Inventar}
+\clearpage
+
+\subsubsection{Inventar}	
+
+\begin{table}[!htb]	
+	\centering
 \begin{longtable}{|p{0.25\textwidth}|p{0.75\textwidth}|}
 \hline \textbf{Entität} & \textbf{Beschreibung} \\
 \hline
@@ -143,8 +166,14 @@ Sollte sich im Verlauf der Praktika herausstellen, dass eine dreidimensionale Mo
 \hline WLAN AP & Strahlt in einem bestimmten Radius WLAN aus das die Produktivität erhöht\\ 
 \hline 
 \end{longtable}
+	\label{tab:entitiesInventory}
+	\caption{Entitätsliste: Inventar}	
+\end{table}	
 
-	\subsubsection{Architektur}
+\subsubsection{Architektur}
+
+\begin{table}[!htb]	
+	\centering
 \begin{longtable}{|p{0.25\textwidth}|p{0.75\textwidth}|}
 \hline \textbf{Entität} & \textbf{Beschreibung} \\
 \hline	
@@ -154,6 +183,9 @@ Sollte sich im Verlauf der Praktika herausstellen, dass eine dreidimensionale Mo
 \hline Abwasserschacht & z.B. zwischen BT5 und BT21 \\ 
 \hline 
 \end{longtable}
+	\label{tab:entitiesArchitecture}
+	\caption{Entitätsliste: Architektur}	
+\end{table}	
 
 	\subsection{Klassendiagramm}
 	Im folgenden wird das sich aus der vorhergehenden Sektion ergebende Klassendiagramm visualisiert (hier mit VisualParadigm).
