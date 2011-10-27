@@ -54,12 +54,12 @@
 \section{Einleitung}
 
 \section{Räumliche Darstellung}
-zur Modellierung der der räumlichen Gegebenheiten des Campus Berliner Tor haben wir ein zweidimensionales Raster gewählt.
-Hierdurch wird der Campus aus Kacheln zusammen gesetzt, bei dem jede Kachel einem bestimmten Geländemerkmal entspricht.
+Zur Modellierung der räumlichen Gegebenheiten am Campus Berliner Tor haben wir ein zweidimensionales Raster gewählt.
+In diesem Modell wird der Campus aus Kacheln zusammen gesetzt, bei dem jede Kachel einem bestimmten Geländemerkmal entspricht.
 Dieses ermöglicht es die wesentlichen räumlichen Gegebenheiten auf einer höheren Abstraktionsebene darzustellen, so dass der Detailgrad verringert werden kann.\\
-Zur Veranschaulichung des Modellierungskonzepts wurde die Abbildung \ref{img:tile_map} mit Hilfe des Tools \textit{Tiled Map Editor} erstellt. Hier bei wurde beispielhaft ein Ausschnitt des Luftbildes des Campuses modelliert.
-Dieses ist in Abbildung \ref{img:google_maps} gekennzeichnet.\\
-Um die verschiedenen Geländemerkmale zu visualisieren, haben wir jeden Typ eine Farbe zugeordnet und die jeweiligen Kacheln des Typs in dieser Farbe eingefärbt. Die folgende Tabelle gibt eine Übersicht über die verwendeten Farben und die korrespondierenden Geländemerkmale:
+Zur Veranschaulichung des Modellierungskonzepts wurde die Abbildung \ref{img:tile_map} mit Hilfe des Tools \textit{Tiled Map Editor} erstellt. Hierbei wurde beispielhaft ein Ausschnitt des Luftbildes des Campus modelliert.
+Dieser ist in Abbildung \ref{img:google_maps} gekennzeichnet.\\
+Um die verschiedenen Geländemerkmale zu visualisieren, haben wir jeden Geländemerkmal eine Farbe zugeordnet und die jeweiligen Kacheln der Geländemerkmale in dieser Farbe eingefärbt. Die folgende Tabelle gibt eine Übersicht über die verwendeten Farben und die korrespondierenden Merkmale:
 
 \definecolor{gebaude_durchgang}{rgb}{0.341176471,0.780392157,0.945098039}
 \definecolor{gebaude}{rgb}{1,0.921568627,0.474509804}
@@ -106,8 +106,8 @@ Um die verschiedenen Geländemerkmale zu visualisieren, haben wir jeden Typ eine
         \end{figure}  
         
         
-        Um andere Aspekte als die räumlichen Gegebenheiten modellieren zu können, ist es möglich ein Layerkonzept zu verwenden. Hierbei werden die gewünschten Eigenschaften auf anderen Schichten modelliert. Diese Schichten lassen sich dann entsprechend verwenden und auswerten.
-Sollte sich herausstellen, dass eine 3-dimensionale Modellierung besser geeignet ist, besteht die Möglichkeit, zu einem 3-D Modell zu wechseln. Hier werden zusätzliche Eigenschaften nicht mehr in Layer modelliert sondern in parallelen Räumen, sogenannte Spaces.
+        Um andere Aspekte als die räumlichen Gegebenheiten modellieren zu können, ist es möglich ein Ebenenkonzept zu verwenden. Hierbei werden die gewünschten Eigenschaften auf anderen Schichten modelliert. Diese Schichten lassen sich dann entsprechend verwenden und auswerten (vgl. Abschnitt \ref{sec:Ebenen}).
+Sollte sich im Verlauf der Praktika herausstellen, dass eine dreidimensionale Modellierung besser geeignet ist, besteht die Möglichkeit, zu einem dreidimensionalem Modell zu wechseln. Hier werden zusätzliche Eigenschaften nicht mehr in Ebenen modelliert sondern in parallelen Räumen, sogenannte \textit{Spaces}.
 
 \section{Entitäten}
 
