@@ -14,6 +14,8 @@
 \usepackage{listings} 
 \usepackage[pdfborder={0 0 0},colorlinks=false]{hyperref}
 \usepackage[numbers,square]{natbib}
+\usepackage{color}
+\usepackage{colortbl}
 
 \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, breaklines=true, showstringspaces=false} 
 
@@ -32,7 +34,7 @@
 \ihead{MI, Thiel Clemen}
 \ifoot{Generiert am:\\ \today}
 
-\cfoot{Oliver Steenbuck \\ Andre Harms \\  Armin Steudte \\ Carsten Nötzel \\ Dennis Blauhut \\ Torben Becker}
+\cfoot{Oliver Steenbuck \\ André Harms \\  Armin Steudte \\ Carsten Nötzel \\ Dennis Blauhut \\ Torben Becker}
 
 \ohead[]{\titletextshort}
 \ofoot[]{{\thepage} / \pageref{LastPage}}
@@ -51,6 +53,25 @@
 \section{Einleitung}
 
 \section{Räumliche Darstellung}
+zur Modellierung der der räumlichen Gegebenheiten des Campus Berliner Tor haben wir ein zweidimensionales Raster gewählt.
+Hierdurch wird der Campus aus Kacheln zusammen gesetzt, bei dem jede Kachel einem bestimmten Geländemerkmal entspricht.
+Dieses ermöglicht es die wesentlichen räumlichen Gegebenheiten auf einer höheren Abstraktionsebene darzustellen, so dass der Detailgrad verringert werden kann.\\
+Zur Veranschaulichung des Modellierungskonzepts wurde die Abbildung \ref{img:tile_map} mit Hilfe des Tools \textit{Tiled Map Editor} erstellt. Hier bei wurde beispielhaft ein Ausschnitt des Luftbildes des Campuses modelliert.
+Dieses ist in Abbildung \ref{img:google_maps} gekennzeichnet.\\
+Um die verschiedenen Geländemerkmale zu visualisieren, haben wir jeden Typ eine Farbe zugeordnet und die jeweiligen Kacheln des Typs in dieser Farbe eingefärbt. Die folgende Tabelle gibt eine Übersicht über die verwendeten Farben und die korrespondierenden Geländemerkmale:
+
+\begin{tabular}{|c|c|}
+\hline 
+\textbf{Farbe} & \textbf{Geländemerkmal} \\ 
+\hline 
+• & Gebäude \\
+\hline 
+• & Gebäudedurchgang\\
+\hline 
+• &  \\ 
+\hline 
+\end{tabular} 
+
 
 \section{Entitäten}
 
