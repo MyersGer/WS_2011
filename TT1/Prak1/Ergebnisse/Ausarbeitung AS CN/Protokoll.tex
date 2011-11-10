@@ -20,6 +20,7 @@
 \usepackage{a4wide}
 \usepackage{xspace}
 \usepackage{listings}
+\usepackage{hyperref}
 
 \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, breaklines=true, showstringspaces=false} 
 
@@ -56,7 +57,14 @@
 %\lstlistoflistings
 
 \section{Projektschritt 1 - Aufbau}
-Im ersten Praktikumstermin wurden die Router konfiguriert und mit den nötigen Protokollen versehen. Die Versuchsdurchführung im zweiten Praktikumstermin wurde in Zusammenarbeit mit André Harms und Oliver Steenbruck durchgeführt und die Ergebnisse dokumentiert.
+Im ersten Praktikumstermin wurden die Router konfiguriert und mit den nötigen Protokollen versehen. Die Versuchsdurchführung im zweiten Praktikumstermin wurde in Zusammenarbeit mit André Harms und Oliver Steenbruck durchgeführt und die Ergebnisse dokumentiert.\\
+Der unter Abbildung \ref{fig:Aufbau} dargestellte Versuchsaufbau liegt den Versuchen zu Grunde. Hierbei wurde im Wechsel ein Router der Gruppe Noetzel, Steudte und der Gruppe Harms, Steenbruck aufgestellt und die Messungen zwischen den beiden äußersten Routern durchgeführt. Die Anzahl der Hops wurde mittels Tracert-Befehlen und bei OLSR über die Weboberfläche ermittelt. Dabei wurde angestrebt, dass die beiden äußersten Router über die beiden Router in  der Mitte kommunizieren, was sich in den Versuchen durch geschickte Positionierung der Router auch als erfüllbar erwies.
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=1.0\textwidth]{../AufbauBild.jpg}
+	\caption{Versuchsaufbau mit 4 Routern}
+	\label{fig:Aufbau}
+\end{figure} 
 
 \section{Projektschritt 2 - Vergleich Babel und OLSR}
 
@@ -94,9 +102,20 @@ EndIf
 
 Durch den Austausch der Updates wird Mesh-Konfiguration festgelegt und die Knoten wissen an welchen Knoten sie Pakete weiterleiten müssen, um ein bestimmtes Ziel mit möglichst geringen geschätzten Gesamtkosten zu erreichen.
 
-
 \subsubsection{Loop-Verhinderungsstrategie}
+Da es beim Bellman-Ford Algorithmus nach einer Topologieänderung und den damit verbundenen Updates zum \textit{Count-to-infinity}-Problem kommen kann, benötigt Babel eine Loop-Verhinderungs-Strategie.\\
+Hierzu werden in Babel die sogenannten \textit{Feasibility Conditions} eingeführt. Dabei werden, erhaltene Routenaktualisierungen verworfen, wenn diese nicht beweisen können, dass die Annahme des Updates zu keinem Loop führen. Router A hält dazu eine \textit{Feasibility Distance} (bezeichnet als FD(A)) vor, welche als Wert die kleinste Distanz zu S enthält, die A jemals angeboten wurde. Ein Update von einem Nachbarn B ist zulässig (feasible), wenn die Metrik D(B) (= Kosten von B zu S) kleiner als As FD(A) ist.\\
+Das diese Bedingung weniger restriktiv als die \textit{DSDV-Feasibility} ist, macht das Beispiel in Abbildung \ref{fig:Feasibility} deutlich. A kommt über B zu S, womit D(A)=FD(A)=2 ist. Da D(C)=1 und damit kleiner als FD(A) ist, ist eine alternative Route über C für A zulässig, auch wenn die Metrik C(A,C)+D(C) mit 5 schlechter als die aktuelle Route ist. Für den Fall das die Route über B abbricht kann so die Alternativroute genutzt werden.\\
+Die \textit{DSDV-Feasibility} besagt, dass ein Update nur dann angenommen werden darf, wenn C(A,C)+D(C) kleiner oder gleich D(A) ist, wodurch die Alternativroute über C nicht zulässig wäre, da die DSDV-Bedingung nicht erfüllt ist (4+2 $<=$ 2).\\
+Um zu zeigen, dass die \textit{Feasibility Condition} trotzdem noch Loop-Freiheit garantiert, sei zu beachten, dass wenn A ein Update von B akzeptiert D(B) nicht kleiner als FD(B) sein kann. Zudem gilt FD(B) ist kleiner als FD(A) da das Update für A zulässig ist und dieser es annimmt. Da diese Eigenschaft weiterhin erhalten bleibt, wenn A Updates versendet, ist sichergestellt, dass die Route keine Loops enthält.
 
+\begin{figure}[htbp]
+	\centering	\includegraphics{Grafiken/Feasibility.png}
+	\caption{Beispiel Feasabiliy Condition aus \href{http://tools.ietf.org/html/rfc6126}{RFC6126}}
+	\label{fig:Feasibility}
+\end{figure} 
+
+Um zu verhindern, dass ein Router aufgrund fehlender zulässiger Routen ausgeschlossen wird, werden in Babel die Routen durchnummeriert. Ein Update von B an A ist damit zulässig, wenn entweder die \textit{Feasibility Condition} D(B)$<$FD(A) erfüllt ist und die das Update die gleiche Sequenznummer besitzt oder aber wenn die Sequenznummer des Updates höher ist.
 
 
 \subsection{OLSR}
