@@ -1,0 +1,22 @@
+Done.
+
+bin/iperf.exe -s -u -P 0 -i 1 -p 5001 -f k
+------------------------------------------------------------
+Server listening on UDP port 5001
+Receiving 1470 byte datagrams
+UDP buffer size: 8.00 KByte (default)
+------------------------------------------------------------
+OpenSCManager failed - Zugriff verweigert (0x5)
+[140] local 192.168.204.2 port 5001 connected with 10.0.0.110 port 42737
+[ ID] Interval       Transfer     Bandwidth       Jitter   Lost/Total Datagrams
+[140]  0.0- 1.0 sec   653 KBytes  5351 Kbits/sec  4.191 ms 1397567070/  490 (2.9e+008%)
+[140]  1.0- 2.0 sec   590 KBytes  4833 Kbits/sec  3.724 ms  275/  686 (40%)
+[140]  2.0- 3.0 sec   564 KBytes  4622 Kbits/sec  3.217 ms  462/  855 (54%)
+[140]  3.0- 4.0 sec   590 KBytes  4833 Kbits/sec  3.743 ms  560/  971 (58%)
+[140]  4.0- 5.0 sec   604 KBytes  4951 Kbits/sec  4.005 ms  315/  736 (43%)
+[140]  5.0- 6.0 sec   535 KBytes  4386 Kbits/sec  3.398 ms  425/  798 (53%)
+[140]  6.0- 7.0 sec   637 KBytes  5221 Kbits/sec  3.855 ms  543/  987 (55%)
+[140]  7.0- 8.0 sec   698 KBytes  5715 Kbits/sec  3.417 ms  302/  788 (38%)
+[140]  8.0- 9.0 sec   551 KBytes  4516 Kbits/sec  2.950 ms  431/  815 (53%)
+[140]  9.0-10.0 sec   616 KBytes  5045 Kbits/sec  3.472 ms  420/  849 (49%)
+[140]  0.0-10.3 sec  6311 KBytes  4998 Kbits/sec  5.214 ms 4101/ 8497 (48%)

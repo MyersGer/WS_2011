@@ -1,0 +1,4 @@
+1 Versuch Babel Router 110 (Oli) TX11
+2 Versuch Babel TCP Dump Failover 
+3 Versuch OLSR alle TX1
+4 Versuch Babel alle TX1
