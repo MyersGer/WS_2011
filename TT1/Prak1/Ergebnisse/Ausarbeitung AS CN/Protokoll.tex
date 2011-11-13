@@ -121,7 +121,8 @@ Um zu verhindern, dass ein Router aufgrund fehlender zulässiger Routen ausgesch
 \subsection{OLSR}
 Bei \textit{OLSR} handelt es sich im Gegensatz zu Babel, wie der Name schon sagt, um einen Vertreter aus der Familie der Link-State-Routing Protokolle.
 Dabei enthält OLSR gegenüber anderen Vertretern die Optimierung, dass die Knoten ihre Informationen nur an ihre \textit{Multipoint Relays (MPR)} senden müssen und diese das Verbreiten der Link-State Informationen übernehmen.
-Somit ermöglicht OLSR ein effizientes \textit{Flooding} der Informationen.  
+Somit ermöglicht OLSR ein effizientes \textit{Flooding} der Informationen.\\
+OLSR ist proaktiv, wodurch Routen unmittelbar vorhanden sind wenn diese gebraucht werden.
 
 \subsubsection{Informationsaustausch}
 Wie auch in Babel tauschen Nachbarknoten bei OLSR \textit{Hello-Messages} aus.
@@ -132,23 +133,34 @@ Die Nachrichten haben dabei drei Aufgaben:
 	\item Bekanntgabe von MPRs
 \end{itemize}
 Zusätzlich werden auch noch \textit{TC Messages}, sogenannte \textit{Topology Control Messages}, über alle OLSR-Interface gesendet.
-Sie enthalten Informationen über die lokale Topologie der Knoten und dienen zur Ermittlung der Globalen Sicht auf das Netzwerk und dem Aufbau des Routing.
+Sie enthalten Informationen über die lokale Topologie der Knoten und dienen zur Ermittlung der globalen Sicht auf das Netzwerk und dem Aufbau des Routing.
 Sie werden, wie bereits erwähnt, nur durch die MPRs weitergeleitet.\\
 Sollte OLSR auf mehreren Interfaces gleichzeitig laufen werden auch noch \textit{MID Messages (Main Adress and Multiple Interfaces)} gesendet, als zusätzliche Information zum Aufbau des Routing.
 Da in unserem Fall die Router jeweils nur über die WLAN-Interfaces OLSR ausführten, wurden keine MID Messages generiert.\\
 
 Bei der Bewertung der Qualität von Links kann auf zwei Methoden zurückgegriffen werden.
 Standardmäßig wird die Anzahl an Hops als Grundlage für die Bewertung eines Links genutzt.
-Außerdem existiert auch noch eine \textit{Link Quality Extension}, die die Hello-Messages nutzt um eine Wahrscheinlichkeit für den Paketverlust auf einen Link zu berechnen.
+Außerdem existiert auch noch eine \textit{Link Quality Extension}, die die Hello-Messages nutzt um eine Wahrscheinlichkeit für den Paketverlust auf einem Link zu berechnen.
 Pakete werde dann in diesem Fall über den Link mit der geringsten Wahrscheinlichkeit des Paketverlustes gesendet.\\
 Im Praktikum wurde die Qualität der Routen mit der Anzahl an Hops gleichgesetzt, was der Standardkonfiguration des OLSR-Daemons entspricht.
-Dieses ließ sich auch im Http-Status-Plugin in des Daemons nachvollziehen (Abbildung einfügen).
+Dieses ließ sich auch im Http-Status-Plugin des Daemons nachvollziehen (Abbildung einfügen).
 
 
 \subsubsection{Mesh - Konfiguration}
+Jeder Knoten im Netzwerk hält eine Routingtabelle mit folgenden Daten vor:
 
-%\subsubsection{Loop-Verhinderungsstrategie}
-%OLSR besitzt meines Wissens nach keine Loop-Verbindungsstrategie, in der Aufgabe ist auch nur die Rede von Babel
+\begin{tabular}{l c c c c}
+1. & R-dest-addr & R-next-addr & R-dist & R-iface-addr \\
+2. &  R-dest-addr & R-next-addr & R-dist & R-iface-addr \\
+3. & ,, & ,, & ,, & ,, \\
+\end{tabular}
+
+Jeder Eintrag der Liste gibt an, welches Ziel (R-dest-addr) über welchen Next-Hop-Router (R-next-addr) erreichbar ist und welches lokale Interface (R-iface-addr) dafür genutzt werden muss. Ferner wird die Distanz vom lokalen Router bis zum Ziel (R-dist) in der Tabelle vorgehalten.\\
+Die Daten basieren auf Informationen der \textit{local link information dase} und der Topologie, wodurch die Routingtabelle jedes Mal neu berechnet werden muss, wenn sich diese Daten ändern. Für jedes Ziel im Netzwerk zu dem eine Route bekannt ist, wird ein Eintrag in der Tabelle vorgehalten.
+
+
+\subsection{Vergleich Babel und OLSR}
+
 
 \section{Projektschritt 3 - Vergleich der Übertragungsqualität}
 
