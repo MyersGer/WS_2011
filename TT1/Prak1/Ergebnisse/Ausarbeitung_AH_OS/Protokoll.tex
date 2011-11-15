@@ -1,0 +1,89 @@
+\documentclass[10pt]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage[ngerman]{babel}
+\usepackage[automark]{scrpage2}
+\usepackage{amsmath,amssymb,amstext}
+%\usepackage{mathtools}
+\usepackage[]{color}
+\usepackage[]{enumerate}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage[perpage,para,symbol*]{footmisc}
+\usepackage{listings} 
+\usepackage[pdfborder={0 0 0},colorlinks=false]{hyperref}
+\usepackage[numbers,square]{natbib}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage[absolute]{textpos}
+\usepackage{float}
+
+\lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, breaklines=true, showstringspaces=false} 
+\restylefloat{figure}
+
+%changehere
+\def\titletext{Lab 1 : MANET}
+\def\titletextshort{Praktikum 1}
+\author{André Harms, Oliver Steenbuck}
+
+\title{\titletext}
+
+%changehere Datum der Übung
+\date{09.11.2011}
+
+\pagestyle{scrheadings}
+%changehere
+\ihead{TT1, Schmidt}
+\ifoot{Generiert am:\\ \today}
+
+\cfoot{Oliver Steenbuck, André Harms}
+
+
+\ohead[]{\titletextshort}
+\ofoot[]{{\thepage} / \pageref{LastPage}}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.1in}
+
+\begin{document}
+\maketitle
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+
+	\listoftables                                 												% 
+	\listoffigures   
+
+\section{Einleitung}
+
+\section{Test Setup}
+	Die Geräte 
+
+\section{Babel}
+	\subsection{Experiment 1}
+	Traffic über 3 Hops	
+	
+	\subsection{Experiment 2}
+	Failover	
+	
+	\subsection{Experiment 3}
+	Traffic über 3 Hobs mit TX1
+
+
+\section{OLRS}
+	\subsection{Experiment 1}
+	Traffic über 3 Hops	
+	
+	\subsection{Experiment 2}
+	Failover, recovery nach neustart des abgebauten Routers
+
+
+\section{Anhang}
+	\subsection{Router Konfigurationen}
+	
+
+
+\end{document}
+
