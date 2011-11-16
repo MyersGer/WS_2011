@@ -164,5 +164,79 @@ Die Daten basieren auf Informationen der \textit{local link information dase} un
 
 \section{Projektschritt 3 - Vergleich der Übertragungsqualität}
 
+\subsection{Versuchsaufbau}
+Der Versuchsaufbau ist unter Abbildung \ref{fig:Aufbau} auf Seite \pageref{fig:Aufbau} zu sehen.\\
+Die Router sind in folgender Reihenfolge aufgestellt (von links nach rechts): \textit{192.168.204.1}, \textit{192.168.210.1}, \textit{192.168.104.1} und \textit{192.168.110.1}. Die Messungen wurden über die äußerten Router durchgeführt, sodass sich mehrere Hops über die Router ergeben. Ein Tracert-Befehl von einem Client der mit dem Router \textit{192.168.104.1} verbunden ist, an einen Client der mit dem Router \textit{192.168.110.1} verbunden ist, ergibt die Route unter Abbildung \ref{fig:Route}.
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.5\textwidth]{Grafiken/Tracert.png}
+	\caption{Route zwischen den Clients \textit{192.168.104.2} und \textit{192.168.110.2}}
+	\label{fig:Route}
+\end{figure}
+
+Es wurde vor jedem Versuch sichergestellt, dass die Hop-Anzahl identisch ist, um vergleichbare Ergebnisse zu erzielen. Die Sendeleistung (TX-Power) wurde auf allen Geräten auf 1 gestellt, um möglichst viele Hops innerhalb unseres Versuchsaufbaus zu haben und nicht von anderen Gruppen gestört zu werden.
+
+\subsection{Babel}
+In diesem Abschnitt werden die Versuche vorgestellt, die mit dem Babel-Protokoll durchgeführt wurden.
+
+\subsubsection{Versuch 1 - Übertragungsqualität}
+Im ersten Versuch wurde die Übertragungsqualität von Babel gemessen, dabei wurden mit Hilfe des Programms \textit{JPerf} 10 MB über das UDP-Transportprotokoll, von Client \textit{192.168.110.2} an Client \textit{192.168.104.2} übertragen.\\
+Die Ausgaben von JPerf sind unter Abbildung \ref{fig:JPerf_Babel_Protokoll} und Abbildung \ref{fig:JPerf_Babel_Graph} zu sehen.\\
+Es ist zu erkennen, dass die Bandbreite zwischen 964 kbits/s und 612 kbits/s schwankt und sich ein Jitter zwischen 11,841 ms und 24,471 ms ergibt. Der Paketverlust liegt zwischen 4,3 \% und  95 \%. Echtzeitanwendungen die einen Jitter kleiner als 50 ms fordern, werden damit zwar erfüllt, jedoch ist die Paketverlustrate mit durchschnittlich 80 \% wesentlich höher als die geforderten 1 \%.\\
+Der Grund für die geringe Bandbreite, den hohen Jitter und die hohe Verlustrate, liegt in der geringen Sendeleistung (Tx-Power = 1) der Router. Eine Erhöhung der Sendeleistung, kann diese Werte verbessern (siehe Versuch 3).
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.8\textwidth]{Grafiken/Babel_TX1_Protokoll.png}
+	\caption{JPerf Protokoll Babel}
+	\label{fig:JPerf_Babel_Protokoll}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=1.0\textwidth]{Grafiken/Babel_TX1_Grafik.png}
+	\caption{JPerf Bandbreiten und Jitter Graph - Babel}
+	\label{fig:JPerf_Babel_Graph}
+\end{figure}
+
+
+\subsubsection{Versuch 2 - Failover}
+
+\subsubsection{Versuch 3 - Erhöhung der Sendeleitung}
+In diesem Versuch wurde lediglich die Sendeleistung des Router \textit{192.168.110.1} auf den Wert 11 gesetzt, um die Auswirkung einer erhöhten Sendeleistung zu untersuchen. Dabei wurde zunächst festgestellt, dass durch Erhöhung der Sendeleistung der Hop-Count zwischen den Clients um einen Hop abnimmt. Da der Router \textit{192.168.110.1} mit erhöhter Sendeleistung sendet, kann er Router \textit{192.168.210.1} direkt erreichen und muss nicht mehr über Router \textit{192.168.104.1} springen.\\
+Es wurden wieder 10 MB mittels UDP von von Client \textit{192.168.110.2} an Client \textit{192.168.104.2} übertragen. Die Ergebnisse sind in Abbildung \ref{fig:JPerf_Babel_Protokoll_TX11} und Abbildung \ref{fig:JPerf_Babel_Graph_TX11} zu sehen.\\
+Die Bandbreite liegt hierbei zwischen 4386 kbits/s und 5715 kbits/s und ist damit deutlich höher als im ersten Versuch. Auch beim Jitter, der in diesem Versuch zwischen 2,950 ms und 5,214 ms liegt, sind deutliche Verbesserungen festzustellen. Die Paketverlustrate liegt trotzdem noch zwischen 38 \% und 58 \%.\\
+Trotz Erhöhung der Sendeleistung eines Routers, kann die Echtzeitanforderung mit einem maximalen Paketverlust von 1 \% nicht erfüllt werden. Es bleibt zu überprüfen, ob eine Erhöhung der Sendeleistung der anderen Router eine Verbesserung im Bereich der Verlustrate erwirkt.
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.8\textwidth]{Grafiken/Babel_TX11_Protokoll.png}
+	\caption{JPerf Protokoll Babel mit erhöhter Sendeleistung}
+	\label{fig:JPerf_Babel_Protokoll_TX11}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=1.0\textwidth]{Grafiken/Babel_TX11_Grafik.png}
+	\caption{JPerf Bandbreiten und Jitter Graph - Babel mit erhöhter Sendeleistung}
+	\label{fig:JPerf_Babel_Graph_TX11}
+\end{figure}
+
+\subsection{OLSR}
+Dieser Abschnitt befasst sich mit den Versuchen, die mit dem OLSR-Protokoll durchgeführt wurden.
+
+\subsubsection{Versuch 1 - Übertragungsqualität}
+Im ersten Versuch wurden mittels JPerf 10 MB Daten von Client \textit{192.168.110.2} an Client \textit{192.168.104.2} übertragen. Als Transportprotokoll wurde hierbei UDP verwendet.
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=0.8\textwidth]{Grafiken/OLSR_TX1_Protokoll.png}
+	\caption{JPerf Protokoll OLSR}
+	\label{fig:JPerf_OLSR_Protokoll}
+\end{figure} 
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=1.0\textwidth]{Grafiken/OLSR_TX1_Grafik.png}
+	\caption{JPerf Bandbreiten und Jitter Graph - OLSR}
+	\label{fig:JPerf_OLSR_Graph}
+\end{figure} 
+
+\subsubsection{Versuch 2 - Failover}
+
 \end{document}
 
