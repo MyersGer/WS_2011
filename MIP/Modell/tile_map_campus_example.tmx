@@ -4,8 +4,8 @@
   <image source="campus_tiles.png" width="100" height="100"/>
  </tileset>
  <layer name="Kachelebene 1" width="100" height="100">
-  <data encoding="base64" compression="zlib">
-   eJzt18sOgjAARUE0gv7/F7vRpGkoj1JorbOYDQQk9ySK0zAMU+SeMH7Ex+Pr59x2+l437rT3c1ozt92VPVLnlp4l3D8+V3vPX+kxt3vq3Nqz6FGmRw49zumRumcOPfTQQw896lvabsv7vh566KFHCz2WdtCjnR7xcT3KeXSm9p566NGy2nse9exM7T310KNltffUo68ee2z53fzXbc7YuISwR0/vPb316PHd9GqvwNZr4u8r/z/KdjjaI6THtS3WepC3f24LPc7tkXM/Pc7pkXs/PQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKC8N5K+N4I=
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAA+3Xyw6CMABFQTSC/v8Xu9GkaSiPUmits5gNBCT3JIrTMAxT5J4wfsTH4+vn3Hb6XjfutPdzWjO33ZU9UueWniXcPz5Xe89f6TG3e+rc2rPoUaZHDj3O6ZG6Zw499NBDDz3qW9puy/u+HnrooUcLPZZ20KOdHvFxPcp5dKb2nnro0bLaex717EztPfXQo2W199Sjrx57bPnd/Ndtzti4hLBHT+89vfXo8d30aq/A1mvi7yv/P8p2ONojpMe1LdZ6kLd/bgs9zu2Rcz89zumRez89AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoLw3AKErwECcAAA=
   </data>
  </layer>
 </map>
