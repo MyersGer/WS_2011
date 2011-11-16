@@ -1,0 +1,119 @@
+\documentclass[10pt]{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage[ngerman]{babel}
+\usepackage[automark]{scrpage2}
+\usepackage{amsmath,amssymb,amstext}
+%\usepackage{mathtools}
+\usepackage[]{color}
+\usepackage[]{enumerate}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage[perpage,para,symbol*]{footmisc}
+\usepackage{listings} 
+\usepackage[pdfborder={0 0 0},colorlinks=false]{hyperref}
+\usepackage[numbers,square]{natbib}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage[absolute]{textpos}
+\usepackage{float}
+
+\lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, breaklines=true, showstringspaces=false} 
+\restylefloat{figure}
+
+%changehere
+\def\titletext{Praktikum 2 : Zeitgestalten}
+\def\titletextshort{Praktikum 2}
+\author{André Harms, Oliver Steenbuck, Armin Steudte  \\ Carsten Noetzel, Dennis Blauhut, Torben Becker}
+
+\title{\titletext}
+
+%changehere Datum der Übung
+\date{16.11.2011}
+
+\pagestyle{scrheadings}
+%changehere
+\ihead{MI, Thiel-Clemen}
+\ifoot{Generiert am:\\ \today}
+
+\cfoot{Oliver Steenbuck, André Harms \\  Armin Steudte, Carsten Noetzel \\ Dennis Blauhut, Torben Becker}
+
+
+\ohead[]{\titletextshort}
+\ofoot[]{{\thepage} / \pageref{LastPage}}
+
+\setlength{\parindent}{0.0in}
+\setlength{\parskip}{0.1in}
+
+\begin{document}
+\maketitle
+
+\setcounter{tocdepth}{3}
+\tableofcontents
+
+	\listoftables                                 												% 
+	\listoffigures   
+
+\section{Modellierung dynamischer Aspekte}
+Bei der Modellierung dynamischer Aspekte stehen die Fußgänger, deren Bewegungen und ihre Metaebenen im Vordergrund.\\
+Der Agent wird von einem definierten Startpunkt auf unterschiedlichen Wegen zu einem Ziel geschickt und misst dabei die Werte der Ebenen auf seinem Weg. Es werden die Ebenen Sicherheit, Produktivität, Soziologie und Vergnügen auf dem Weg eines Agenten betrachtet und zu späteren Auswertung festgehalten.\\
+Die Ebenen berechnen sich dabei dynamisch in Abhängigkeit der aktuellen Position des Agenten und den voreingestellten Gewichtungen einzelner Aspekte der Ebene, d.h. nähert sich ein Agent für den die Beleuchtung einen wichtigen Faktor in seinem Sicherheitsgefühl widerspiegelt einer Beleuchtungsquelle steigt sein Sicherheitsempfinden stärker als bei einem Agenten dem die Beleuchtung weniger wichtig ist. Die Dynamik entsteht hierbei durch Definition der unterschiedlichen Wege, den baulichen Veränderungen zwischen den Simulationen und den Gewichtungen der einzelnen Aspekte.
+
+\subsection{Szenario}
+Es wird ein Agent modelliert, welcher von der U-Bahn Lohmühlenstrasse startet und seinen Weg zum Berliner Tor 7 bestreitet. Es werden mehrere unterschiedliche Wege untersucht und die auf dem Weg gesammelten Ebenen-Daten vergleichend betrachtet. Ziel der Untersuchung ist es, durch bauliche Veränderungen das Wohlbefinden des Agenten zu maximieren.\\
+
+Folgende Wege sollen untersucht werden:
+
+\begin{enumerate}
+\item Umweg links um das Gebäude Berliner Tor 5 herum.
+\item Umweg rechts um das Gebäude Berliner Tor 5 herum.
+\item Direkter Weg durch das Gebäude Berliner Tor 5.
+\end{enumerate}
+
+Nachdem der Agent die verschiedenen Wege durchlaufen hat, werden die gesammelten Ebenen-Daten verglichen und bauliche Maßnahmen bestimmt, von denen man annimmt, dass sie positive Auswirkungen auf die Ebenen haben. Diese Maßnahmen werden anschließend in das Umwelt-Modell eingebaut und die Simulation erneut durchgeführt.
+
+\subsection{Technik}
+Es werden diskrete Zeitschritte von einer Sekunde angenommen, um ein möglichst genaues Bild von den Ebenen der Umwelt zu bekommen.\\
+Die Wege des Agenten werden fest vorgegeben um vergleichbare Ergebnisse zu erhalten. Aus diesem Grund muss kein komplexer Wegfindungsalgorithmus implementiert werden.\\
+Die Ebenen-Daten liegen in Form von Arrays vor und zu jedem Zeitpunkt $t$ bestimmt der Agent alle drei Ebenen und hält dieses Tupel in einer geeigneten Datenstruktur fest. Die Ebenen-Daten werden genutzt um zur Laufzeit das Empfinden des Agenten zu berechnen.
+Die Berechnung der Ebenen könnte nach folgendem Schema erfolgen:
+\begin{align}
+	\text{Sicherheit } &= \text{ Verkehrswert } + \text{ Beleuchtungswert }\\
+	\sigma &= a * \nu(t,x) + b * \lambda(x)
+\end{align}
+
+Zusammen mit den jeweils aktuellen Werten für den Verkehrs- und dem Beleuchtungswert wird der Wert der Sicherheitsebene berechnet.
+Die Koeffizienten $a$ und $b$ dienen dazu um den Einfluss der verschiedenen Faktoren auf den Ebenen-Wert zu beschreiben.
+Die verschiedenen Werte-Funktionen liefern Werte für die jeweiligen Aspekte in Abhängigkeit verschiedener Variablen (z.B. $x$ dem Ort oder $t$ der Zeit).
+Während der Implementierung ist für die Funktionen noch zu spezifizieren, nach welchen Kriterien sich die Funktionswerte berechnen.
+Für die weiteren Ebenen wird das gleiche Vorgehen angewendet z.B. für die Vergnügungsebene:
+\begin{align}
+	\text{Vergnügen } &= \text{ Entfernung zur Straße } + \text{ Grünflächenwert } + \text{ WLAN-Empfang}\\
+	\alpha &= a * \beta(x) + b * \gamma(x) + c * \delta(x)
+\end{align}
+
+Auch hier geben die Faktoren $a$, $b$, $c$ die Gewichtung wieder, mit der die einzelnen Aspekte in die Ebene einfließen.
+
+\subsection{Ablauf einer Simulation}
+Folgender Ablauf der Simulation in angedacht:
+
+\begin{enumerate}
+\item Konstruktion der Umwelt (Ist-Zustand)
+\item Definition der Parameter zu Gewichtung einzelner Ebenen-Aspekte für den Agenten
+\item Agent läuft vordefinierte Wege
+\item Berechnung der Ebenen-Daten für jeden Zeitpunk $t$
+\item Sicherung und Auswertung der Messergebnisse
+\item Bestimmung der Änderungen an der Umwelt
+\item Konstruktion veränderter Umwelt
+\item Definition der Parameter zu Gewichtung einzelner Ebenen-Aspekte für den Agenten
+\item Agent läuft vordefinierte Wege
+\item Berechnung der Ebenen-Daten für jeden Zeitpunk $t$
+\item Sicherung und Auswertung der Messergebnisse
+\item Vergleich der Messergebnisse zur Überprüfung, ob die baulichen Veränderungen den gewünschten Effekt haben und ob Nebeneffekte aufgetreten sind
+\end{enumerate}
+
+
+\end{document}
+
