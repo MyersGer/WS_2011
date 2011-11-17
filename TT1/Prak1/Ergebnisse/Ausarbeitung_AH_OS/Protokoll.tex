@@ -56,11 +56,26 @@
 	\listoftables                                 												% 
 	\listoffigures   
 
-\section{Einleitung}
- Es wird zuerst der Testsetup beschrieben
+\section{Testaufbau}
+	Die vier im Test verwendeten Router (APs) (110, 210, 104, 204) wurden wir in Abbildung \ref{img:testAufbau} gezeigt angeordnet. 	Von allen Access Points wurden die Antennen entfernt um reale Umgebungsbedingungen im Labor zu simulieren und den Aufbau eines Mesh-Netzwerkes zu ermöglichen. Beispielhaft sind in den Listings \ref{code_110_babel} und \ref{code_110_olsr} die Konfiguration des Babel bzw. OLSR Daemons für den Router 110 dargestellt, mit Ausnahme der entsprechend geänderten Adressen wurden alle Router identisch konfiguriert.  
+		Alle Messungen wurden mit JPerf zwischen an den Routern 204 und 110 angeschlossenen Workstations durchgeführt, die Anzahl der Hops die zwischen den Messpunkten wurden mit Tracert, bzw. über die Weboberfläche des OLSR Daemons festgestellt. Ziel des Versuchsaufbaus war es das Mesh-Netzwerk so aufzubauen das Messungen über alle 4 Router hinweg durchgeführt werden können.
+		
+	\begin{figure}[H]
+        \centering
+                \includegraphics[width=\textwidth]{img/AufbauBild}
+        \caption{Physikalische Anordnung Router}
+        \label{img:testAufbau}
+	\end{figure}	
+	
+	
+	\lstinputlisting[label=code_110_babel,caption=Babel Konfiguration: Router 110, frame=single, language=bash]{../Startscripte/110/babeld_start.sh}	
+	\lstinputlisting[label=code_110_olsr,caption=OLSR Konfiguration: Router 110, frame=single, language=bash]{../Startscripte/110/olsrd_start.sh}	
+	
 
-\section{Test Setup}
-	Die Geräte 
+	
+	
+\section{Protokolle}
+	\section{Babel}
 
 \section{Babel}
 	\subsection{Experiment 1}
@@ -88,16 +103,16 @@
 	Failover, recovery nach neustart des abgebauten Routers
 
 
-\section{Anhang}
-	\subsection{Router Konfigurationen}
-		\lstinputlisting[label=code_110_babel,caption=Babel Konfiguration: Router 110, language=bash]{../Startscripte/110/babeld_start.sh}	
-		\lstinputlisting[label=code_110_olsr,caption=OLSR Konfiguration: Router 110, language=bash]{../Startscripte/110/olsrd_start.sh}	
-		\lstinputlisting[label=code_210_babel,caption=Babel Konfiguration: Router 210, language=bash]{../Startscripte/210/babeld_start.sh}	
-		\lstinputlisting[label=code_210_olsr,caption=OLSR Konfiguration: Router 210, language=bash]{../Startscripte/210/olsrd_start.sh}	
-		\lstinputlisting[label=code_104_babel,caption=Babel Konfiguration: Router 104, language=bash]{../Startscripte/104/babel.sh}	
-		\lstinputlisting[label=code_110_olsr,caption=OLSR Konfiguration: Router 104, language=bash]{../Startscripte/104/olsr.sh}
-		\lstinputlisting[label=code_204_babel,caption=Babel Konfiguration: Router 204, language=bash]{../Startscripte/204/babel.sh}	
-		\lstinputlisting[label=code_210_olsr,caption=OLSR Konfiguration: Router 204, language=bash]{../Startscripte/204/olsr.sh}
+%\section{Anhang}
+	%\subsection{Router Konfigurationen}
+		%\lstinputlisting[label=code_110_babel,caption=Babel Konfiguration: Router 110, language=bash]{../Startscripte/110/babeld_start.sh}	
+		%\lstinputlisting[label=code_110_olsr,caption=OLSR Konfiguration: Router 110, language=bash]{../Startscripte/110/olsrd_start.sh}	
+		%\lstinputlisting[label=code_210_babel,caption=Babel Konfiguration: Router 210, language=bash]{../Startscripte/210/babeld_start.sh}	
+		%\lstinputlisting[label=code_210_olsr,caption=OLSR Konfiguration: Router 210, language=bash]{../Startscripte/210/olsrd_start.sh}	
+		%\lstinputlisting[label=code_104_babel,caption=Babel Konfiguration: Router 104, language=bash]{../Startscripte/104/babel.sh}	
+		%\lstinputlisting[label=code_110_olsr,caption=OLSR Konfiguration: Router 104, language=bash]{../Startscripte/104/olsr.sh}
+		%\lstinputlisting[label=code_204_babel,caption=Babel Konfiguration: Router 204, language=bash]{../Startscripte/204/babel.sh}	
+		%\lstinputlisting[label=code_210_olsr,caption=OLSR Konfiguration: Router 204, language=bash]{../Startscripte/204/olsr.sh}
 
 \end{document}
 
