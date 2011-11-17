@@ -74,11 +74,19 @@ Jeder Router A hält beim Babel-Protokoll die Kosten zu einem Nachbarrouter B in
 
 Babel nutzt \textit{Hello-Messages} zur Durchführung des \textit{Neighbour-Discovery-Processes}.
 Hello-Messages werden periodisch über alle Interfaces des Knoten gesendet um so die Nachbarknoten zu entdecken.\\
-Zusätzlich werden Hello-Messages in Verbindung mit den \textit{IHY-Messages} (I Heard You Messages) genutzt, um die \textit{Bidirectional Reachability} und die Metrik zwischen Sender- und Empfängerknoten zu ermitteln.
+Zusätzlich werden Hello-Messages in Verbindung mit den \textit{IHY-Messages} (I Heard You Messages) genutzt, um die \textit{Bidirectional Reachability} und die Metrik zwischen Sender- und Empfängerknoten zu ermitteln (vgl. Abbildung \ref{fig:BabelHelloMessage}).
 Der Empfänger antwortet auf Hello-Messages mit den IHY-Messages. 
 Diese erhalten die, mit Hilfe der Hello-Messages ermittelten, Laufzeitzeitverzögerungen aus Sicht des Senders der Hello-Messages.
-Mit Hilfe der Laufzeitverzögerungen findet dann die Bewertung der Qualität der Links, sowohl in Sende- als auch Empfangsrichtung statt.
+Mit Hilfe der Laufzeitverzögerungen findet dann die Bewertung der Qualität der Links, sowohl in Sende- als auch Empfangsrichtung statt.\\
 
+Was aus Abbildung \ref{fig:BabelHelloMessage} hervorgeht, und uns so vorher nicht bewusst war, ist dass die Knoten zum Austausch von Nachrichten unter Babel \textit{IPv6} nutzen.
+Die ausgetauschten Nachrichten enthalten dabei sowohl auf IPv6- als auch IPv4-Adressen und werden an eine IPv6-Multicast-Group gesendet.
+
+\begin{figure}[htbp]
+	\centering	\includegraphics[width=1.0\textwidth]{Grafiken/babel_hello_message_example.png}
+	\caption{Beispiel für eine Babel-Hello-Message}
+	\label{fig:BabelHelloMessage}
+\end{figure} 
 
 
 \subsubsection{Mesh - Konfiguration}
@@ -86,7 +94,6 @@ Die lokalen Mesh-Konfigurationen werden über einen verteilten Bellman-Ford Algo
 Hierzu hält jeder Router A zwei Werte vor, zum einen die geschätzte Distanz zu S (bezeichnet als D(A)) und den Next-Hop-Router zu S (bezeichnet als NH(A)). Zu Beginn des Informationsaustausches ist D(A)=unendlich und NH(A) ist nicht definiert.\\
 Periodisch sendet jeder Knoten B ein Update seiner Routen an alle seine Nachbarn mit dem Inhalt D(B), welcher die Distanz zu S angibt. Erhält ein Nachbar A von B ein Update, so prüft A ob B für S als Next-Hop-Router eingetragen ist. Ist dies der Fall wird als Distanz D(A) die Summe aus C(A,B)( = Kosten von A nach B) und D(B)(= Kosten von B zu S) gesetzt. Damit ist im Knoten A die Metrik von A nach S über B aktualisiert.\\
 Im Fall, dass B nicht als Next-Hop-Router für S auf A eingetragen ist, vergleicht A die Summe aus C(A,B)( = Kosten von A nach B) und D(B)(= Kosten von B zu S) mit dem gegenwärtigen Wert von D(A). Ist C(A,B)+D(B) kleiner als D(A) ist die angebotene Route besser als die bisher eingetragene und NH(A) wird auf B und D(A) auf C(A,B)+D(B) gesetzt.\\
-
 Im Pseudocode sieht dies in etwa so aus:
 \begin{lstlisting}
 receiveRouteupdate(D(B)) from B for S
@@ -132,19 +139,31 @@ Die Nachrichten haben dabei drei Aufgaben:
 	\item Neighbor Detection
 	\item Bekanntgabe von MPRs
 \end{itemize}
-Zusätzlich werden auch noch \textit{TC Messages}, sogenannte \textit{Topology Control Messages}, über alle OLSR-Interface gesendet.
+Ein Beispiel für eine Hello-Message ist in Abbildung \ref{fig:OlsrHelloMessage} zu sehen.
+\begin{figure}[htbp]
+	\centering	\includegraphics[width = 1.0\textwidth]{Grafiken/olsr_hello_message_example.png}
+	\caption{Beispiel für eine OLSR-Hello-Message}
+	\label{fig:OlsrHelloMessage}
+\end{figure}
+Zusätzlich werden auch noch \textit{TC Messages}, sogenannte \textit{Topology Control Messages}, über alle OLSR-Interface gesendet (vgl. Abbildung \ref{fig:TcMessage}).
 Sie enthalten Informationen über die lokale Topologie der Knoten und dienen zur Ermittlung der globalen Sicht auf das Netzwerk und dem Aufbau des Routing.
 Sie werden, wie bereits erwähnt, nur durch die MPRs weitergeleitet.\\
+\begin{figure}[htbp]
+	\centering	\includegraphics[width = 1.0\textwidth]{Grafiken/olsr_tc_message_example.png}
+	\caption{Beispiel für eine OLSR-TC-Message}
+	\label{fig:TcMessage}
+\end{figure}
 Sollte OLSR auf mehreren Interfaces gleichzeitig laufen werden auch noch \textit{MID Messages (Main Adress and Multiple Interfaces)} gesendet, als zusätzliche Information zum Aufbau des Routing.
 Da in unserem Fall die Router jeweils nur über die WLAN-Interfaces OLSR ausführten, wurden keine MID Messages generiert.\\
 
 Bei der Bewertung der Qualität von Links kann auf zwei Methoden zurückgegriffen werden.
-Standardmäßig wird die Anzahl an Hops als Grundlage für die Bewertung eines Links genutzt.
-Außerdem existiert auch noch eine \textit{Link Quality Extension}, die die Hello-Messages nutzt um eine Wahrscheinlichkeit für den Paketverlust auf einem Link zu berechnen.
+Standardmäßig wird eine gewisse Anzahl an erfolgreich gesendeten Hello-Messages als Grundlage für die Bewertung eines Links genutzt ob dieser als symmetrisch oder asymmetrisch eingestuft wird.
+Alternativ wird das \textit{Link Hysteresis}-verfahren genutzt, wobei mit Schwellwerten gearbeitet wird, ab wann ein Link als stabil und damit als symmetrisch gilt.
+Beide Verfahren können Informationen aus dem Link-Layer für eine bessere Bestimmung mit einbeziehen.
+Außerdem existiert noch eine \textit{Link Quality Extension}, die die Hello-Messages nutzt um eine Wahrscheinlichkeit für den Paketverlust auf einem Link zu berechnen.
 Pakete werde dann in diesem Fall über den Link mit der geringsten Wahrscheinlichkeit des Paketverlustes gesendet.\\
-Im Praktikum wurde die Qualität der Routen mit der Anzahl an Hops gleichgesetzt, was der Standardkonfiguration des OLSR-Daemons entspricht.
-Dieses ließ sich auch im Http-Status-Plugin des Daemons nachvollziehen (Abbildung einfügen).
-
+Wie in Abbildung \ref{fig:TcMessage} zu sehen ist, wird zu jedem Nachbarknoten ein Wert für die Link-Qualität in Sende- und Empfangsrichtung in der TC-Message mit gesendet.
+Diese heißen \textit{LQ} und \textit{NLQ} und weißen darauf in, dass in dem von uns eingesetzten \textit{OLSR-Daemon} die Link Quality Extension aktiv war.
 
 \subsubsection{Mesh - Konfiguration}
 Jeder Knoten im Netzwerk hält eine Routingtabelle mit folgenden Daten vor:
