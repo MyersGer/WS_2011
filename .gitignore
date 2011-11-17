@@ -3,3 +3,6 @@
 *.out
 *.autosave
 *.toc
+*.lof
+*.pdf
+*.lot
