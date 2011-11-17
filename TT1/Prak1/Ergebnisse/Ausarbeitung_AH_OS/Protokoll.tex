@@ -64,14 +64,21 @@
 
 \section{Babel}
 	\subsection{Experiment 1}
-	Traffic über 3 Hops	
+	Bei diesem Experiment wurden 10 MB mittels IPerf zwischen 2 Hosts ausgetauscht. Dabei wurde der Traffic über 3 Router geleitet (110-204-104) und UDP als Protokoll verwandt. Die TX-Power eines Routers (110) war dabei auf 11 gestellt alle anderen Geräte wurden mit TX-Power = 1 betrieben.
 	
 	\subsection{Experiment 2}
 	Failover	
 	
 	\subsection{Experiment 3}
-	Traffic über 3 Hobs mit TX1
-
+	Dieses Experiment wurde analog zu Experiment 1 durchgeführt, allerdings wurde diesmal die TX-Power bei allen Geräten auf 1 gesetzt.
+	\begin{figure}[H]
+        \centering
+                \includegraphics[width=\textwidth]{img/Babel_TX1_Protokoll}
+        \caption{IPerf Log mit TX-Power=1}
+        \label{img:babel_iperf_tx1}
+	\end{figure}
+	
+	Im Kontrast zu Experiment 1, in dem einer der Router mit TX-Power=11 sendete, ist eine um 38\% Punkte höhere Paketverlustrate zu beobachten. Dieser Unterschied von gut einem Drittel resultiert aus der Tatsache, dass die Verbindung zwischen den beiden Routern 110 und 104 eine gleich schlechte Verbindung aufweist, und natürlich die Verbindung über 3 Geräte dadurch in seiner Gesamtheit leidet.
 
 \section{OLRS}
 	\subsection{Experiment 1}
