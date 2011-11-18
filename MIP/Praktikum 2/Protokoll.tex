@@ -94,7 +94,10 @@ Für die weiteren Ebenen wird das gleiche Vorgehen angewendet z.B. für die Verg
 	\alpha &= a * \beta(x) + b * \gamma(x) + c * \delta(x)
 \end{align}
 
-Auch hier geben die Faktoren $a$, $b$, $c$ die Gewichtung wieder, mit der die einzelnen Aspekte in die Ebene einfließen.
+Auch hier geben die Faktoren $a$, $b$, $c$ die Gewichtung wieder, mit der die einzelnen Aspekte in die Ebene einfließen.\\
+Die zu modellierende Ebene Straße weicht von den Berechnungen der übrigen Ebenen etwas ab. Sie soll in einem zeitlichen Verlauf den Wert der Emitter ändern können. Allerdings nicht in Abhängigkeit von einzelnen Fahrzeugen, sondern als gesamte Straße, d.h. es gibt nicht nur einzelne Punkte, die unterschiedliche Werte ausstrahlen, sondern es gibt einen Wert für die Straße, der sich mit der Tageszeit ändert.\\
+Dabei soll es zwei Stoßzeiten bzw. Maxima geben, die morgens zum Vorlesungs- und Arbeitsbeginn sowie abends zum Feierabend auftreten sollen.\\
+Als Funktion für diesen zeitlichen Verlauf bietet sich ein Polynom zweiten Grades ein, die diesen Verlauf approximieren kann.
 
 \subsection{Ablauf einer Simulation}
 Folgender Ablauf der Simulation in angedacht:
