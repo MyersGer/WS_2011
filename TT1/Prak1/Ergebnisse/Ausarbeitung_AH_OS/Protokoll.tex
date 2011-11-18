@@ -19,6 +19,7 @@
 \usepackage{colortbl}
 \usepackage[absolute]{textpos}
 \usepackage{float}
+\usepackage[colorinlistoftodos,textsize=small,textwidth=2cm,shadow,bordercolor=black,backgroundcolor={red!100!green!33},linecolor=black]{todonotes}
 
 \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, breaklines=true, showstringspaces=false} 
 \restylefloat{figure}
@@ -76,7 +77,21 @@
 	Im folgenden werden die beiden genutzen Routing Protokolle Babel und OLSR kurz erläutert und verglichen.
 	
 	\subsection{Babel}
-	Bei Babel	
+	Babel ist ein Distance-vector Protokoll funktioniert also ähnlich wie RIP oder IGRP über das versenden von kürzesten Wegen an andere Router. Distance-vector Protkolle funktionieren in der Regel mit einer Variante des hier dargestellten Algorithmus.
+	
+	\begin{enumerate}
+		\item Routingtabelle erstellen
+		\item \label{dvp:ueber} Routingtabelle an benachbarte Router übermitteln
+		\item \label{dvp:upd} Warte auf Routingtabellen von Nachbarn und aktualisiere eigene Routingtabelle mit diesen
+		\item Wenn \ref{dvp:upd} zu minimaleren Kosten für eine Route geführt hat dann
+			\subitem Gehe zu \ref{dvp:ueber}
+		\item Sonst
+			\subitem Gehe zu \ref{dvp:upd}
+	\end{enumerate}
+	
+	\todo{Feasibility beschreiben}
+	\todo{Starvation beschreiben}
+	\todo{Pakete aus dump zeigen um Nachrichtentypen zu erläutern}
 	
 	
 	\subsection{OLSR}
