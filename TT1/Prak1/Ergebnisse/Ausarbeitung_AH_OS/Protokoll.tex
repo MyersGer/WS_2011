@@ -77,7 +77,7 @@
 	Im folgenden werden die beiden genutzen Routing Protokolle Babel und OLSR kurz erläutert und verglichen.
 	
 	\subsection{Babel}
-	Babel ist ein Distance-vector Protokoll funktioniert also ähnlich wie RIP oder IGRP über das versenden von kürzesten Wegen an andere Router. Distance-vector Protkolle funktionieren in der Regel mit einer Variante des hier dargestellten Algorithmus.
+	Babel ist ein Distance-vector Protokoll funktioniert also ähnlich wie RIP oder IGRP über das Versenden von kürzesten Wegen an andere Router. Distance-vector Protkolle funktionieren in der Regel mit einer Variante des hier dargestellten Algorithmus.
 	
 	\begin{enumerate}
 		\item Routingtabelle erstellen
@@ -112,7 +112,7 @@ Begründet sind diese Werte darin, dass mit TX-Power=1 eine sehr geringe Sendele
 
 	
 	\subsection{Experiment 2}
-	Failover	
+	Bei diesem Versuch sollte das Failoververhalten von Babel getestet werden. Hierzu hat ein Host einen anderen permanent angepingt, um seine Verfügbarkeit zu prüfen. Dabei verlief die Route über alle vier Geräte. Bei einem Gerät wurde dann die Netzspannung entfernt, um eine Neubildung der Route zu forcieren.
 	
 	\subsection{Experiment 3}\label{sec:babel_experiment3}
 	Dieses Experiment wurde analog zu \ref{sec:babel_experiment1} durchgeführt, allerdings wurde diesmal die TX-Power bei einem der Geräte (110) auf 11 gesetzt, um eine bessere Verbindung herstellen zu können.	
