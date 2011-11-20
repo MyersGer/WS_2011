@@ -19,6 +19,7 @@
 \usepackage{colortbl}
 \usepackage[absolute]{textpos}
 \usepackage{float}
+\usepackage[colorinlistoftodos,textsize=small,textwidth=2cm,shadow,bordercolor=black,backgroundcolor={red!100!green!33},linecolor=black]{todonotes}
 
 \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, breaklines=true, showstringspaces=false} 
 \restylefloat{figure}
@@ -58,7 +59,7 @@
 
 \section{Modellierung dynamischer Aspekte}
 Bei der Modellierung dynamischer Aspekte stehen die Fußgänger, deren Bewegungen und ihre Metaebenen im Vordergrund.\\
-Der Agent wird von einem definierten Startpunkt auf unterschiedlichen Wegen zu einem Ziel geschickt und misst dabei die Werte der Ebenen auf seinem Weg. Es werden die Ebenen Sicherheit, Produktivität, Soziologie und Vergnügen auf dem Weg eines Agenten betrachtet und zu späteren Auswertung festgehalten.\\
+Der Agent wird von einem definierten Startpunkt auf unterschiedlichen Wegen zu einem Ziel geschickt und misst dabei die Werte der Ebenen auf seinem Weg. Es werden die Ebenen Sicherheit, Produktivität, Soziologie und Vergnügen auf dem Weg eines Agenten betrachtet und zur späteren Auswertung festgehalten.\\
 Die Ebenen berechnen sich dabei dynamisch in Abhängigkeit der aktuellen Position des Agenten und den voreingestellten Gewichtungen einzelner Aspekte der Ebene, d.h. nähert sich ein Agent für den die Beleuchtung einen wichtigen Faktor in seinem Sicherheitsgefühl widerspiegelt einer Beleuchtungsquelle steigt sein Sicherheitsempfinden stärker als bei einem Agenten dem die Beleuchtung weniger wichtig ist. Die Dynamik entsteht hierbei durch Definition der unterschiedlichen Wege, den baulichen Veränderungen zwischen den Simulationen und den Gewichtungen der einzelnen Aspekte.
 
 \subsection{Szenario}
@@ -72,12 +73,12 @@ Folgende Wege sollen untersucht werden:
 \item Direkter Weg durch das Gebäude Berliner Tor 5.
 \end{enumerate}
 
-Nachdem der Agent die verschiedenen Wege durchlaufen hat, werden die gesammelten Ebenen-Daten verglichen und bauliche Maßnahmen bestimmt, von denen man annimmt, dass sie positive Auswirkungen auf die Ebenen haben. Diese Maßnahmen werden anschließend in das Umwelt-Modell eingebaut und die Simulation erneut durchgeführt.
+Nachdem der Agent die verschiedenen Wege durchlaufen hat, werden die gesammelten Ebenen-Daten verglichen und bauliche Maßnahmen bestimmt, von denen man annimmt, dass sie positive Auswirkungen auf das Befinden des Agenten haben. Diese Maßnahmen werden anschließend im Umwelt-Modell umgesetzt und die Simulation erneut durchgeführt.
 
 \subsection{Technik}
 Es werden diskrete Zeitschritte von einer Sekunde angenommen, um ein möglichst genaues Bild von den Ebenen der Umwelt zu bekommen.\\
 Die Wege des Agenten werden fest vorgegeben um vergleichbare Ergebnisse zu erhalten. Aus diesem Grund muss kein komplexer Wegfindungsalgorithmus implementiert werden.\\
-Die Ebenen-Daten liegen in Form von Arrays vor und zu jedem Zeitpunkt $t$ bestimmt der Agent alle drei Ebenen und hält dieses Tupel in einer geeigneten Datenstruktur fest. Die Ebenen-Daten werden genutzt um zur Laufzeit das Empfinden des Agenten zu berechnen.
+Die Ebenen-Daten liegen in Form von Arrays vor und zu jedem Zeitpunkt $t$ bestimmt der Agent alle drei \todo{Oben ist von 4 Ebenen die rede ?} Ebenen und hält dieses Tupel in einer geeigneten Datenstruktur fest. Die Ebenen-Daten werden genutzt um zur Laufzeit das Empfinden des Agenten zu berechnen.
 Die Berechnung der Ebenen könnte nach folgendem Schema erfolgen:
 \begin{align}
 	\text{Sicherheit } &= \text{ Verkehrswert } + \text{ Beleuchtungswert }\\
@@ -110,7 +111,7 @@ Folgender Ablauf der Simulation in angedacht:
 \item Sicherung und Auswertung der Messergebnisse
 \item Bestimmung der Änderungen an der Umwelt
 \item Konstruktion veränderter Umwelt
-\item Definition der Parameter zu Gewichtung einzelner Ebenen-Aspekte für den Agenten
+\item Definition der Parameter zu Gewichtung einzelner Ebenen-Aspekte für den Agenten \todo{werden hier die Parameter aus 2 geändert ? Wenn ja wieso ?}
 \item Agent läuft vordefinierte Wege
 \item Berechnung der Ebenen-Daten für jeden Zeitpunk $t$
 \item Sicherung und Auswertung der Messergebnisse
