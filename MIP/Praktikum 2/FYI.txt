@@ -7,3 +7,9 @@ http://www.mapeditor.org/
 Verwendete Spiele-/Grafikengine
 -------------------------------
 http://slick.cokeandcode.com/
+
+
+Native Libs
+------------------------------
+Ich glaube dassollte nach dem ausschecken in Eclipse laufen. Wenn nicht dann schreit mal.
+Oli
