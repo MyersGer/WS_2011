@@ -78,7 +78,7 @@ Nachdem der Agent die verschiedenen Wege durchlaufen hat, werden die gesammelten
 \subsection{Technik}
 Es werden diskrete Zeitschritte von einer Sekunde angenommen, um ein möglichst genaues Bild von den Ebenen der Umwelt zu bekommen.\\
 Die Wege des Agenten werden fest vorgegeben um vergleichbare Ergebnisse zu erhalten. Aus diesem Grund muss kein komplexer Wegfindungsalgorithmus implementiert werden.\\
-Die Ebenen-Daten liegen in Form von Arrays vor und zu jedem Zeitpunkt $t$ bestimmt der Agent alle drei \todo{Oben ist von 4 Ebenen die rede ?} Ebenen und hält dieses Tupel in einer geeigneten Datenstruktur fest. Die Ebenen-Daten werden genutzt um zur Laufzeit das Empfinden des Agenten zu berechnen.
+Die Ebenen-Daten liegen in Form von Arrays vor und zu jedem Zeitpunkt $t$ bestimmt der Agent alle vier Ebenen und hält dieses Tupel in einer geeigneten Datenstruktur fest. Die Ebenen-Daten werden genutzt um zur Laufzeit das Empfinden des Agenten zu berechnen.
 Die Berechnung der Ebenen könnte nach folgendem Schema erfolgen:
 \begin{align}
 	\text{Sicherheit } &= \text{ Verkehrswert } + \text{ Beleuchtungswert }\\
@@ -111,7 +111,6 @@ Folgender Ablauf der Simulation in angedacht:
 \item Sicherung und Auswertung der Messergebnisse
 \item Bestimmung der Änderungen an der Umwelt
 \item Konstruktion veränderter Umwelt
-\item Definition der Parameter zu Gewichtung einzelner Ebenen-Aspekte für den Agenten \todo{werden hier die Parameter aus 2 geändert ? Wenn ja wieso ?}
 \item Agent läuft vordefinierte Wege
 \item Berechnung der Ebenen-Daten für jeden Zeitpunk $t$
 \item Sicherung und Auswertung der Messergebnisse
