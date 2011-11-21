@@ -98,13 +98,38 @@
 		\item[$FD(A)$] die minimale Entfernung zu einem Ziel $S$ die $A$ je verbreitet hat
 		\item[$D(B)$] die Metrik die $B$ zu $S$ verbreitet
 	\end{description} 
-	so muß damit $A$ das update $D(B)$ akzeptiert die Bedingung $[D(B) < FD(A)]$ gelten, es handelt sich hierbei um dieselbe feasibility Bedingung die EIGRP nutzt.
+	so muß damit $A$ das update $D(B)$ akzeptiert die Bedingung $[D(B) < FD(A)]$ gelten, es handelt sich hierbei um dieselbe feasibility Bedingung die EIGRP (Enhanced Interior Gateway Routing Protocol) nutzt.
 	
+	\subsection{Pakete}
+	Im folgenden sollen kurz die Pakettypen die Babel nutzt gezeigt werden, die wir aufgezeichnet haben. Die gesamte Kommunikation zwischen den Routern lief über IPv6 multicast. Alle Nachrichtentypen können solange das Paket nicht zu groß wird in dergleichen UDP Nachricht gesendet werden.
 	
-	\todo{Starvation beschreiben}
-	\todo{Pakete aus dump zeigen um Nachrichtentypen zu erläutern}
+	\subsubsection{hello}
+	\begin{figure}[H]
+        \centering
+                \includegraphics[width=\textwidth]{img/babel_hello}
+        \caption{Babel Hello}
+        \label{img:testAufbau}
+	\end{figure}	
+	Mit der \verb!Hello! Message teilt ein Router seinen Nachbarn mit das er existiert.	
 	
+	\subsubsection{ihu}
+	\begin{figure}[H]
+        \centering
+                \includegraphics[width=\textwidth]{img/babel_ihu}
+        \caption{Babel I hear U}
+        \label{img:testAufbau}
+	\end{figure}
+	Die \verb!I hear U! Message ist die Antwort auf eine \verb!Hello! message, sie teilt dem Sender der \verb!Hello! Message mit das er einen Nachbarn hat, welche Adresse dieser benutzt und was die \verb!rxcost! des links die verwendet werden kann um schlecht sichtbare Hosts vom Routing auszuschließen, bzw. stärkere Links zu bevorzugen.
 	
+	\subsubsection{update}	
+	\begin{figure}[H]
+        \centering
+                \includegraphics[width=\textwidth]{img/babel_update}
+        \caption{Babel Update}
+        \label{img:testAufbau}
+	\end{figure}
+	Eine \verb!Update! Nachricht wird versendet wenn ein Router ein update in seiner Routing Table festgestellt hat um diese zu verbreiten. Das update beinhaltet als primäre Nutzdaten die Metric der Route sowie ihr Ziel (\verb!Prefix!)
+	 
 	\subsection{OLSR}
 
 \section{Babel}
