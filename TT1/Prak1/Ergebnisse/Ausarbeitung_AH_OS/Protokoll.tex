@@ -54,7 +54,7 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 
-	\listoftables                                 												% 
+%	\listoftables                                 												% 
 	\listoffigures   
 
 \section{Testaufbau}
@@ -106,7 +106,7 @@
 	\subsubsection{hello}
 	\begin{figure}[H]
         \centering
-                \includegraphics[width=\textwidth]{img/babel_hello}
+                \includegraphics[scale=0.5]{img/babel_hello}
         \caption{Babel Hello}
         \label{img:testAufbau}
 	\end{figure}	
@@ -115,7 +115,7 @@
 	\subsubsection{ihu}
 	\begin{figure}[H]
         \centering
-                \includegraphics[width=\textwidth]{img/babel_ihu}
+                \includegraphics[scale=0.5]{img/babel_ihu}
         \caption{Babel I hear U}
         \label{img:testAufbau}
 	\end{figure}
@@ -124,7 +124,7 @@
 	\subsubsection{update}	
 	\begin{figure}[H]
         \centering
-                \includegraphics[width=\textwidth]{img/babel_update}
+                \includegraphics[scale=0.5]{img/babel_update}
         \caption{Babel Update}
         \label{img:testAufbau}
 	\end{figure}
@@ -134,7 +134,7 @@
     Optimized Link State Routing stellt eine Optimierung des klassischen Link State Routings dar. Allen Routern ist dabei die vollständige Netztopologie bekannt. Um Informationen zur Topologie aufzubauen oder sie auszutauschen, werden HELLO- (Abb. \ref{img:olsr_hello_message}) und TC-Nachrichten (TC = TopologyControl) (Abb. \ref{img:olsr_tc_message}) ausgetauscht. Ein im Netz teilnehmender Router sendet periodisch HELLO-Nachrichten (Broadcast), um seine Nachbarn zu entdecken, seine Multipoint Relays (MPR) mitzuteilen und zum Link Sensing. HELLO-Nachrichten werden nicht weitergeleitet. MPRs werden dabei nach dem Kriterium gewählt, über welchen 1-Hop Nachbarn ein Knoten alle seine 2-Hop Nachbarn erreichen kann.
 Knoten senden ihre Informationen nur an ihre MPR, welche das Verbreiten der Link-State-Informationen übernehmen. Dieses Vorgehen lässt ein effizientes Flooding der Informationen zu (Redundanzen werden entfernt).
 
-	\begin{figure}
+	\begin{figure}[H]
         \centering
                 \includegraphics[width=\textwidth]{img/olsr_hello_message_example}
         \caption{OLSR HELLO Message}
@@ -142,7 +142,7 @@ Knoten senden ihre Informationen nur an ihre MPR, welche das Verbreiten der Link
 	\end{figure}
 	
 	
-	\begin{figure}
+	\begin{figure}[H]
         \centering
                 \includegraphics[width=\textwidth]{img/olsr_tc_message_example}
         \caption{OLSR TC Message}
@@ -157,12 +157,12 @@ Um den kürzesten Pfad innerhalb des Netzes zu finden, wird der Algorithmus von 
     
     
 \section{Babel}
-	\subsection{Experiment 1}\label{sec:babel_experiment1}
-	Bei diesem Experiment wurden 10 MB mittels IPerf  unter Verwendung von UDP zwischen 2 Hosts ausgetauscht. Dabei wurde der Traffic über 3 Router geleitet (110-204-104) und UDP als Protokoll verwandt. Die TX-Power aller Geräte betrug dabei 1. 
+	\subsection{Versuch 1}\label{sec:babel_experiment1}
+	Bei diesem Versuch wurden 10 MB mittels IPerf  unter Verwendung von UDP zwischen 2 Hosts ausgetauscht. Dabei wurde der Traffic über 3 Router geleitet (110-204-104) und UDP als Protokoll verwandt. Die TX-Power aller Geräte betrug dabei 1. 
 Den gemessenen Werten Abbildung \ref{img:babel_iperf_tx1} ist zu entnehmen, dass der Paketverlust bei durchschnittlich 88,13\% liegt und eine durchschnittliche Bandbreite von ~749 Kbits/sec erreicht wird.
 Begründet sind diese Werte darin, dass mit TX-Power=1 eine sehr geringe Sendeleistung eingestellt wurde. Eine Erhöhung dieser, führt zu einer Verbesserung der Werte, wie in \ref{sec:babel_experiment3} gezeigt wird.
 
-	\begin{figure}
+	\begin{figure}[H]
         \centering
                 \includegraphics[width=\textwidth]{img/Babel_TX1_Protokoll}
         \caption{IPerf Log mit TX-Power=1}
@@ -171,13 +171,13 @@ Begründet sind diese Werte darin, dass mit TX-Power=1 eine sehr geringe Sendele
 	
 
 	
-	\subsection{Experiment 2}
-	Bei diesem Versuch sollte das Failoververhalten von Babel getestet werden. Hierzu hat ein Host einen anderen permanent angepingt, um seine Verfügbarkeit zu prüfen. Dabei verlief die Route über alle vier APs. Bei einem Gerät wurde dann die Netzspannung entfernt, um eine Neubildung der Route zu forcieren.
+	\subsection{Versuch 2}
+	Bei diesem Versuch sollte das Failoververhalten von Babel getestet werden. Hierzu hat ein Host einen anderen permanent angepingt, um seine Verfügbarkeit zu prüfen. Dabei verlief die Route über alle vier APs. Bei einem Gerät wurde dann die Netzspannung entfernt, um eine Neubildung der Route zu forcieren. Die Router konvergierten hieraufhin erfolgreich auf eine Ausweichroute mit höherer Metrik über einen anderen Hop.
 	
-	\subsection{Experiment 3}\label{sec:babel_experiment3}
-	Dieses Experiment wurde analog zu \ref{sec:babel_experiment1} durchgeführt, allerdings wurde diesmal die TX-Power bei einem der Geräte (110) auf 11 gesetzt, um eine bessere Verbindung herstellen zu können.	
+	\subsection{Versuch 3}\label{sec:babel_experiment3}
+	Dieser Versuch wurde analog zu \ref{sec:babel_experiment1} durchgeführt, allerdings wurde diesmal die TX-Power bei einem der Geräte (110) auf 11 gesetzt, um eine bessere Verbindung herstellen zu können.	
 
-	\begin{figure}
+	\begin{figure}[H]
         \centering
                 \includegraphics[width=\textwidth]{img/Babel_TX11_Protokoll}
         \caption{IPerf Log mit TX-Power=11}
@@ -186,7 +186,7 @@ Begründet sind diese Werte darin, dass mit TX-Power=1 eine sehr geringe Sendele
 	
 Im Kontrast zu \ref{sec:babel_experiment1}, in dem alle Router TX-Power=1 sendeten, ist eine um 38\% Punkte niedrigere Paketverlustrate zu beobachten. Dieser Unterschied von gut einem Drittel resultiert aus der Tatsache, dass zwischen den beiden Routern 110 und 104 eine stärkere Verbindung besteht und auf dieser Strecke weniger Datenpakete verloren gehen.
 
-	\begin{figure}
+	\begin{figure}[H]
         \centering
                 \includegraphics[width=\textwidth]{img/4_UDP_Babel_TX1_10MB}
         \caption{IPerf Graph mit TX-Power=11}
@@ -194,44 +194,32 @@ Im Kontrast zu \ref{sec:babel_experiment1}, in dem alle Router TX-Power=1 sendet
 	\end{figure}
 	
 Das Verhalten der Bandbreite und des Jitters ist ähnlich hierzu.
-Mit diesem Experiment (in Verbindung mit \ref{sec:babel_experiment3}) konnte gezeigt werden, dass die gesamte Verbindung maßgeblich von der Qualität der einzelnen Verbindungen zwischen den Routern abhängt.
+Mit diesem Versuch (in Verbindung mit \ref{sec:babel_experiment3}) konnte gezeigt werden, dass die gesamte Verbindung maßgeblich von der Qualität der einzelnen Verbindungen zwischen den Routern abhängt.
 
 \section{OLRS}
-	\subsection{Experiment 1}
-	Bei diesem Experiment wurden 10 MB mittels IPerf  unter Verwendung von UDP zwischen 2 Hosts ausgetauscht. Dabei wurde der Traffic über 3 Router geleitet (110-204-104) und UDP als Protokoll verwandt. Die TX-Power aller Geräte betrug dabei 1. 
+	\subsection{Versuch 1}
+	Bei diesem Versuch wurden 10 MB mittels IPerf  unter Verwendung von UDP zwischen 2 Hosts ausgetauscht. Dabei wurde der Traffic über 3 Router geleitet (110-204-104) und UDP als Protokoll verwandt. Die TX-Power aller Geräte betrug dabei 1. 
 Den gemessenen Werten Abbildung \ref{img:olsr_iperf_tx1} ist zu entnehmen, dass der Paketverlust bei durchschnittlich 71,72\% liegt und eine durchschnittliche Bandbreite von ~1461 Kbits/sec erreicht wird.
 
 
-	\begin{figure}
+	\begin{figure}[H]
         \centering
                 \includegraphics[width=\textwidth]{img/OLSR_TX1_Protokoll}
         \caption{IPerf Log mit TX-Power=11}
         \label{img:olsr_iperf_tx11}
 	\end{figure}
 	
-	\begin{figure}
+	\begin{figure}[H]
         \centering
                 \includegraphics[width=\textwidth]{img/3_UDP_OLSR_10MB}
         \caption{IPerf Graph mit TX-Power=11}
         \label{img:olsr_iperf_graph_tx11}
 	\end{figure}
 	
-	\subsection{Experiment 2}
+	\subsection{Versuch 2}
 	Hierbei wurde versucht das Failoververhalten von OLSR zu analysieren. Trotz mehrmaliger Versuche einen Failover zu provizieren, konnte keiner erfolgreich nachgestellt werden.
 
-\section{Vergleich}
-Während der Versuche wurde der subjektive Eindruck gestärkt, dass OLSR schneller konvergiert als Babel.
 
-%\section{Anhang}
-	%\subsection{Router Konfigurationen}
-		%\lstinputlisting[label=code_110_babel,caption=Babel Konfiguration: Router 110, language=bash]{../Startscripte/110/babeld_start.sh}	
-		%\lstinputlisting[label=code_110_olsr,caption=OLSR Konfiguration: Router 110, language=bash]{../Startscripte/110/olsrd_start.sh}	
-		%\lstinputlisting[label=code_210_babel,caption=Babel Konfiguration: Router 210, language=bash]{../Startscripte/210/babeld_start.sh}	
-		%\lstinputlisting[label=code_210_olsr,caption=OLSR Konfiguration: Router 210, language=bash]{../Startscripte/210/olsrd_start.sh}	
-		%\lstinputlisting[label=code_104_babel,caption=Babel Konfiguration: Router 104, language=bash]{../Startscripte/104/babel.sh}	
-		%\lstinputlisting[label=code_110_olsr,caption=OLSR Konfiguration: Router 104, language=bash]{../Startscripte/104/olsr.sh}
-		%\lstinputlisting[label=code_204_babel,caption=Babel Konfiguration: Router 204, language=bash]{../Startscripte/204/babel.sh}	
-		%\lstinputlisting[label=code_210_olsr,caption=OLSR Konfiguration: Router 204, language=bash]{../Startscripte/204/olsr.sh}
 
 \end{document}
 
