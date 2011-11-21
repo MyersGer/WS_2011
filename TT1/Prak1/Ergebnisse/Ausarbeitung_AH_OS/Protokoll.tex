@@ -93,9 +93,32 @@
 	\todo{Starvation beschreiben}
 	\todo{Pakete aus dump zeigen um Nachrichtentypen zu erläutern}
 	
-	
 	\subsection{OLSR}
+    Optimized Link State Routing stellt eine Optimierung des klassischen Link State Routings dar. Allen Routern ist dabei die vollständige Netztopologie bekannt. Um Informationen zur Topologie aufzubauen oder sie auszutauschen, werden HELLO- (Abb. \ref{img:olsr_hello_message}) und TC-Nachrichten (TC = TopologyControl) (Abb. \ref{img:olsr_tc_message}) ausgetauscht. Ein im Netz teilnehmender Router sendet periodisch HELLO-Nachrichten (Broadcast), um seine Nachbarn zu entdecken, seine Multipoint Relays (MPR) mitzuteilen und zum Link Sensing. HELLO-Nachrichten werden nicht weitergeleitet. MPRs werden dabei nach dem Kriterium gewählt, über welchen 1-Hop Nachbarn ein Knoten alle seine 2-Hop Nachbarn erreichen kann.
+Knoten senden ihre Informationen nur an ihre MPR, welche das Verbreiten der Link-State-Informationen übernehmen. Dieses Vorgehen lässt ein effizientes Flooding der Informationen zu (Redundanzen werden entfernt).
 
+	\begin{figure}
+        \centering
+                \includegraphics[width=\textwidth]{img/olsr_hello_message_example}
+        \caption{OLSR HELLO Message}
+        \label{img:olsr_hello_message}
+	\end{figure}
+	
+	
+	\begin{figure}
+        \centering
+                \includegraphics[width=\textwidth]{img/olsr_tc_message_example}
+        \caption{OLSR TC Message}
+        \label{img:olsr_tc_message}
+	\end{figure}
+	
+TC-Nachrichten enthalten Informationen über die lokale Topologie der Knoten und dienen zur Erstellung einer globalen Sicht auf das Netzwerk und dem Aufbau des Routing. TC-Nachrichten werden nur durch die MPRs weitergeleitet.
+Sollte OLSR auf mehreren Interfaces gleichzeitig laufen werden auch noch MID Messages (Main Adress and Multiple Interfaces) gesendet. In unserem Fall besitzen die Router jeweils nur über ein WLAN-Interface, weswegen auch keine MID Nachrichten erzeugt wurden.
+
+Um den kürzesten Pfad innerhalb des Netzes zu finden, wird der Algorithmus von Dijkstra verwendet.
+    
+    
+    
 \section{Babel}
 	\subsection{Experiment 1}\label{sec:babel_experiment1}
 	Bei diesem Experiment wurden 10 MB mittels IPerf  unter Verwendung von UDP zwischen 2 Hosts ausgetauscht. Dabei wurde der Traffic über 3 Router geleitet (110-204-104) und UDP als Protokoll verwandt. Die TX-Power aller Geräte betrug dabei 1. 
@@ -129,7 +152,7 @@ Im Kontrast zu \ref{sec:babel_experiment1}, in dem alle Router TX-Power=1 sendet
 	\begin{figure}
         \centering
                 \includegraphics[width=\textwidth]{img/4_UDP_Babel_TX1_10MB}
-        \caption{IPerf Log mit TX-Power=11}
+        \caption{IPerf Graph mit TX-Power=11}
         \label{img:babel_iperf_graph_tx11}
 	\end{figure}
 	
@@ -138,11 +161,29 @@ Mit diesem Experiment (in Verbindung mit \ref{sec:babel_experiment3}) konnte gez
 
 \section{OLRS}
 	\subsection{Experiment 1}
-	Traffic über 3 Hops	
+	Bei diesem Experiment wurden 10 MB mittels IPerf  unter Verwendung von UDP zwischen 2 Hosts ausgetauscht. Dabei wurde der Traffic über 3 Router geleitet (110-204-104) und UDP als Protokoll verwandt. Die TX-Power aller Geräte betrug dabei 1. 
+Den gemessenen Werten Abbildung \ref{img:olsr_iperf_tx1} ist zu entnehmen, dass der Paketverlust bei durchschnittlich 71,72\% liegt und eine durchschnittliche Bandbreite von ~1461 Kbits/sec erreicht wird.
+
+
+	\begin{figure}
+        \centering
+                \includegraphics[width=\textwidth]{img/OLSR_TX1_Protokoll}
+        \caption{IPerf Log mit TX-Power=11}
+        \label{img:olsr_iperf_tx11}
+	\end{figure}
+	
+	\begin{figure}
+        \centering
+                \includegraphics[width=\textwidth]{img/3_UDP_OLSR_10MB}
+        \caption{IPerf Graph mit TX-Power=11}
+        \label{img:olsr_iperf_graph_tx11}
+	\end{figure}
 	
 	\subsection{Experiment 2}
-	Failover, recovery nach neustart des abgebauten Routers
+	Hierbei wurde versucht das Failoververhalten von OLSR zu analysieren. Trotz mehrmaliger Versuche einen Failover zu provizieren, konnte keiner erfolgreich nachgestellt werden.
 
+\section{Vergleich}
+Während der Versuche wurde der subjektive Eindruck gestärkt, dass OLSR schneller konvergiert als Babel.
 
 %\section{Anhang}
 	%\subsection{Router Konfigurationen}
