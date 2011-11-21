@@ -89,10 +89,47 @@
 			\subitem Gehe zu \ref{dvp:upd}
 	\end{enumerate}
 	
-	\todo{Feasibility beschreiben}
-	\todo{Starvation beschreiben}
-	\todo{Pakete aus dump zeigen um Nachrichtentypen zu erläutern}
+	\subsection{Feasibility}
+	Das count to infinity Problem, bei dem nach dem Verlust eines Gliedes der Topologie 2 oder mehr Router sich gegenseitig eine Route zu diesem Glied anbieten die um eins höher ist als bisher, bis einer der Router beim maximalen Metrik Wert ($\infty$) angelangt ist. 
 	
+	Babel umgeht dieses Problem durch das einführen einer feasibility Bedingung die eine Route erfüllen muß bevor sie  in den Route cache aufgenommen wird. Diese Bedingung verhindert das Routen die zu einem Loop und damit zum cout to infinity führen in das Routing gelangen.
+	Die feasibility Bedingung die eine Route erfüllen muß ist das sie eine geringere Metrik aufweist als die geringste Metrik die der entsprechende Router je zu diesem Ziel gesehen hat. Formaler sei 
+	\begin{description}
+		\item[$FD(A)$] die minimale Entfernung zu einem Ziel $S$ die $A$ je verbreitet hat
+		\item[$D(B)$] die Metrik die $B$ zu $S$ verbreitet
+	\end{description} 
+	so muß damit $A$ das update $D(B)$ akzeptiert die Bedingung $[D(B) < FD(A)]$ gelten, es handelt sich hierbei um dieselbe feasibility Bedingung die EIGRP (Enhanced Interior Gateway Routing Protocol) nutzt.
+	
+	\subsection{Pakete}
+	Im folgenden sollen kurz die Pakettypen die Babel nutzt gezeigt werden, die wir aufgezeichnet haben. Die gesamte Kommunikation zwischen den Routern lief über IPv6 multicast. Alle Nachrichtentypen können solange das Paket nicht zu groß wird in dergleichen UDP Nachricht gesendet werden.
+	
+	\subsubsection{hello}
+	\begin{figure}[H]
+        \centering
+                \includegraphics[width=\textwidth]{img/babel_hello}
+        \caption{Babel Hello}
+        \label{img:testAufbau}
+	\end{figure}	
+	Mit der \verb!Hello! Message teilt ein Router seinen Nachbarn mit das er existiert.	
+	
+	\subsubsection{ihu}
+	\begin{figure}[H]
+        \centering
+                \includegraphics[width=\textwidth]{img/babel_ihu}
+        \caption{Babel I hear U}
+        \label{img:testAufbau}
+	\end{figure}
+	Die \verb!I hear U! Message ist die Antwort auf eine \verb!Hello! message, sie teilt dem Sender der \verb!Hello! Message mit das er einen Nachbarn hat, welche Adresse dieser benutzt und was die \verb!rxcost! des links die verwendet werden kann um schlecht sichtbare Hosts vom Routing auszuschließen, bzw. stärkere Links zu bevorzugen.
+	
+	\subsubsection{update}	
+	\begin{figure}[H]
+        \centering
+                \includegraphics[width=\textwidth]{img/babel_update}
+        \caption{Babel Update}
+        \label{img:testAufbau}
+	\end{figure}
+	Eine \verb!Update! Nachricht wird versendet wenn ein Router ein update in seiner Routing Table festgestellt hat um diese zu verbreiten. Das update beinhaltet als primäre Nutzdaten die Metric der Route sowie ihr Ziel (\verb!Prefix!)
+	 
 	\subsection{OLSR}
     Optimized Link State Routing stellt eine Optimierung des klassischen Link State Routings dar. Allen Routern ist dabei die vollständige Netztopologie bekannt. Um Informationen zur Topologie aufzubauen oder sie auszutauschen, werden HELLO- (Abb. \ref{img:olsr_hello_message}) und TC-Nachrichten (TC = TopologyControl) (Abb. \ref{img:olsr_tc_message}) ausgetauscht. Ein im Netz teilnehmender Router sendet periodisch HELLO-Nachrichten (Broadcast), um seine Nachbarn zu entdecken, seine Multipoint Relays (MPR) mitzuteilen und zum Link Sensing. HELLO-Nachrichten werden nicht weitergeleitet. MPRs werden dabei nach dem Kriterium gewählt, über welchen 1-Hop Nachbarn ein Knoten alle seine 2-Hop Nachbarn erreichen kann.
 Knoten senden ihre Informationen nur an ihre MPR, welche das Verbreiten der Link-State-Informationen übernehmen. Dieses Vorgehen lässt ein effizientes Flooding der Informationen zu (Redundanzen werden entfernt).
