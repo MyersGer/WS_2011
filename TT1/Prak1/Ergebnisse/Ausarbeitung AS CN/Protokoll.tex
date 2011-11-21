@@ -215,6 +215,7 @@ Der Grund für die geringe Bandbreite, den hohen Jitter und die hohe Verlustrate
 
 
 \subsubsection{Versuch 2 - Failover}
+Da in MANETs die Mobilität, die Verbindungsabbrüche zur Folge haben kann, eine wichtige Rolle spielt, wurde im zweiten Versuch das Failoververhalten von Babel untersucht. Hierzu wurde der Host am Router \textit{192.168.210.1} vom Host am Router \textit{192.168.110.1} angepingt, wobei die Route über alle vier Router verlief. Dabei wurde die Netzspannung von einem Gerät entfernt und überprüft, ob der Wegfall eines Routers zu einer Ausweichroute führte. Der Versuch war erfolgreich, da nach kurzer Zeit eine Alternativroute genutzt wurde.
 
 \subsubsection{Versuch 3 - Erhöhung der Sendeleitung}
 In diesem Versuch wurde lediglich die Sendeleistung des Router \textit{192.168.110.1} auf den Wert 11 gesetzt, um die Auswirkung einer erhöhten Sendeleistung zu untersuchen. Dabei wurde zunächst festgestellt, dass durch Erhöhung der Sendeleistung der Hop-Count zwischen den Clients um einen Hop abnimmt. Da der Router \textit{192.168.110.1} mit erhöhter Sendeleistung sendet, kann er Router \textit{192.168.210.1} direkt erreichen und muss nicht mehr über Router \textit{192.168.104.1} springen.\\
@@ -256,6 +257,8 @@ Es liegt die Vermutung nahe, dass die Schwankungen am größeren Bandbreitenbeda
 \end{figure} 
 
 \subsubsection{Versuch 2 - Failover}
+Bei der Analyse des Failoververhaltens von OLSR, konnten wird trotz mehrmaliger Versuche keine Alternativroute herstellen. Eine mögliche Ursache liegt hierbei in unserem Versuchsaufbau, bei dem die Sendeleistung der Router möglicherweise nicht mehr ausreichte um den ausgefallenen Router zu überbrücken.
+
 
 \end{document}
 
