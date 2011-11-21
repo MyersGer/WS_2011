@@ -89,7 +89,18 @@
 			\subitem Gehe zu \ref{dvp:upd}
 	\end{enumerate}
 	
-	\todo{Feasibility beschreiben}
+	\subsection{Feasibility}
+	Das count to infinity Problem, bei dem nach dem Verlust eines Gliedes der Topologie 2 oder mehr Router sich gegenseitig eine Route zu diesem Glied anbieten die um eins höher ist als bisher, bis einer der Router beim maximalen Metrik Wert ($\infty$) angelangt ist. 
+	
+	Babel umgeht dieses Problem durch das einführen einer feasibility Bedingung die eine Route erfüllen muß bevor sie  in den Route cache aufgenommen wird. Diese Bedingung verhindert das Routen die zu einem Loop und damit zum cout to infinity führen in das Routing gelangen.
+	Die feasibility Bedingung die eine Route erfüllen muß ist das sie eine geringere Metrik aufweist als die geringste Metrik die der entsprechende Router je zu diesem Ziel gesehen hat. Formaler sei 
+	\begin{description}
+		\item[$FD(A)$] die minimale Entfernung zu einem Ziel $S$ die $A$ je verbreitet hat
+		\item[$D(B)$] die Metrik die $B$ zu $S$ verbreitet
+	\end{description} 
+	so muß damit $A$ das update $D(B)$ akzeptiert die Bedingung $[D(B) < FD(A)]$ gelten, es handelt sich hierbei um dieselbe feasibility Bedingung die EIGRP nutzt.
+	
+	
 	\todo{Starvation beschreiben}
 	\todo{Pakete aus dump zeigen um Nachrichtentypen zu erläutern}
 	
