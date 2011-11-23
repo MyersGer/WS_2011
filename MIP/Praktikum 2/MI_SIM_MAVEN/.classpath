@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources"/>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/hiero.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/ibxm.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/jinput.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/jnlp.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/jogg-0.0.7.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/jorbis-0.0.15.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="sim/src/main/resources/lwjgl/native/linux"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="src/main/resources/lib/natives-linux.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/natives-mac.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/natives-win32.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/packulike.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/pedigree.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/scalar.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/slick-examples.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/slick-sources.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/slick-util-src.zip"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/slick-util.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/slick.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/lib/tinylinepp.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
