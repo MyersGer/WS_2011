@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="topo_tiles" tilewidth="32" tileheight="32">
-  <image source="campus_tiles.png"/>
+  <image source="./campus_tiles.png"/>
+  <tile id="8">
+   <properties>
+    <property name="Typ" value="waypoint"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Kachelebene 1" width="100" height="100">
   <data encoding="base64" compression="gzip">

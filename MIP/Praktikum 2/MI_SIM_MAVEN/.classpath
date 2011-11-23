@@ -15,7 +15,7 @@
 	<classpathentry kind="lib" path="src/main/resources/lib/lwjgl_util.jar"/>
 	<classpathentry kind="lib" path="src/main/resources/lib/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="sim/src/main/resources/lwjgl/native/linux"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="MI_SIM_MAVEN/src/main/resources/lwjgl/native/linux"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="src/main/resources/lib/natives-linux.jar"/>
