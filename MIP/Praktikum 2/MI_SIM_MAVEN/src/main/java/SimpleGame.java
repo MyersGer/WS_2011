@@ -3,6 +3,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
@@ -49,7 +50,7 @@ public class SimpleGame extends BasicGame {
 		processInput(gc.getInput());		
 		
 		for (Agent agent : agents) {
-			//agent.doTurn();
+			agent.doTurn();
 		}
 		
 		double stepTime = Math.ceil(1/((AGENT_SPEED_KMH * 1000) / 3600000F)); // ms für einen Meter
@@ -83,8 +84,6 @@ public class SimpleGame extends BasicGame {
 	}
 
 
-	}
-
 	public static void main(String[] args) throws SlickException {
 		AppGameContainer app = new AppGameContainer(new SimpleGame());
 
@@ -92,4 +91,5 @@ public class SimpleGame extends BasicGame {
 		app.start();
 
 	}
+
 }
