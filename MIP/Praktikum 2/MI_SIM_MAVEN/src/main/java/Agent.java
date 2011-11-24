@@ -5,7 +5,8 @@ import org.apache.log4j.Logger;
 
 public class Agent {
 
-	public Point START_POINT = new Point(3, 18);
+	public Point START_POINT = new Point(2, 34);
+	public Point END_POINT = new Point(19,9);
 
 	private Point lastLocation = null;
 	private Point location = START_POINT;
@@ -33,27 +34,39 @@ public class Agent {
 		this.distanceStreetPreference = distanceStreetPreference;
 		this.world = world;
 	}
+	
+	
+	public Point getLocation() {
+		return location;
+	}
+	
+	public boolean reachedEndPoint() {
+		return location == END_POINT;
+	}
+
 
 	public void doTurn() {
 		logger.debug("doTurn()");
-		sample();
-		movement();
+		if (location != END_POINT) {
+			sample();
+			movement();
+		}
 
 	}
 
 	private void movement() {
 		logger.debug("move()");
 		Point targetCell = getNextLocation();
-		logger.info(targetCell.toString());
 		moveToLocation(targetCell);
-
 	}
 
 	private void moveToLocation(Point targetCell) {
 		logger.debug("moveToLocation()");
-		// lastLocation = location
-		// location = targetCell
-		// updateWorld();
+		if (targetCell != null) {
+			logger.info(targetCell.toString());
+			lastLocation = location;
+			location = targetCell;
+		}
 
 	}
 
@@ -62,7 +75,6 @@ public class Agent {
 		Set<Point> neighbors = world.getNeighbors(location);
 		Point target = null;
 		for (Point candidateTarget : neighbors) {
-			
 			if (world.isWaypoint(candidateTarget) && !candidateTarget.equals(lastLocation)) {
 				target = candidateTarget;
 			}
