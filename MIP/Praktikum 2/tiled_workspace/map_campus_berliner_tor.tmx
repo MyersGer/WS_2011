@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="185" height="253" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="topo_tiles" tilewidth="16" tileheight="16">
+  <image source="topo_tiles.png" width="80" height="80"/>
+  <tile id="5">
+   <properties>
+    <property name="Typ" value="gruenflaeche"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Typ" value="innenraum"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="Typ" value="weg"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="Typ" value="mauer"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="Typ" value="strasse"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="26" name="lampen_tiles" tilewidth="16" tileheight="16">
+  <image source="lampen_tiles.png" width="32" height="32"/>
+  <tile id="1">
+   <properties>
+    <property name="Radius" value="8"/>
+    <property name="Typ" value="grossstrahler"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Radius" value="2"/>
+    <property name="Typ" value="flurbeleuchtung"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="30" name="wlan_tiles" tilewidth="16" tileheight="16">
+  <image source="wlan_tiles.png" width="16" height="16"/>
+  <tile id="0">
+   <properties>
+    <property name="Radius" value="10"/>
+    <property name="Typ" value="accesspoint"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="topologieebene" width="185" height="253" opacity="0.27">
+  <data encoding="base64" compression="zlib">
+   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
+  </data>
+ </layer>
+ <layer name="leuchtmitteleben" width="185" height="253" opacity="0.01">
+  <data encoding="base64" compression="zlib">
+   eJzt3MENgCAQBED6MPbfpk8fmmhikFuYqeAePMiyXGsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcNpGDwAAAAAAAAAAAAAAD3ReAQAAAAAAAAAAAAAAAAAAAAAAoB/7vvjbPnoAAAAAgFByFQAAgPXodQAAAJDOOydQkdwNAABIIFcBAAAAAO7Mnh3qdQAAAAAAACua/Q0IAAAAoBe5CgAAAAAACexSAAAAAACA7970x3XMqcrZBABm4E4DAABwL/3PQPr8AAAAAAAAAACQrnqHp/p8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFwd1pACaQ==
+  </data>
+ </layer>
+ <layer name="wlanebene" width="185" height="253">
+  <data encoding="base64" compression="zlib">
+   eJzt3UENAAAIxLBTgn+ZeCAh8GgVzMESAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC+qusAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAJb4MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADDXjUgAPQ==
+  </data>
+ </layer>
+</map>
