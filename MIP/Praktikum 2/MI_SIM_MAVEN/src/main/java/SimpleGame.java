@@ -15,10 +15,10 @@ public class SimpleGame extends BasicGame {
 	
 	private static Logger logger;
 	
-	private static final int DISPLAY_WIDTH = 600;
-	private static final int DISPLAY_HEIGHT = 600;
+	private static final int DISPLAY_WIDTH = 800;
+	private static final int DISPLAY_HEIGHT = 800;
 	
-	private static final String TILED_MAP_LOCATION = "maps/tile_map_campus_example.tmx";
+	private static final String TILED_MAP_LOCATION = "maps/map_campus_berliner_tor.tmx";
 	private static final String TILED_RESOURCE_LOCATION = "maps";
 
 	public SimpleGame() {
@@ -39,7 +39,7 @@ public class SimpleGame extends BasicGame {
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		try {
-			Thread.currentThread().sleep(250);
+			Thread.currentThread().sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
