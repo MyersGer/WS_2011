@@ -50,9 +50,7 @@ public class SimpleGame extends BasicGame {
 		logger.debug("update");
 		processInput(gc.getInput());		
 		
-		for (Agent agent : agents) {
-			agent.doTurn();
-		}
+		agent.doTurn();
 		
 		double stepTime = Math.ceil(1/((AGENT_SPEED_KMH * 1000) / 3600000F)); // ms für einen Meter
 		
