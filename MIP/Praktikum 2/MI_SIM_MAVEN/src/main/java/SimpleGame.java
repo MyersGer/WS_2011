@@ -16,10 +16,10 @@ public class SimpleGame extends BasicGame {
 	
 	private static Logger logger;
 	
-	private static final int DISPLAY_WIDTH = 600;
-	private static final int DISPLAY_HEIGHT = 600;
+	private static final int DISPLAY_WIDTH = 800;
+	private static final int DISPLAY_HEIGHT = 800;
 	
-	private static final String TILED_MAP_LOCATION = "maps/tile_map_campus_example.tmx";
+	private static final String TILED_MAP_LOCATION = "maps/map_campus_berliner_tor.tmx";
 	private static final String TILED_RESOURCE_LOCATION = "maps";
 	
 	private static final int AGENT_SPEED_KMH = 5;
@@ -46,6 +46,7 @@ public class SimpleGame extends BasicGame {
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
+
 		logger.debug("update");
 		processInput(gc.getInput());		
 		
@@ -82,7 +83,28 @@ public class SimpleGame extends BasicGame {
 					
 				}
 	}
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		//map.render(0, 0, 0, 0, map.getHeight(), map.getWidth());
+		int tileWidth = map.getTileWidth();
+		int tileHeight = map.getTileHeight();
+		
+		int agentx = agent.getLocation().x;
+		int agenty = agent.getLocation().y;
+		
+		//Mittelpunkt bestimmen
+		int centerx = (DISPLAY_WIDTH/tileWidth)/2;
+		int centery = (DISPLAY_HEIGHT/tileHeight)/2;
+		
+		//Offset bestimmen
+		int offsetx = agentx-centerx;
+		int offsety = agenty-centery;
+			
+		map.render(0, 0, offsetx, offsety, map.getHeight(), map.getWidth());
+			
+		agentIMG.draw(centerx*tileWidth, centery*tileHeight, tileWidth, tileHeight);
 
+
+	}
 
 	public static void main(String[] args) throws SlickException {
 		AppGameContainer app = new AppGameContainer(new SimpleGame());

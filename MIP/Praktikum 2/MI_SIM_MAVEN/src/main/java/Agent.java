@@ -5,8 +5,8 @@ import org.apache.log4j.Logger;
 
 public class Agent {
 
-	public Point START_POINT = new Point(2, 34);
-	public Point END_POINT = new Point(19,9);
+	public Point START_POINT = new Point(4, 180);
+	public Point END_POINT = new Point(108,31);
 
 	private Point lastLocation = null;
 	private Point location = START_POINT;

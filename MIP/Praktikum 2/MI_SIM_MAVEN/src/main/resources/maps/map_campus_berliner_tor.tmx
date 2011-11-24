@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="185" height="253" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="topo_tiles" tilewidth="16" tileheight="16">
+  <image source="topo_tiles.png" width="80" height="80"/>
+  <tile id="5">
+   <properties>
+    <property name="Typ" value="gruenflaeche"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Typ" value="innenraum"/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="Typ" value="weg"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="Typ" value="mauer"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="Typ" value="strasse"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="26" name="lampen_tiles" tilewidth="16" tileheight="16">
+  <image source="lampen_tiles.png" width="32" height="32"/>
+  <tile id="1">
+   <properties>
+    <property name="Radius" value="8"/>
+    <property name="Typ" value="grossstrahler"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Radius" value="2"/>
+    <property name="Typ" value="flurbeleuchtung"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="30" name="wlan_tiles" tilewidth="16" tileheight="16">
+  <image source="wlan_tiles.png" width="16" height="16"/>
+  <tile id="0">
+   <properties>
+    <property name="Radius" value="10"/>
+    <property name="Typ" value="accesspoint"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="31" name="movement_tiles" tilewidth="16" tileheight="16">
+  <image source="movement_tiles.png" width="16" height="16"/>
+  <tile id="0">
+   <properties>
+    <property name="Typ" value="waypoint"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="topologieebene" width="185" height="253">
+  <data encoding="base64" compression="gzip">
+   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
+  </data>
+ </layer>
+ <layer name="leuchtmittelebene" width="185" height="253" visible="0" opacity="0.01">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3cwQ2AIBAEQPow9t+mTx+aaGKQW5ip4B48yLJcawAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABw2kYPAAAAAAAAAAAAAAAPdF4BAAAAAAAAAAAAAAAAAAAAAACgH/u++Ns+egAAAACAUHIVAACA9eh1AAAAkM47J1CR3A0AAEggVwEAAAAA7syeHep1AAAAAAAAK5r9DQgAAACgF7kKAAAAAAAJ7FIAAAAAAIDv3vTHdcypytkEAGbgTgMAAHAv/c9A+vwAAAAAAAAAAJCueoen+nwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXB1eMatsVNsCAA==
+  </data>
+ </layer>
+ <layer name="wlanebene" width="185" height="253" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3dQQ0AAAjEsFOCf5l4ICHwaBXMwRIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAL6q6wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAlvgwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMNcgGTgYVNsCAA==
+  </data>
+ </layer>
+ <layer name="movement" width="185" height="253">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+3csQ2AMAwAQTbJ/lsyA4oQznMnuXfxbn1dAAAAAAAAAAAAAAAAAAAAAAAAAAAAADDT+noBeJnGqdM4dRqnTuPUaZw6jVOnceo0Tp3GKdM3dRqnTuPUaZwyfVOnceo0Tp3GKdM3dRqnTuPUaZw6jVOnceo0Tp3GqdM4dRqnTuPUaZw6jVOnceo0Tp3GKdM3dRqnTuPUaZw6jVOnceo0Tp3GqdM4dRqnTuPUaZw6jVOnceo0Tp3GqdM4dRqnTuPUaZw6jVOnceo0Tp3GqdM4dRqnTuPUaZw6jVOnceo0Tp3GqdM4dRqnTuPUaZw6jVOnceo0Tp3GqdM4dRqnTuPUaZw6jVOnceo0Tp3GqdM4dRqnTuPUaZw6jVOnceo0Tp3GqdM4dRqnTuPUaZw6jVOnceo0Tp3GqdM4dRqnTuPUaZw6jVOnceo0Tp3GqdM4dRqnTuPUaZw6jVOnceo0Tp3GqdM4dRqnTuPUaZw6jVOnceo0Tp3GOcHaGJhOp9RpnDqNU6dx6jROncap0zh1GqdO49RpnDqNU6dx6jROncap0zhl+qZM35TpmzJ9U6ZvyvRNmb4p0zdl+qZM3/+z8wtq2n+o6fuxZ0qTb9zJCfcFT2gXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgHDefe+SkVNsCAA==
+  </data>
+ </layer>
+</map>

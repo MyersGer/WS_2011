@@ -13,8 +13,6 @@ public class World {
 	private static final String WAYPOINT_PROPERTY = "Typ";
 	private static final String WAYPOINT_PROPERTY_NOT_MOVABLE = "0";
 	private static final String WAYPOINT_PROPERTY_MOVABLE = "waypoint";
-	private static final String LIGHT_PROPERTY_RADIUS_DEFAULT = "0";
-	private static final String LIGHT_PROPERTY_RADIUS = "Radius";
 	
 	
 	private static Point LEFT_UP = new Point(-1,-1);
@@ -27,7 +25,6 @@ public class World {
 	private static Point UP = new Point(0,-1);
 	
 	private static String NAME_MOVEMENT_LAYER = "movement";
-	private static String NAME_LIGHT_LAYER = "leuchtmittelebene";
 	
 	private static Set<Point> neighborModifications = new HashSet<Point>();
 	
@@ -43,60 +40,10 @@ public class World {
 	}
 	
 	private TiledMap map;
-	private int[][] light_map;
 
 	public World(TiledMap map) {
 		this.map = map;
-		initLightMap();
 	}
-	
-	private void initLightMap(){
-		this.light_map = new int[map.getWidth()][map.getHeight()];
-		int lightLayerIdx = map.getLayerIndex(NAME_LIGHT_LAYER);
-		
-		
-		if(lightLayerIdx > -1){
-		
-			for(int y = 0; y < map.getHeight(); y++){
-				for(int x = 0; x < map.getWidth(); x++){
-					int tileId = map.getTileId(x, y, lightLayerIdx);
-					Integer radius = new Integer(map.getTileProperty(tileId, LIGHT_PROPERTY_RADIUS, LIGHT_PROPERTY_RADIUS_DEFAULT));
-					
-					if(radius > 0){
-						int fillstart_x;
-						int fillstart_y;
-						int fillend_x;
-						int fillend_y;
-						
-						fillstart_x = x - radius;
-						fillstart_y = y - radius;
-						fillend_x   = x + radius;
-						fillend_y   = y + radius;
-						
-						if(fillstart_x < 0)
-							fillstart_x = 0;
-						if(fillstart_y < 0)
-							fillstart_y = 0;
-						
-						if(fillend_x > map.getWidth())
-							fillend_x = map.getWidth();
-						if(fillend_y > map.getHeight())
-							fillend_y = map.getHeight();
-						
-						for(int fill_y = fillstart_y; fill_y <= fillend_y; fill_y++){
-							for(int fill_x = fillstart_x; fill_x <= fillend_y; fill_x++){
-								light_map[fill_x][fill_y] ++;
-							}
-						}
-					}
-				}
-			}
-		}
-		else{
-			logger.error("Licht Layer konnte nicht gefunden werden");
-		}			
-	}
-	
 	
 	public Set<Point> getNeighbors(Point middle){
 		Set<Point> neighbors = new HashSet<Point>();
@@ -116,10 +63,6 @@ public class World {
 		if(waypoint.equals(WAYPOINT_PROPERTY_MOVABLE))
 			logger.debug(point.toString() + " is Movable: " + waypoint);
 		return waypoint.equals(WAYPOINT_PROPERTY_MOVABLE);
-	}
-	
-	public int getLightIntensity(Point p){
-		return this.light_map[p.x][p.y];
 	}
 
 }
