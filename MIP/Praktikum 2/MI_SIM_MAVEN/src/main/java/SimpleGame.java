@@ -108,7 +108,7 @@ public class SimpleGame extends BasicGame {
 			
 		map.render(0, 0, offsetx, offsety, map.getHeight(), map.getWidth());
 			
-		agentIMG.draw(centerx*tileWidth, centery*tileHeight, tileWidth, tileHeight);
+		agentIMG.draw((centerx-0.5f)*tileWidth, (centery-1)*tileHeight, 2*tileWidth, 2*tileHeight);
 		
 		Shape s = new Rectangle(0,0, 180, 200);
 		
