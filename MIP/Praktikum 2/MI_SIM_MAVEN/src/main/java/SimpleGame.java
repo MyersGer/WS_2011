@@ -1,11 +1,14 @@
 import org.apache.log4j.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class SimpleGame extends BasicGame {
@@ -24,13 +27,16 @@ public class SimpleGame extends BasicGame {
 	
 	private static final int AGENT_SPEED_KMH = 5;
 	
+	private int speedMultiplicator = 1;
 	
+	Clock clk;
 	long lastTime = System.nanoTime();//, beforeTime, afterTime, timeDiff, sleepTime; 
 
 	public SimpleGame() {
 		super("Slick2DPath2Glory - SimpleGame");
 		
 		System.out.println(System.getProperty("user.dir"));
+		clk = new Clock();
 	}
 
 	@Override
@@ -41,7 +47,7 @@ public class SimpleGame extends BasicGame {
 		agent = new Agent(world, 1, 1, 1, 1, 1, 1, 1);
 		
 		agentIMG = new Image("gfx/stickman.png");
-		
+		clk.start(); //Zeitzählung starten
 	}
 
 	@Override
@@ -51,6 +57,7 @@ public class SimpleGame extends BasicGame {
 		processInput(gc.getInput());		
 		
 		agent.doTurn();
+		clk.update();
 		
 		double stepTime = Math.ceil(1/((AGENT_SPEED_KMH * 1000) / 3600000F)); // ms für einen Meter
 		
@@ -60,7 +67,7 @@ public class SimpleGame extends BasicGame {
 		long sleepTime = (long) (stepTime - (timeDiff/1000000L)); //zu wartende Zeit in ms
 	
 		try{
-			Thread.sleep(sleepTime); //Zeitdifferenz aussitzen
+			Thread.sleep(sleepTime/this.speedMultiplicator); //Zeitdifferenz aussitzen
 		}
 		catch(Exception ex){} //don't panic 
 		
@@ -69,10 +76,12 @@ public class SimpleGame extends BasicGame {
 
 	private void processInput(Input in) {
 				if(in.isKeyDown(Input.KEY_DOWN)){
-					
+					if(speedMultiplicator>1)
+						speedMultiplicator--;
 				}
 				else if (in.isKeyDown(Input.KEY_UP)){
-					
+					if(speedMultiplicator<6)
+						speedMultiplicator++;
 				}
 				else if (in.isKeyDown(Input.KEY_LEFT)){
 					
@@ -100,8 +109,14 @@ public class SimpleGame extends BasicGame {
 		map.render(0, 0, offsetx, offsety, map.getHeight(), map.getWidth());
 			
 		agentIMG.draw(centerx*tileWidth, centery*tileHeight, tileWidth, tileHeight);
-
-
+		
+		Shape s = new Rectangle(0,0, 180, 200);
+		
+		g.setColor(new Color(0, 0, 0));
+		g.fillRect(0, 0, 180, 200);
+		g.setColor(new Color(255, 255, 255));
+		g.drawString(clk.getTimeString(), 10, 30);
+		g.drawString("Speed: "+this.speedMultiplicator, 10, 60);
 	}
 
 	public static void main(String[] args) throws SlickException {
@@ -109,7 +124,6 @@ public class SimpleGame extends BasicGame {
 
 		app.setDisplayMode(DISPLAY_WIDTH, DISPLAY_HEIGHT, false);
 		app.start();
-
 	}
 
 }
