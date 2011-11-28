@@ -1,4 +1,7 @@
 import java.awt.Point;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -19,6 +22,8 @@ public class Agent {
 	private double greenPreference;
 	private double distanceStreetPreference;
 	private World world;
+	
+	private DataPointLog dataLogger;
 
 	private static Logger logger = Logger.getLogger("SimpleGame");
 
@@ -33,6 +38,7 @@ public class Agent {
 		this.greenPreference = greenPreference;
 		this.distanceStreetPreference = distanceStreetPreference;
 		this.world = world;
+		this.dataLogger = new DataPointLog();
 	}
 	
 	
@@ -85,6 +91,30 @@ public class Agent {
 
 	private void sample() {
 		logger.debug("sample()");
+		
+		double sicherheit = lightPreference * world.getLightIntensity(location) - ( trafficPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100));
+		
+		double vergnuegen = 0;
+		double soziologie = 0;
+		double produktivitaet = 0;
+		
+		double gesamt = 0.5 * sicherheit + 0.2 * vergnuegen + 0.2 * produktivitaet + 0.1 * soziologie;
+		
+		HashMap<String, Double> tempMap = new HashMap<String, Double>();
+		tempMap.put("Sicherheit", sicherheit);
+		tempMap.put("Vergnuegen", vergnuegen);
+		tempMap.put("Soziologie", soziologie);
+		tempMap.put("Produktivitaet", produktivitaet);
+		tempMap.put("Gesamt", gesamt);
+		
+		Set<Map<String, Double>> entry = new HashSet<Map<String, Double>>();
+		
+		entry.add(tempMap);
+		
+		dataLogger.addEntry(entry);
+		
+		//System.out.println("Smell " + world.getSmellIntensity(location));
+		System.out.println("Sicherheit " + sicherheit);
 
 	}
 

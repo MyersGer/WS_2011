@@ -6,8 +6,10 @@ import java.util.GregorianCalendar;
 public class Clock {
 	long seconds;
 	boolean runs;
+	Date startTime;
 	
-	public Clock(){
+	public Clock(Date startTime){
+		this.startTime = startTime;
 		seconds = 0;
 		runs = false;
 	}
@@ -37,5 +39,12 @@ public class Clock {
 		long secs = seconds % 60;
 		
 		return minutes+":"+secs;
+	}
+	
+	public Date getAbsoluteTime(){
+		Calendar c = Calendar.getInstance();
+		c.setTime(startTime);
+		c.add(Calendar.SECOND, (int) seconds);
+		return c.getTime();
 	}
 }

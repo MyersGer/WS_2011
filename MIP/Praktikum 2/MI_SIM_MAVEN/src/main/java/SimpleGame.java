@@ -1,3 +1,7 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -29,25 +33,37 @@ public class SimpleGame extends BasicGame {
 	
 	private int speedMultiplicator = 1;
 	
-	Clock clk;
+	World world;
 	long lastTime = System.nanoTime();//, beforeTime, afterTime, timeDiff, sleepTime; 
 
 	public SimpleGame() {
 		super("Slick2DPath2Glory - SimpleGame");
 		
 		System.out.println(System.getProperty("user.dir"));
-		clk = new Clock();
+	
 	}
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		logger = Logger.getLogger("SimpleGame");
+		
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+		Date startDate;
+		try {
+			startDate = dateFormat.parse("1.1.2001 12:05");
+		} catch (ParseException e) {
+			logger.error("Fehler beim Datumparsen. Aktuelle Zeit wird genommen!");
+			startDate = new Date(System.currentTimeMillis());
+		}
+		
+		
 		map = new TiledMap(TILED_MAP_LOCATION, TILED_RESOURCE_LOCATION);
-		World world = new World(map);
+		world = new World(map, startDate);
 		agent = new Agent(world, 1, 1, 1, 1, 1, 1, 1);
 		
 		agentIMG = new Image("gfx/stickman.png");
-		clk.start(); //Zeitzählung starten
+		world.getClock().start(); //Zeitzählung starten
 	}
 
 	@Override
@@ -57,7 +73,7 @@ public class SimpleGame extends BasicGame {
 		processInput(gc.getInput());		
 		
 		agent.doTurn();
-		clk.update();
+		world.getClock().update();
 		
 		double stepTime = Math.ceil(1/((AGENT_SPEED_KMH * 1000) / 3600000F)); // ms für einen Meter
 		
@@ -115,8 +131,9 @@ public class SimpleGame extends BasicGame {
 		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0, 0, 180, 200);
 		g.setColor(new Color(255, 255, 255));
-		g.drawString(clk.getTimeString(), 10, 30);
+		g.drawString(world.getClock().getTimeString(), 10, 30);
 		g.drawString("Speed: "+this.speedMultiplicator, 10, 60);
+		g.drawString(world.getClock().getAbsoluteTime().toString(), 10, 90);
 	}
 
 	public static void main(String[] args) throws SlickException {
