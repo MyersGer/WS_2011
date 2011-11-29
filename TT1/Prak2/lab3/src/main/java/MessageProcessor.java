@@ -1,16 +1,15 @@
+import javax.sip.DialogTerminatedEvent;
+import javax.sip.RequestEvent;
 
-public class MessageProcessor {
+public interface MessageProcessor {
 
-    public void processMessage(String sender, String message){
-    	System.out.println(message);
-    }
+	public void processMessage(String sender, String message);
 
-    public void processError(String errorMessage){
-    	System.out.println(errorMessage);
-    }
+	public void processError(String errorMessage);
 
-    public void processInfo(String infoMessage){
-    	System.out.println(infoMessage);
-    }
+	public void processInfo(String infoMessage);
 
+	public void processDialogTerminated(DialogTerminatedEvent diaTermEv);
+
+	public void processRequestEvent(RequestEvent requestEvent);
 }

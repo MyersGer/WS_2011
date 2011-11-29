@@ -1,3 +1,4 @@
+import java.net.InetAddress;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -11,6 +12,7 @@ import javax.sip.ObjectInUseException;
 import javax.sip.PeerUnavailableException;
 import javax.sip.RequestEvent;
 import javax.sip.ResponseEvent;
+import javax.sip.ServerTransaction;
 import javax.sip.SipException;
 import javax.sip.SipFactory;
 import javax.sip.SipListener;
@@ -53,87 +55,38 @@ public class SipLayer implements SipListener {
 
 	private SipProvider sipProvider;
 
-	private int port;
-
-	private String host;
-
+	/** Here we initialize the SIP stack. */
 	public SipLayer(String username, String ip, int port) throws PeerUnavailableException, TransportNotSupportedException, InvalidArgumentException, ObjectInUseException, TooManyListenersException {
-
-		this.username = username;
-
+		setUsername(username);
 		sipFactory = SipFactory.getInstance();
-
 		sipFactory.setPathName("gov.nist");
-
 		Properties properties = new Properties();
+		properties.setProperty("javax.sip.STACK_NAME", "TextClient");
+		properties.setProperty("javax.sip.IP_ADDRESS", ip);
 
-		properties.setProperty("javax.sip.STACK_NAME",
-
-		"TextClient");
-
-		properties.setProperty("javax.sip.IP_ADDRESS",
-
-		ip);
+		// DEBUGGING: Information will go to files
+		// textclient.log and textclientdebug.log
+		properties.setProperty("gov.nist.javax.sip.TRACE_LEVEL", "32");
+		properties.setProperty("gov.nist.javax.sip.SERVER_LOG", "textclient.txt");
+		properties.setProperty("gov.nist.javax.sip.DEBUG_LOG", "textclientdebug.log");
 
 		sipStack = sipFactory.createSipStack(properties);
-
 		headerFactory = sipFactory.createHeaderFactory();
-
 		addressFactory = sipFactory.createAddressFactory();
-
 		messageFactory = sipFactory.createMessageFactory();
 
 		ListeningPoint tcp = sipStack.createListeningPoint(port, "tcp");
-
 		ListeningPoint udp = sipStack.createListeningPoint(port, "udp");
 
 		sipProvider = sipStack.createSipProvider(tcp);
-
 		sipProvider.addSipListener(this);
-
 		sipProvider = sipStack.createSipProvider(udp);
-
 		sipProvider.addSipListener(this);
-
 	}
 
-	public void processDialogTerminated(DialogTerminatedEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void processIOException(IOExceptionEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void processRequest(RequestEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void processResponse(ResponseEvent evt) {
-		Response response = evt.getResponse();
-		int status = response.getStatusCode();
-
-		if ((status >= 200) && (status < 300)) { // Success!
-			messageProcessor.processInfo("--Sent");
-			return;
-		}
-
-		messageProcessor.processError("Previous message not sent: " + status);
-	}
-
-	public void processTimeout(TimeoutEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void processTransactionTerminated(TransactionTerminatedEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
+	/**
+	 * This method uses the SIP stack to send a message.
+	 */
 	public void sendMessage(String to, String message) throws ParseException, InvalidArgumentException, SipException {
 
 		SipURI from = addressFactory.createSipURI(getUsername(), getHost() + ":" + getPort());
@@ -153,7 +106,7 @@ public class SipLayer implements SipListener {
 		requestURI.setTransportParam("udp");
 
 		ArrayList viaHeaders = new ArrayList();
-		ViaHeader viaHeader = headerFactory.createViaHeader(getHost(), getPort(), "udp", null);
+		ViaHeader viaHeader = headerFactory.createViaHeader(getHost(), getPort(), "udp", "branch1");
 		viaHeaders.add(viaHeader);
 
 		CallIdHeader callIdHeader = sipProvider.getNewCallId();
@@ -175,87 +128,99 @@ public class SipLayer implements SipListener {
 		request.setContent(message, contentTypeHeader);
 
 		sipProvider.sendRequest(request);
-
 	}
 
-	public MessageProcessor getMessageProcessor() {
-		return messageProcessor;
+	/** This method is called by the SIP stack when a response arrives. */
+	public void processResponse(ResponseEvent evt) {
+		Response response = evt.getResponse();
+		int status = response.getStatusCode();
+
+		if ((status >= 200) && (status < 300)) { // Success!
+			messageProcessor.processInfo("--Sent");
+			return;
+		}
+
+		messageProcessor.processError("Previous message not sent: " + status);
 	}
 
-	public void setMessageProcessor(MessageProcessor messageProcessor) {
-		this.messageProcessor = messageProcessor;
+	/**
+	 * This method is called by the SIP stack when a new request arrives.
+	 */
+	public void processRequest(RequestEvent evt) {
+		Request req = evt.getRequest();
+
+		String method = req.getMethod();
+		if (!method.equals("MESSAGE")) { // bad request type.
+			messageProcessor.processError("Bad request type: " + method);
+			return;
+		}
+
+		FromHeader from = (FromHeader) req.getHeader("From");
+		messageProcessor.processMessage(from.getAddress().toString(), new String(req.getRawContent()));
+		Response response = null;
+		try { // Reply with OK
+			response = messageFactory.createResponse(200, req);
+			ToHeader toHeader = (ToHeader) response.getHeader(ToHeader.NAME);
+			toHeader.setTag("888"); // This is mandatory as per the spec.
+			ServerTransaction st = sipProvider.getNewServerTransaction(req);
+			st.sendResponse(response);
+		} catch (Throwable e) {
+			e.printStackTrace();
+			messageProcessor.processError("Can't send OK reply.");
+		}
+	}
+
+	/**
+	 * This method is called by the SIP stack when there's no answer to a message. Note that this is treated differently from an error message.
+	 */
+	public void processTimeout(TimeoutEvent evt) {
+		messageProcessor.processError("Previous message not sent: " + "timeout");
+	}
+
+	/**
+	 * This method is called by the SIP stack when there's an asynchronous message transmission error.
+	 */
+	public void processIOException(IOExceptionEvent evt) {
+		messageProcessor.processError("Previous message not sent: " + "I/O Exception");
+	}
+
+	/**
+	 * This method is called by the SIP stack when a dialog (session) ends.
+	 */
+	public void processDialogTerminated(DialogTerminatedEvent evt) {
+	}
+
+	/**
+	 * This method is called by the SIP stack when a transaction ends.
+	 */
+	public void processTransactionTerminated(TransactionTerminatedEvent evt) {
+	}
+
+	public String getHost() {
+		int port = sipProvider.getListeningPoint().getPort();
+		String host = sipStack.getIPAddress();
+		return host;
+	}
+
+	public int getPort() {
+		int port = sipProvider.getListeningPoint().getPort();
+		return port;
 	}
 
 	public String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(String newUsername) {
+		username = newUsername;
 	}
 
-	public SipStack getSipStack() {
-		return sipStack;
+	public MessageProcessor getMessageProcessor() {
+		return messageProcessor;
 	}
 
-	public void setSipStack(SipStack sipStack) {
-		this.sipStack = sipStack;
-	}
-
-	public SipFactory getSipFactory() {
-		return sipFactory;
-	}
-
-	public void setSipFactory(SipFactory sipFactory) {
-		this.sipFactory = sipFactory;
-	}
-
-	public AddressFactory getAddressFactory() {
-		return addressFactory;
-	}
-
-	public void setAddressFactory(AddressFactory addressFactory) {
-		this.addressFactory = addressFactory;
-	}
-
-	public HeaderFactory getHeaderFactory() {
-		return headerFactory;
-	}
-
-	public void setHeaderFactory(HeaderFactory headerFactory) {
-		this.headerFactory = headerFactory;
-	}
-
-	public MessageFactory getMessageFactory() {
-		return messageFactory;
-	}
-
-	public void setMessageFactory(MessageFactory messageFactory) {
-		this.messageFactory = messageFactory;
-	}
-
-	public SipProvider getSipProvider() {
-		return sipProvider;
-	}
-
-	public void setSipProvider(SipProvider sipProvider) {
-		this.sipProvider = sipProvider;
-	}
-
-	public int getPort() {
-		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
-	public void setHost(String host) {
-		this.host = host;
+	public void setMessageProcessor(MessageProcessor newMessageProcessor) {
+		messageProcessor = newMessageProcessor;
 	}
 
 }
