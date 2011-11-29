@@ -39,7 +39,7 @@ import javax.sip.message.Response;
 
 public class SipLayer implements SipListener {
 
-	private MessageProcessor messageProcessor;
+	private IMessageProcessor messageProcessor;
 
 	private String username;
 
@@ -147,8 +147,9 @@ public class SipLayer implements SipListener {
 	 * This method is called by the SIP stack when a new request arrives.
 	 */
 	public void processRequest(RequestEvent evt) {
+		
 		Request req = evt.getRequest();
-
+		// TODO Change Message handling to messageProcessor
 		String method = req.getMethod();
 		if (!method.equals("MESSAGE")) { // bad request type.
 			messageProcessor.processError("Bad request type: " + method);
@@ -215,11 +216,11 @@ public class SipLayer implements SipListener {
 		username = newUsername;
 	}
 
-	public MessageProcessor getMessageProcessor() {
+	public IMessageProcessor getMessageProcessor() {
 		return messageProcessor;
 	}
 
-	public void setMessageProcessor(MessageProcessor newMessageProcessor) {
+	public void setMessageProcessor(IMessageProcessor newMessageProcessor) {
 		messageProcessor = newMessageProcessor;
 	}
 

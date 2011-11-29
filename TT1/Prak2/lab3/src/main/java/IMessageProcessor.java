@@ -1,7 +1,7 @@
 import javax.sip.DialogTerminatedEvent;
 import javax.sip.RequestEvent;
 
-public interface MessageProcessor {
+public interface IMessageProcessor {
 
 	public void processMessage(String sender, String message);
 
