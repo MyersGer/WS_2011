@@ -42,7 +42,11 @@ public class IGMPListener implements Runnable{
 			 try {
 				socket.receive(recv);
 				logger.debug("Read from Multicast: " + new String(recv.getData()));
+				Thread.sleep(2000);
 			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

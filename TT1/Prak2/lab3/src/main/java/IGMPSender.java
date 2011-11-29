@@ -3,6 +3,8 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
+import javax.swing.plaf.SliderUI;
+
 import org.apache.log4j.Logger;
 
 public class IGMPSender implements Runnable {
@@ -39,7 +41,12 @@ public class IGMPSender implements Runnable {
 			try {
 				logger.debug("send(" + msg + ")");
 				socket.send(hi);
+				Thread.sleep(2000);
+
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
