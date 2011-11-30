@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.TooManyListenersException;
 
+import javax.sip.ClientTransaction;
+import javax.sip.Dialog;
 import javax.sip.DialogTerminatedEvent;
 import javax.sip.IOExceptionEvent;
 import javax.sip.InvalidArgumentException;
@@ -27,6 +29,7 @@ import javax.sip.address.SipURI;
 import javax.sip.header.CSeqHeader;
 import javax.sip.header.CallIdHeader;
 import javax.sip.header.ContactHeader;
+import javax.sip.header.ContentTypeHeader;
 import javax.sip.header.FromHeader;
 import javax.sip.header.HeaderFactory;
 import javax.sip.header.MaxForwardsHeader;
@@ -34,6 +37,7 @@ import javax.sip.header.ToHeader;
 import javax.sip.header.ViaHeader;
 import javax.sip.message.MessageFactory;
 import javax.sip.message.Request;
+import javax.sip.message.Response;
 
 
 public class UAC implements SipListener {
@@ -49,6 +53,8 @@ public class UAC implements SipListener {
 	
 	private String host;
 	private int port;
+	private Dialog dialog;
+	private boolean pending;
 	
 	
 	public UAC(String username, String ip, int port) throws PeerUnavailableException, TransportNotSupportedException,
@@ -117,7 +123,7 @@ public class UAC implements SipListener {
 		ToHeader toHeader = headerFactory.createToHeader(fromNameAddress, null);
 		
 		//Create RequestUri and define Transportprotocol
-		SipURI requestURI = addressFactory.createSipURI("nix", proxyAddress); 
+		SipURI requestURI = addressFactory.createSipURI("registrar", proxyAddress); 
 		requestURI.setTransportParam("udp");
 
 		//Create Via Header
@@ -150,7 +156,44 @@ public class UAC implements SipListener {
 		sipProvider.sendRequest(request);
 	}
 	
-	public void invite(String user, String host) throws ParseException, InvalidArgumentException, SipException{
+	public void sendInvite(String user, String host) throws ParseException, InvalidArgumentException, SipException{
+		send(user, host, Request.INVITE);
+		pending = true;
+	}
+	
+	public void sendBye(String user, String host) throws ParseException, InvalidArgumentException, SipException{
+		send(user, host, Request.BYE);
+	}
+	
+	public void sendCancel(String user, String host) throws ParseException, InvalidArgumentException, SipException{
+		send(user, host, Request.CANCEL);
+	}
+	
+	public void sendMessageOverDialog(String msg) throws ParseException, SipException{
+		
+		SipURI contactURI = addressFactory.createSipURI(getUsername(), getHost());
+		contactURI.setPort(getPort());
+		 
+		Address contactAddress = addressFactory.createAddress(contactURI);
+		contactAddress.setDisplayName(getUsername());
+		 
+		ContactHeader contactHeader = headerFactory.createContactHeader(contactAddress);
+		
+		ContentTypeHeader contentTypeHeader = headerFactory.createContentTypeHeader("text", "plain");
+		
+		Request request = dialog.createRequest(Request.MESSAGE);
+
+		request.setHeader(contactHeader);
+		request.setContent(msg, contentTypeHeader);
+
+		ClientTransaction trans = sipProvider.getNewClientTransaction(request);
+		
+		//Send Message
+		System.out.println(request.toString());
+		trans.sendRequest();
+	}
+	
+	private void send(String user, String host, String type) throws ParseException, InvalidArgumentException, SipException {
 		//Create Main Elements
 		
 		//Creates a SipURI based on the given user and host components
@@ -177,12 +220,12 @@ public class UAC implements SipListener {
 		CallIdHeader callIdHeader = sipProvider.getNewCallId();
 
 		long sequenceNumber = 1; 
-		CSeqHeader cSeqHeader = headerFactory.createCSeqHeader(sequenceNumber, Request.INVITE);
+		CSeqHeader cSeqHeader = headerFactory.createCSeqHeader(sequenceNumber, type);
 		
 		MaxForwardsHeader maxForwards = headerFactory.createMaxForwardsHeader(70);
 		
 		//Create Register
-		Request request =  messageFactory.createRequest(requestURI, Request.INVITE, callIdHeader, cSeqHeader, fromHeader, toHeader, viaHeaders, maxForwards);
+		Request request =  messageFactory.createRequest(requestURI, type, callIdHeader, cSeqHeader, fromHeader, toHeader, viaHeaders, maxForwards);
 		
 		//Complete Register
 		SipURI contactURI = addressFactory.createSipURI(getUsername(), getHost());
@@ -195,8 +238,17 @@ public class UAC implements SipListener {
 		request.addHeader(contactHeader);
 		
 		//Send Message
-		System.out.println(request.toString());
-		sipProvider.sendRequest(request);
+		System.out.println("GESENDET: \n" + request.toString());
+
+		
+		if (type == Request.INVITE) {
+			ClientTransaction trans = sipProvider.getNewClientTransaction(request);
+			dialog = trans.getDialog();
+			trans.sendRequest();
+		} else {
+			sipProvider.sendRequest(request);
+		}
+		
 	}
 
 	@Override
@@ -219,7 +271,33 @@ public class UAC implements SipListener {
 
 	@Override
 	public void processResponse(ResponseEvent arg0) {
-		// TODO Auto-generated method stub
+		Response response = arg0.getResponse();
+        int status = response.getStatusCode();
+        
+        System.out.println("ERHALTEN: \n" + response.toString());
+
+        if( (status >= 200) && (status < 300) ) {
+            System.out.println("OK erhalten");
+        		if (pending) {
+        			long i = 1;
+        			Request ack;
+					try {
+						//Dialog dialog = arg0.getClientTransaction().getDialog();					
+						ack = dialog.createAck(i);
+						dialog.sendAck(ack);
+						System.out.println("ACK gesendet");
+						pending = false;
+					} catch (InvalidArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SipException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+        			
+        		}
+                return;
+        }
 		
 	}
 
