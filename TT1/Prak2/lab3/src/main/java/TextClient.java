@@ -45,7 +45,7 @@ public class TextClient
 	extends JFrame
 	implements IMessageProcessor
 {
-    private SipLayer sipLayer;
+    private SipLayerClient sipLayer;
     
     private JTextField fromAddress;
     private JLabel fromLbl;
@@ -59,19 +59,19 @@ public class TextClient
     private JLabel toLbl;
 	
     public static void main(String[] args)
-    {
+    {/*
         if(args.length != 2) {
             printUsage();
             System.exit(-1);            
         }
-        
+       */ 
 		try
         {
-		    String username = args[0];
-		    int port = Integer.parseInt(args[1]);
+		    String username = "heinz";
+		    int port = 5060;
 		    String ip = InetAddress.getLocalHost().getHostAddress();
 
-			SipLayer sipLayer = new SipLayer(username, ip, port);
+			SipLayerClient sipLayer = new SipLayerClient(username, ip, port);
 		    TextClient tc = new TextClient(sipLayer);
 		    sipLayer.setMessageProcessor(tc);
 			
@@ -94,7 +94,7 @@ public class TextClient
         System.out.println("  java -jar textclient.jar snoopy71 5061");
     }
 
-    public TextClient(SipLayer sip)
+    public TextClient(SipLayerClient sip)
     {
         super();
         sipLayer = sip;
@@ -182,7 +182,7 @@ public class TextClient
         {
             String to = this.toAddress.getText();
             String message = this.sendMessages.getText();
-            sipLayer.sendMessage(to, message);
+            sipLayer.invite(to, message);
         } catch (Throwable e)
         {
             e.printStackTrace();

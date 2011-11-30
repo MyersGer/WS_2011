@@ -1,0 +1,57 @@
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= 127.0.1.1
+javax.sip.STACK_NAME= TextClient
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= null
+-->
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= 127.0.1.1
+javax.sip.STACK_NAME= TextClient
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= null
+-->
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= 127.0.1.1
+javax.sip.STACK_NAME= TextClient
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= null
+-->
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= 127.0.1.1
+javax.sip.STACK_NAME= TextClient
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= null
+-->
+<!-- Use the  Trace Viewer in src/tools/tracesviewer to view this  trace  
+Here are the stack configuration properties 
+javax.sip.IP_ADDRESS= 141.22.27.137
+javax.sip.STACK_NAME= TextClient
+javax.sip.ROUTER_PATH= null
+javax.sip.OUTBOUND_PROXY= null
+-->
+<message
+from="141.22.27.137:5060" 
+to="141.22.26.40:5060" 
+time="1322647613173"
+isSender="true" 
+transactionId="uac:b5c2af2fa5f9e9c7d9d24cf16df03e54@141.22.27.137:1:invite:141.22.27.137:5060" 
+callId="b5c2af2fa5f9e9c7d9d24cf16df03e54@141.22.27.137" 
+firstLine="INVITE sip:wilma@141.22.26.40;transport=udp SIP/2.0" 
+>
+<![CDATA[INVITE sip:wilma@141.22.26.40;transport=udp SIP/2.0
+Call-ID: b5c2af2fa5f9e9c7d9d24cf16df03e54@141.22.27.137
+CSeq: 1 INVITE
+From: "heinz" <sip:heinz@141.22.27.137:5060>;tag=UAC
+To: "heinz" <sip:heinz@141.22.27.137:5060>
+Via: SIP/2.0/UDP 141.22.27.137:5060;branch=uac:b5c2af2fa5f9e9c7d9d24cf16df03e54@141.22.27.137:1:invite:141.22.27.137:5060
+Max-Forwards: 70
+Contact: "heinz" <sip:heinz@141.22.27.137:5060>
+Content-Length: 0
+
+]]>
+</message>
+
