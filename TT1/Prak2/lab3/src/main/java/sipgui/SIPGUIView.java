@@ -10,6 +10,14 @@ import java.awt.event.ActionListener;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.Timer;
+<<<<<<< HEAD:TT1/Prak2/lab3/src/main/java/SIPGUIView.java
+=======
+
+import org.jdesktop.application.FrameView;
+import org.jdesktop.application.ResourceMap;
+import org.jdesktop.application.SingleFrameApplication;
+import org.jdesktop.application.TaskMonitor;
+>>>>>>> cbf23d4d89a13906c055e7c7a2087ecc9958bded:TT1/Prak2/lab3/src/main/java/sipgui/SIPGUIView.java
 
 /**
  * The application's main frame.
@@ -119,7 +127,7 @@ public class SIPGUIView extends FrameView {
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
         jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
+        jTextArea1.setRows(5); 
         jTextArea1.setName("jTextArea1"); // NOI18N
         jScrollPane1.setViewportView(jTextArea1);
 
