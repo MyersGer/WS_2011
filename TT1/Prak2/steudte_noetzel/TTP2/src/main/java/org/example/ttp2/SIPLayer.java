@@ -50,6 +50,8 @@ public class SIPLayer implements SipListener {
 	static final String BYE = "BYE";
 	static final String PROTOCOL = "udp";
 
+	public final long INVITE_SEQUENCE_NUMBER = 1;
+
 	private String username;
 	private ArrayList<IMessageProcessor> observers;
 
@@ -121,8 +123,11 @@ public class SIPLayer implements SipListener {
 		return this.port;
 	}
 
-	public void send(String user, String host, String type) throws ParseException, InvalidArgumentException, SipException {
+	public String send(String user, String host, String type) throws ParseException, InvalidArgumentException, SipException {
 		LOGGER.debug("send(" + user + ", " + host + ", " + type + " )");
+		
+		String dialogId;
+		
 		// Create Main Elements
 
 		// Creates a SipURI based on the given user and host components
@@ -149,7 +154,7 @@ public class SIPLayer implements SipListener {
 
 		CallIdHeader callIdHeader = sipProvider.getNewCallId();
 
-		long sequenceNumber = 1;
+		long sequenceNumber = INVITE_SEQUENCE_NUMBER;
 		CSeqHeader cSeqHeader = headerFactory.createCSeqHeader(sequenceNumber, type);
 
 		MaxForwardsHeader maxForwards = headerFactory.createMaxForwardsHeader(70);
@@ -171,16 +176,16 @@ public class SIPLayer implements SipListener {
 
 		if (type == Request.INVITE) {
 			ClientTransaction trans = sipProvider.getNewClientTransaction(request);
-			// dialog = trans.getDialog();
+			dialogId = trans.getDialog().getDialogId();
 			LOGGER.trace("GESENDET: \n" + request.toString());
-			LOGGER.trace("GESENDET: \n" + request.toString());
+	
 
 			trans.sendRequest();
 		} else {
-			LOGGER.trace("GESENDET: \n" + request.toString());
-			sipProvider.sendRequest(request);
+			throw new RuntimeException("Request should be send statefull" + request.toString());
 		}
-
+		
+		return dialogId;
 	}
 
 	/**
