@@ -3,6 +3,7 @@ package org.example.ttp2;
 import java.text.ParseException;
 
 import javax.sip.Dialog;
+import javax.sip.DialogTerminatedEvent;
 import javax.sip.InvalidArgumentException;
 import javax.sip.RequestEvent;
 import javax.sip.ResponseEvent;
@@ -42,7 +43,7 @@ public class UAC implements IMessageProcessor {
 	}
 
 	@Override
-	public void processDialogTerminated() {
+	public void processDialogTerminated(DialogTerminatedEvent dte) {
 		LOGGER.debug("processDialogTerminated()");
 	}
 
@@ -85,7 +86,7 @@ public class UAC implements IMessageProcessor {
 	}
 
 	@Override
-	public void processBye() {
+	public void processBye(RequestEvent requestEvent) {
 		LOGGER.debug("processBye()");
 
 	}

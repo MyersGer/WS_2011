@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.sip.DialogTerminatedEvent;
 import javax.sip.InvalidArgumentException;
 import javax.sip.RequestEvent;
 import javax.sip.ResponseEvent;
@@ -42,9 +43,11 @@ public class UAS implements IMessageProcessor {
 	}
 
 	@Override
-	public void processDialogTerminated() {
+	public void processDialogTerminated(DialogTerminatedEvent dte) {
 		LOGGER.debug("processDialogTerminated()");
-
+		String dialogId = dte.getDialog().getDialogId();
+		LOGGER.info("remove dialogId: " + dialogId + " from dialogsActive");
+		dialogsActive.remove(dialogId);
 	}
 
 	@Override
@@ -79,13 +82,13 @@ public class UAS implements IMessageProcessor {
 		if (registered == UNREGISTERED) {
 			LOGGER.warn("UAS not registered at proxy, declining invite");
 			response = sipLayer.createResponse(Response.DECLINE, requestEvent.getRequest());
-			//TODO send response
+			// TODO send response
 		} else if (registered == REGISTERED) {
 			String callId = SIPLayer.getCallId(requestEvent);
 			LOGGER.info("UAS sending OK to callId: " + callId);
-			
+
 			try {
-				ServerTransaction serverTransaction =  sipLayer.getNewServerTransaction(requestEvent.getRequest());
+				ServerTransaction serverTransaction = sipLayer.getNewServerTransaction(requestEvent.getRequest());
 				response = sipLayer.createResponse(Response.OK, requestEvent.getRequest());
 				response.addHeader(contactHeader);
 				LOGGER.trace("SENDEN: " + response.toString());
@@ -98,34 +101,47 @@ public class UAS implements IMessageProcessor {
 		} else {
 			LOGGER.warn("Don't know how to handle invite");
 			response = sipLayer.createResponse(Response.NOT_IMPLEMENTED, requestEvent.getRequest());
-			//TODO send response
+			// TODO send response
 		}
 
 	}
 
 	@Override
-	public void processBye() {
+	public void processBye(RequestEvent requestEvent) {
 		LOGGER.debug("processBye()");
+		String dialogId = requestEvent.getDialog().getDialogId();
+		// send OK
+		if (dialogsActive.contains(dialogId)) {
+			ServerTransaction serverTransaction = requestEvent.getServerTransaction();
+			Response response = sipLayer.createResponse(Response.OK, requestEvent.getRequest());
+			response.addHeader(contactHeader);
+			LOGGER.trace("SENDEN: " + response.toString());
+			try {
+				serverTransaction.sendResponse(response);
+			} catch (Exception e) {
+				LOGGER.warn("Response could not be send or build: ", e);
+			}
 
+		}
 	}
 
 	@Override
 	public void processAck(RequestEvent requestEvent) {
-		//if check dialog in dialogWaiting for ack
+		// if check dialog in dialogWaiting for ack
 		// yes: move dialog id to active dialog
 		// no: decline
-	String dialogId = requestEvent.getDialog().getDialogId();
-	LOGGER.trace("DialogId: " + dialogId);
+		String dialogId = requestEvent.getDialog().getDialogId();
+		LOGGER.trace("DialogId: " + dialogId);
 		if (dialogWaitingForAck.contains(dialogId)) {
 			LOGGER.info("Changing DialogId: " + dialogId + " to active");
 			dialogsActive.add(dialogId);
 			dialogWaitingForAck.remove(dialogId);
-		}else {
+		} else {
 			LOGGER.warn("DialogId: " + dialogId + " is unknown in set of waiting dialogs");
 			Response response = sipLayer.createResponse(Response.DECLINE, requestEvent.getRequest());
-			//TODO send response
+			// TODO send response
 		}
-		
+
 	}
 
 	public int sessionCount() {

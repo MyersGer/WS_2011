@@ -248,7 +248,9 @@ public class SIPLayer implements SipListener {
 	@Override
 	public void processDialogTerminated(DialogTerminatedEvent dte) {
 		LOGGER.debug("processDialogTerminated(" + dte.toString() + " )");
-
+		for (IMessageProcessor mp : observers) {
+			mp.processDialogTerminated(dte);
+		}
 	}
 
 	@Override
@@ -271,9 +273,9 @@ public class SIPLayer implements SipListener {
 				}
 			} else if (method.equals(Request.BYE)) {
 				for (IMessageProcessor mp : observers) {
-					mp.processBye();
+					mp.processBye(requestEvent);
 				}
-			}else if (method.equals(Request.ACK)) {
+			} else if (method.equals(Request.ACK)) {
 				for (IMessageProcessor mp : observers) {
 					mp.processAck(requestEvent);
 				}
@@ -381,7 +383,5 @@ public class SIPLayer implements SipListener {
 		LOGGER.debug("getNewClientTransaction()");
 		return sipProvider.getNewClientTransaction(arg0);
 	}
-
-	
 
 }

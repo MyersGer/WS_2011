@@ -35,7 +35,7 @@ public class Test {
 			IGMPSender sender = new IGMPSender();
 
 			sender.initialize(InetAddress.getByName(MULTICAST_GROUP), MULTICAST_PORT, server);
-			new Thread(sender).run();
+			new Thread(sender).start();
 
 		} catch (PeerUnavailableException e) {
 			// TODO Auto-generated catch block
