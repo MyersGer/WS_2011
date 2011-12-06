@@ -2,12 +2,12 @@ package org.example.ttp2;
 
 import java.text.ParseException;
 
+import javax.sip.Dialog;
 import javax.sip.InvalidArgumentException;
 import javax.sip.RequestEvent;
 import javax.sip.ResponseEvent;
 import javax.sip.SipException;
 import javax.sip.message.Request;
-import javax.sip.message.Response;
 
 import org.apache.log4j.Logger;
 
@@ -17,6 +17,7 @@ public class UAC implements IMessageProcessor {
 	private SIPLayer sipLayer;
 	private String inviteCallId = "";
 	private long cSeqInvite;
+	private Dialog dialog;
 
 	public UAC(SIPLayer sipLayer) {
 		this.sipLayer = sipLayer;
@@ -54,7 +55,9 @@ public class UAC implements IMessageProcessor {
 		LOGGER.trace("callId: " + callId);
 		try {
 			if (inviteCallId.equals(callId)) {
-				Request ack = responseEvent.getDialog().createAck(cSeqInvite);
+				dialog = responseEvent.getDialog();
+				Request ack = responseEvent.getDialog().createAck(cSeqInvite);			
+				LOGGER.info("Sending ACK: " + ack.toString());
 				responseEvent.getDialog().sendAck(ack);
 			} else {
 				LOGGER.info("Received OK, not for me");
@@ -86,5 +89,25 @@ public class UAC implements IMessageProcessor {
 		LOGGER.debug("processBye()");
 
 	}
+
+	@Override
+	public void processAck(RequestEvent requestEvent) {
+		LOGGER.debug("processAck()");
+		
+	}
+	
+	public boolean removeDialog() {	
+		try {
+			Request bye = dialog.createRequest(Request.BYE);
+			dialog.sendRequest(sipLayer.getNewClientTransaction(bye));
+			return true;
+		} catch (SipException e) {
+			LOGGER.error("Could not send BYE: ", e);
+			return false;
+			
+		}
+	}
+	
+	
 
 }

@@ -13,6 +13,7 @@ public interface IMessageProcessor {
 	public void processRinging();
 	public void processInvite(RequestEvent requestEvent);
 	public void processBye();
+	public void processAck(RequestEvent requestEvent);
 	
 
 }

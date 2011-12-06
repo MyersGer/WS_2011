@@ -46,8 +46,6 @@ import org.apache.log4j.Logger;
 public class SIPLayer implements SipListener {
 	private static final Logger LOGGER = Logger.getLogger("SIPLayerLogger");
 
-	static final String INV = "INVITE";
-	static final String BYE = "BYE";
 	static final String PROTOCOL = "udp";
 
 	public final long INVITE_SEQUENCE_NUMBER = 1;
@@ -267,13 +265,17 @@ public class SIPLayer implements SipListener {
 			Request request = requestEvent.getRequest();
 			String method = request.getMethod();
 
-			if (INV.equals(method)) {
+			if (method.equals(Request.INVITE)) {
 				for (IMessageProcessor mp : observers) {
 					mp.processInvite(requestEvent);
 				}
-			} else if (BYE.equals(method)) {
+			} else if (method.equals(Request.BYE)) {
 				for (IMessageProcessor mp : observers) {
 					mp.processBye();
+				}
+			}else if (method.equals(Request.ACK)) {
+				for (IMessageProcessor mp : observers) {
+					mp.processAck(requestEvent);
 				}
 			}
 		} catch (Exception e) {
@@ -374,5 +376,12 @@ public class SIPLayer implements SipListener {
 		LOGGER.debug("getNewServerTransaction()");
 		return sipProvider.getNewServerTransaction(arg0);
 	}
+
+	public ClientTransaction getNewClientTransaction(Request arg0) throws TransactionUnavailableException {
+		LOGGER.debug("getNewClientTransaction()");
+		return sipProvider.getNewClientTransaction(arg0);
+	}
+
+	
 
 }

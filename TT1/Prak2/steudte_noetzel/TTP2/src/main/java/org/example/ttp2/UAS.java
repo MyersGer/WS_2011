@@ -26,7 +26,7 @@ public class UAS implements IMessageProcessor {
 	private boolean registered = UNREGISTERED;
 	private String registerCallId = "";
 	Set<String> dialogWaitingForAck = new HashSet<String>();
-	Set<String> activeDialogs = new HashSet<String>();
+	Set<String> dialogsActive = new HashSet<String>();
 	private ContactHeader contactHeader;
 
 	public UAS(SIPLayer sipLayer) {
@@ -79,6 +79,7 @@ public class UAS implements IMessageProcessor {
 		if (registered == UNREGISTERED) {
 			LOGGER.warn("UAS not registered at proxy, declining invite");
 			response = sipLayer.createResponse(Response.DECLINE, requestEvent.getRequest());
+			//TODO send response
 		} else if (registered == REGISTERED) {
 			String callId = SIPLayer.getCallId(requestEvent);
 			LOGGER.info("UAS sending OK to callId: " + callId);
@@ -90,7 +91,6 @@ public class UAS implements IMessageProcessor {
 				LOGGER.trace("SENDEN: " + response.toString());
 				serverTransaction.sendResponse(response);
 				String dialogId = serverTransaction.getDialog().getDialogId();
-				LOGGER.trace("DialogID: " + dialogId);
 				dialogWaitingForAck.add(dialogId);
 			} catch (Exception e) {
 				LOGGER.warn("Response could not be send or build: ", e);
@@ -98,6 +98,7 @@ public class UAS implements IMessageProcessor {
 		} else {
 			LOGGER.warn("Don't know how to handle invite");
 			response = sipLayer.createResponse(Response.NOT_IMPLEMENTED, requestEvent.getRequest());
+			//TODO send response
 		}
 
 	}
@@ -106,6 +107,29 @@ public class UAS implements IMessageProcessor {
 	public void processBye() {
 		LOGGER.debug("processBye()");
 
+	}
+
+	@Override
+	public void processAck(RequestEvent requestEvent) {
+		//if check dialog in dialogWaiting for ack
+		// yes: move dialog id to active dialog
+		// no: decline
+	String dialogId = requestEvent.getDialog().getDialogId();
+	LOGGER.trace("DialogId: " + dialogId);
+		if (dialogWaitingForAck.contains(dialogId)) {
+			LOGGER.info("Changing DialogId: " + dialogId + " to active");
+			dialogsActive.add(dialogId);
+			dialogWaitingForAck.remove(dialogId);
+		}else {
+			LOGGER.warn("DialogId: " + dialogId + " is unknown in set of waiting dialogs");
+			Response response = sipLayer.createResponse(Response.DECLINE, requestEvent.getRequest());
+			//TODO send response
+		}
+		
+	}
+
+	public int sessionCount() {
+		return dialogsActive.size();
 	}
 
 }
