@@ -61,7 +61,7 @@ public class IGMPSender extends IGMPComponent {
 			try {
 				if (uas.sessionCount() > 0) {
 					mSocket.send(pack);
-					LOGGER.debug("Nachricht erfolgreich gesendet: " + buf.toString());
+					LOGGER.debug("Nachricht erfolgreich gesendet: " + new String(buf));
 				} else {
 					LOGGER.debug("Keine Nachricht gesendet, weil session count <= 0");
 				}
