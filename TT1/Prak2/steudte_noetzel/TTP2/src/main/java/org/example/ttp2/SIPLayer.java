@@ -125,9 +125,9 @@ public class SIPLayer implements SipListener {
 
 	public String send(String user, String host, String type) throws ParseException, InvalidArgumentException, SipException {
 		LOGGER.debug("send(" + user + ", " + host + ", " + type + " )");
-		
+
 		String dialogId;
-		
+
 		// Create Main Elements
 
 		// Creates a SipURI based on the given user and host components
@@ -176,17 +176,15 @@ public class SIPLayer implements SipListener {
 
 		if (type == Request.INVITE) {
 			ClientTransaction trans = sipProvider.getNewClientTransaction(request);
-			
-			dialogId = trans.getDialog().getDialogId();
+
 			LOGGER.trace("GESENDET: \n" + request.toString());
-	
 
 			trans.sendRequest();
 		} else {
 			throw new RuntimeException("Request should be send statefull" + request.toString());
 		}
-		
-		return dialogId;
+
+		return callIdHeader.getCallId();
 	}
 
 	/**
