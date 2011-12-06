@@ -14,13 +14,16 @@ import javax.sip.ObjectInUseException;
 import javax.sip.PeerUnavailableException;
 import javax.sip.RequestEvent;
 import javax.sip.ResponseEvent;
+import javax.sip.ServerTransaction;
 import javax.sip.SipException;
 import javax.sip.SipFactory;
 import javax.sip.SipListener;
 import javax.sip.SipProvider;
 import javax.sip.SipStack;
 import javax.sip.TimeoutEvent;
+import javax.sip.TransactionAlreadyExistsException;
 import javax.sip.TransactionTerminatedEvent;
+import javax.sip.TransactionUnavailableException;
 import javax.sip.TransportNotSupportedException;
 import javax.sip.address.Address;
 import javax.sip.address.AddressFactory;
@@ -29,6 +32,7 @@ import javax.sip.header.CSeqHeader;
 import javax.sip.header.CallIdHeader;
 import javax.sip.header.ContactHeader;
 import javax.sip.header.FromHeader;
+import javax.sip.header.Header;
 import javax.sip.header.HeaderFactory;
 import javax.sip.header.MaxForwardsHeader;
 import javax.sip.header.ToHeader;
@@ -59,10 +63,7 @@ public class SIPLayer implements SipListener {
 	private String host;
 	private int port;
 
-	public SIPLayer(String username, String ip, int port)
-			throws PeerUnavailableException, TransportNotSupportedException,
-			InvalidArgumentException, ObjectInUseException,
-			TooManyListenersException {
+	public SIPLayer(String username, String ip, int port) throws PeerUnavailableException, TransportNotSupportedException, InvalidArgumentException, ObjectInUseException, TooManyListenersException {
 
 		this.host = ip;
 		this.port = port;
@@ -86,7 +87,6 @@ public class SIPLayer implements SipListener {
 		headerFactory = sipFactory.createHeaderFactory();
 		addressFactory = sipFactory.createAddressFactory();
 		messageFactory = sipFactory.createMessageFactory();
-		
 
 		// SipStack - The first interface you'll need, used to create
 		// ListeningPoints and SipProviders.
@@ -101,6 +101,7 @@ public class SIPLayer implements SipListener {
 	}
 
 	public void registerObserver(IMessageProcessor mp) {
+		LOGGER.debug("registerObserver()");
 		observers.add(mp);
 	}
 
@@ -120,21 +121,19 @@ public class SIPLayer implements SipListener {
 		return this.port;
 	}
 
-	public void send(String user, String host, String type)
-			throws ParseException, InvalidArgumentException, SipException {
+	public void send(String user, String host, String type) throws ParseException, InvalidArgumentException, SipException {
+		LOGGER.debug("send(" + user + ", " + host + ", " + type + " )");
 		// Create Main Elements
 
 		// Creates a SipURI based on the given user and host components
-		SipURI from = addressFactory.createSipURI(getUsername(), getHost()
-				+ ":" + getPort());
+		SipURI from = addressFactory.createSipURI(getUsername(), getHost() + ":" + getPort());
 		// Creates an Address with the new URI attribute value
 		Address fromNameAddress = addressFactory.createAddress(from);
 		// Sets the display name of the Address.
 		fromNameAddress.setDisplayName(getUsername());
 		// Creates a new FromHeader based on the newly supplied address and tag
 		// values.
-		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress,
-				null);
+		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, null);
 
 		// To: Header = From: Header at Registration
 		ToHeader toHeader = headerFactory.createToHeader(fromNameAddress, null);
@@ -145,150 +144,148 @@ public class SIPLayer implements SipListener {
 
 		// Create Via Header
 		ArrayList<ViaHeader> viaHeaders = new ArrayList<ViaHeader>();
-		ViaHeader viaHeader = headerFactory.createViaHeader(getHost(),
-				getPort(), PROTOCOL, null);
+		ViaHeader viaHeader = headerFactory.createViaHeader(getHost(), getPort(), PROTOCOL, null);
 		viaHeaders.add(viaHeader);
 
 		CallIdHeader callIdHeader = sipProvider.getNewCallId();
 
 		long sequenceNumber = 1;
-		CSeqHeader cSeqHeader = headerFactory.createCSeqHeader(sequenceNumber,
-				type);
+		CSeqHeader cSeqHeader = headerFactory.createCSeqHeader(sequenceNumber, type);
 
-		MaxForwardsHeader maxForwards = headerFactory
-				.createMaxForwardsHeader(70);
+		MaxForwardsHeader maxForwards = headerFactory.createMaxForwardsHeader(70);
 
 		// Create Register
-		Request request = messageFactory.createRequest(requestURI, type,
-				callIdHeader, cSeqHeader, fromHeader, toHeader, viaHeaders,
-				maxForwards);
+		Request request = messageFactory.createRequest(requestURI, type, callIdHeader, cSeqHeader, fromHeader, toHeader, viaHeaders, maxForwards);
 
 		// Complete Register
-		SipURI contactURI = addressFactory.createSipURI(getUsername(),
-				getHost());
+		SipURI contactURI = addressFactory.createSipURI(getUsername(), getHost());
 		contactURI.setPort(getPort());
 
 		Address contactAddress = addressFactory.createAddress(contactURI);
 		contactAddress.setDisplayName(getUsername());
 
-		ContactHeader contactHeader = headerFactory
-				.createContactHeader(contactAddress);
+		ContactHeader contactHeader = headerFactory.createContactHeader(contactAddress);
 		request.addHeader(contactHeader);
 
 		// Send Message
-		LOGGER.debug("GESENDET: \n" + request.toString());
 
 		if (type == Request.INVITE) {
-			ClientTransaction trans = sipProvider
-					.getNewClientTransaction(request);
+			ClientTransaction trans = sipProvider.getNewClientTransaction(request);
 			// dialog = trans.getDialog();
+			LOGGER.trace("GESENDET: \n" + request.toString());
+			LOGGER.trace("GESENDET: \n" + request.toString());
+
 			trans.sendRequest();
 		} else {
+			LOGGER.trace("GESENDET: \n" + request.toString());
 			sipProvider.sendRequest(request);
 		}
 
 	}
 
-	public void registerAtProxy(String proxyAddress, int proxyPort)
-			throws ParseException, InvalidArgumentException, SipException {
+	/**
+	 * @param proxyAddress
+	 * @param proxyPort
+	 * @return CallId as String
+	 * @throws ParseException
+	 * @throws InvalidArgumentException
+	 * @throws SipException
+	 */
+	public String registerAtProxy(String proxyAddress, int proxyPort) throws ParseException, InvalidArgumentException, SipException {
+		LOGGER.debug("registerAtProxy(" + proxyAddress + ", " + proxyPort + " )");
 		// Create Main Elements
 
 		// Creates a SipURI based on the given user and host components
-		SipURI from = addressFactory.createSipURI(getUsername(), getHost()
-				+ ":" + getPort());
+		SipURI from = addressFactory.createSipURI(getUsername(), getHost() + ":" + getPort());
 		// Creates an Address with the new URI attribute value
 		Address fromNameAddress = addressFactory.createAddress(from);
 		// Sets the display name of the Address.
 		fromNameAddress.setDisplayName(getUsername());
 		// Creates a new FromHeader based on the newly supplied address and tag
 		// values.
-		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress,
-				null);
+		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, null);
 
 		// To: Header = From: Header at Registration
 		ToHeader toHeader = headerFactory.createToHeader(fromNameAddress, null);
 
 		// Create RequestUri and define Transportprotocol
-		SipURI requestURI = addressFactory.createSipURI("registrar",
-				proxyAddress);
+		SipURI requestURI = addressFactory.createSipURI("registrar", proxyAddress);
 		requestURI.setTransportParam(PROTOCOL);
 
 		// Create Via Header
 		ArrayList<ViaHeader> viaHeaders = new ArrayList<ViaHeader>();
-		ViaHeader viaHeader = headerFactory.createViaHeader(getHost(),
-				getPort(), PROTOCOL, null);
+		ViaHeader viaHeader = headerFactory.createViaHeader(getHost(), getPort(), PROTOCOL, null);
 		viaHeaders.add(viaHeader);
 
 		CallIdHeader callIdHeader = sipProvider.getNewCallId();
 
 		long sequenceNumber = 1;
-		CSeqHeader cSeqHeader = headerFactory.createCSeqHeader(sequenceNumber,
-				Request.REGISTER);
+		CSeqHeader cSeqHeader = headerFactory.createCSeqHeader(sequenceNumber, Request.REGISTER);
 
-		MaxForwardsHeader maxForwards = headerFactory
-				.createMaxForwardsHeader(70);
+		MaxForwardsHeader maxForwards = headerFactory.createMaxForwardsHeader(70);
 
 		// Create Register
-		Request request = messageFactory.createRequest(requestURI,
-				Request.REGISTER, callIdHeader, cSeqHeader, fromHeader,
-				toHeader, viaHeaders, maxForwards);
+		Request request = messageFactory.createRequest(requestURI, Request.REGISTER, callIdHeader, cSeqHeader, fromHeader, toHeader, viaHeaders, maxForwards);
 
 		// Complete Register
-		SipURI contactURI = addressFactory.createSipURI(getUsername(),
-				getHost());
+		SipURI contactURI = addressFactory.createSipURI(getUsername(), getHost());
 		contactURI.setPort(getPort());
 
 		Address contactAddress = addressFactory.createAddress(contactURI);
 		contactAddress.setDisplayName(getUsername());
 
-		ContactHeader contactHeader = headerFactory
-				.createContactHeader(contactAddress);
+		ContactHeader contactHeader = headerFactory.createContactHeader(contactAddress);
 		request.addHeader(contactHeader);
 
 		// Send Message
-		LOGGER.debug(request.toString());
+		LOGGER.trace(request.toString());
 		sipProvider.sendRequest(request);
+		return callIdHeader.getCallId();
 	}
 
 	@Override
-	public void processDialogTerminated(DialogTerminatedEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void processIOException(IOExceptionEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void processInvite(Request request) {
-
-	}
-
-	private void processBye(Request event) {
+	public void processDialogTerminated(DialogTerminatedEvent dte) {
+		LOGGER.debug("processDialogTerminated(" + dte.toString() + " )");
 
 	}
 
 	@Override
-	public void processRequest(RequestEvent arg0) {
-		Request request = arg0.getRequest();
-		String method = request.getMethod();
+	public void processIOException(IOExceptionEvent ioEx) {
+		LOGGER.debug("processDialogTerminated(" + ioEx.toString() + " )");
 
-		if (INV.equals(method)) {
-			processInvite(request);
-		} else if (BYE.equals(method)) {
-			processBye(request);
+	}
+
+	@Override
+	public void processRequest(RequestEvent requestEvent) {
+		LOGGER.debug("processRequest(" + requestEvent.toString() + " )");
+		try {
+
+			Request request = requestEvent.getRequest();
+			String method = request.getMethod();
+
+			if (INV.equals(method)) {
+				for (IMessageProcessor mp : observers) {
+					mp.processInvite(requestEvent);
+				}
+			} else if (BYE.equals(method)) {
+				for (IMessageProcessor mp : observers) {
+					mp.processBye();
+				}
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 
 	}
 
 	@Override
-	public void processResponse(ResponseEvent arg0) {
-		Response response = arg0.getResponse();
+	public void processResponse(ResponseEvent responseEvent) {
+		LOGGER.debug("processResponse(" + responseEvent.toString() + " )");
+
+		Response response = responseEvent.getResponse();
 		int status = response.getStatusCode();
 
-		System.out.println("ERHALTEN: \n" + response.toString());
+		LOGGER.trace("ERHALTEN \n" + response.toString());
 
 		switch (status) {
 		case Response.TRYING:
@@ -298,7 +295,7 @@ public class SIPLayer implements SipListener {
 			break;
 		case Response.OK:
 			for (IMessageProcessor mp : observers) {
-				mp.processOK();
+				mp.processOK(responseEvent);
 			}
 			break;
 		case Response.RINGING:
@@ -309,19 +306,69 @@ public class SIPLayer implements SipListener {
 		default:
 			break;
 		}
+	}
+
+	static public String getCallId(ResponseEvent responseEvent) {
+		return getCallId(responseEvent.getResponse().getHeader(CallIdHeader.NAME));
+	}
+
+	private static String getCallId(Header header) {
+		CallIdHeader callIdHeader = (CallIdHeader) header;
+		return callIdHeader.getCallId();
+	}
+
+	public static String getCallId(RequestEvent requestEvent) {
+		return getCallId(requestEvent.getRequest().getHeader(CallIdHeader.NAME));
+	}
+
+	@Override
+	public void processTimeout(TimeoutEvent timeOutEvent) {
+		LOGGER.debug("processTimeout(" + timeOutEvent.toString() + " )");
 
 	}
 
 	@Override
-	public void processTimeout(TimeoutEvent arg0) {
-		// TODO Auto-generated method stub
+	public void processTransactionTerminated(TransactionTerminatedEvent transactionTerminatedEvent) {
+		LOGGER.debug("processTransactionTerminated(" + transactionTerminatedEvent.toString() + " )");
+	}
+
+	public ContactHeader getContactHeader() {
+		try {
+			SipURI contactURI = addressFactory.createSipURI(getUsername(), getHost());
+			contactURI.setPort(getPort());
+			Address contactAddress = addressFactory.createAddress(contactURI);
+			contactAddress.setDisplayName(getUsername());
+			ContactHeader contactHeader = headerFactory.createContactHeader(contactAddress);
+			return contactHeader;
+		} catch (ParseException e) {
+			throw new RuntimeException("Could not get contact address", e);
+		}
 
 	}
 
-	@Override
-	public void processTransactionTerminated(TransactionTerminatedEvent arg0) {
-		// TODO Auto-generated method stub
+	public Response createResponse(int arg0, Request arg1) {
+		LOGGER.debug("createResponse()");
+		try {
+			return messageFactory.createResponse(arg0, arg1);
+		} catch (ParseException e) {
+			LOGGER.error("Could not generate: ", e);
+			throw new RuntimeException(e);
+		}
+	}
 
+	public void sendResponse(Response response) {
+		LOGGER.debug("sendResponse()");
+		LOGGER.trace(response.toString());
+		try {
+			sipProvider.sendResponse(response);
+		} catch (SipException e) {
+			LOGGER.error("Could not send: ", e);
+		}
+	}
+
+	public ServerTransaction getNewServerTransaction(Request arg0) throws TransactionAlreadyExistsException, TransactionUnavailableException {
+		LOGGER.debug("getNewServerTransaction()");
+		return sipProvider.getNewServerTransaction(arg0);
 	}
 
 }

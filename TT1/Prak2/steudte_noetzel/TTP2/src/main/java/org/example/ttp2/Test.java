@@ -12,7 +12,7 @@ import javax.sip.TransportNotSupportedException;
 public class Test {
 	
 	private static String USERNAME = "Test";
-	private static String HOST = "141.22.27.135";
+	private static String HOST = "141.22.27.133";
 	private static String PROXY = "tiserver03.cpt.haw-hamburg.de";
 	
 	/**
@@ -24,6 +24,7 @@ public class Test {
 			UAC client = new UAC(sippy);
 			UAS server = new UAS(sippy);
 			server.registerAtProxy(PROXY, 5060);
+			client.sendInvite(USERNAME, PROXY);
 			
 			//client.sendInvite(USERNAME, HOST);
 			
