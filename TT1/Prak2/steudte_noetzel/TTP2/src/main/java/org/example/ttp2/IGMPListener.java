@@ -1,6 +1,7 @@
 package org.example.ttp2;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
@@ -30,11 +31,14 @@ public class IGMPListener extends IGMPComponent{
 		
 		// Socket anlegen und Gruppe joinen
 		mSocket = new MulticastSocket(port);
+		mcastAdr = ip;
+		
 		mSocket.joinGroup(mcastAdr);
 		
 		// IP und Port für später speichern
 		mcastAdr = ip;
 		this.port = port;
+		pack = new DatagramPacket(buf, buf.length);
 		
 	}
 	
