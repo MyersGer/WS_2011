@@ -9,21 +9,24 @@ import javax.sip.PeerUnavailableException;
 import javax.sip.SipException;
 import javax.sip.TransportNotSupportedException;
 
-import org.omg.CORBA.Current;
-
 public class Test {
-
+	
+	private static String USERNAME = "Test";
+	private static String HOST = "141.22.27.135";
+	private static String PROXY = "tiserver03.cpt.haw-hamburg.de";
+	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		try {
-			UAC testUAC = new UAC("UAC-Test","141.22.27.135",5060);
-			//testUAC.registerAtProxy("tiserver03.cpt.haw-hamburg.de", 5060);
-			testUAC.sendInvite("wilma", "141.22.26.40");
-			testUAC.sendMessageOverDialog("This is a Test");
-			//testUAC.sendCancel("wilma", "141.22.26.40");
-			//testUAC.sendBye("wilma", "141.22.26.40");
+			SIPLayer sippy = new SIPLayer(USERNAME, HOST, 5060);
+			UAC client = new UAC(sippy);
+			UAS server = new UAS(sippy);
+			server.registerAtProxy(PROXY, 5060);
+			
+			//client.sendInvite(USERNAME, HOST);
+			
 		} catch (PeerUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

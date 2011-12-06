@@ -1,49 +1,47 @@
 package org.example.ttp2;
 
-import javax.sip.DialogTerminatedEvent;
-import javax.sip.IOExceptionEvent;
-import javax.sip.RequestEvent;
-import javax.sip.ResponseEvent;
-import javax.sip.SipListener;
-import javax.sip.TimeoutEvent;
-import javax.sip.TransactionTerminatedEvent;
+import java.text.ParseException;
 
-public class UAS implements SipListener {
+import javax.sip.InvalidArgumentException;
+import javax.sip.SipException;
 
+public class UAS implements IMessageProcessor {
+	
+	private SIPLayer sipLayer;
+	
+	public UAS(SIPLayer sipLayer){
+		this.sipLayer = sipLayer;
+		sipLayer.registerObserver(this);
+	}
+
+	public void registerAtProxy(String proxyAddress, int proxyPort) throws ParseException, InvalidArgumentException, SipException{
+		sipLayer.registerAtProxy(proxyAddress, proxyPort);
+	}
+	
+	
 	@Override
-	public void processDialogTerminated(DialogTerminatedEvent arg0) {
+	public void processDialogTerminated() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void processIOException(IOExceptionEvent arg0) {
+	public void processOK() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void processRequest(RequestEvent arg0) {
+	public void processTrying() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void processResponse(ResponseEvent arg0) {
+	public void processRinging() {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void processTimeout(TimeoutEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void processTransactionTerminated(TransactionTerminatedEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
+	
 }
