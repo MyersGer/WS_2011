@@ -176,6 +176,7 @@ public class SIPLayer implements SipListener {
 
 		if (type == Request.INVITE) {
 			ClientTransaction trans = sipProvider.getNewClientTransaction(request);
+			
 			dialogId = trans.getDialog().getDialogId();
 			LOGGER.trace("GESENDET: \n" + request.toString());
 	

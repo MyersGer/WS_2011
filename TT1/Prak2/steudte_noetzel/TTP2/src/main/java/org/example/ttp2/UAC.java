@@ -15,7 +15,7 @@ public class UAC implements IMessageProcessor {
 	private static final Logger LOGGER = Logger.getLogger("UAC");
 
 	private SIPLayer sipLayer;
-	private String dialogId = "";
+	private String inviteCallId = "";
 	private long cSeqInvite;
 
 	public UAC(SIPLayer sipLayer) {
@@ -35,9 +35,9 @@ public class UAC implements IMessageProcessor {
 
 	public void sendInvite(String user, String host) throws ParseException, InvalidArgumentException, SipException {
 		LOGGER.debug("sendInvite(" + user + ", " + host + " )");
-		dialogId = sipLayer.send(user, host, Request.INVITE);
+		inviteCallId = sipLayer.send(user, host, Request.INVITE);
 		cSeqInvite = sipLayer.INVITE_SEQUENCE_NUMBER;
-		LOGGER.info("DialogId: " + dialogId);
+		LOGGER.info("inviteCallId: " + inviteCallId);
 	}
 
 	@Override
@@ -50,8 +50,10 @@ public class UAC implements IMessageProcessor {
 		LOGGER.debug("processOK()");
 		String receivedDialogId = responseEvent.getDialog().getDialogId();
 		LOGGER.trace("receivedDialogId: " + receivedDialogId);
+		String callId = SIPLayer.getCallId(responseEvent);
+		LOGGER.trace("callId: " + callId);
 		try {
-			if (receivedDialogId.equals(dialogId)) {
+			if (inviteCallId.equals(callId)) {
 				Request ack = responseEvent.getDialog().createAck(cSeqInvite);
 				responseEvent.getDialog().sendAck(ack);
 			} else {
