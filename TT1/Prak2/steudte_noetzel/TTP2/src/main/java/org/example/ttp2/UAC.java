@@ -97,6 +97,7 @@ public class UAC implements IMessageProcessor {
 	}
 	
 	public boolean removeDialog() {	
+		LOGGER.debug("removeDialog()");
 		try {
 			Request bye = dialog.createRequest(Request.BYE);
 			dialog.sendRequest(sipLayer.getNewClientTransaction(bye));
