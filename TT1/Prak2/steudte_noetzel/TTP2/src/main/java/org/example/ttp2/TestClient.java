@@ -12,7 +12,11 @@ import javax.sip.PeerUnavailableException;
 import javax.sip.SipException;
 import javax.sip.TransportNotSupportedException;
 
+import org.apache.log4j.Logger;
+
 public class TestClient {
+	
+	private static final Logger LOGGER = Logger.getLogger("SIPLayerLogger");
 
 	private static final String USERNAME = "Testikel";
 	private static final String HOST = "141.22.27.135";
@@ -34,9 +38,17 @@ public class TestClient {
 			IGMPListener listener = new IGMPListener();
 		
 			listener.initialize(InetAddress.getByName(MULTICAST_GROUP), MULTICAST_PORT);
-			new Thread(listener).run();
+			new Thread(listener).start();
 			
 			Thread.sleep(5000);
+			LOGGER.info("Wartezeit vorbei");
+			
+			if (client.removeDialog()) {
+				LOGGER.info("RemoveDialog OK");
+			} else {
+				LOGGER.info("RemoveDialog FAIL");
+			}
+			
 			
 
 		} catch (PeerUnavailableException e) {
