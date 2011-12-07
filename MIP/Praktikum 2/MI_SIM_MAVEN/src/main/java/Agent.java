@@ -109,19 +109,24 @@ public class Agent implements Names{
 	private void sample() {
 		logger.debug("sample()");
 		
+		// Sicherheit = Licht + Raum - Verkehr 
 		double sicherheit = lightPreference * world.getLightIntensity(location) 
 							+ ((world.calcSpace(location, spacePreferenceRadius)/spacePreference)-1)
 							- ( trafficPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100));
 		
+		// Vergnügen = WLAN + Raum - Gestank - Verkehr + Grünfläche
 		double vergnuegen = wLanPreference * world.getWlanAtLocation(location) 
 							+ ((world.calcSpace(location, spacePreferenceRadius)/spacePreference)-1)
 							- smellPreference * world.getSmellIntensity(location)
-							- distanceStreetPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100);
+							- trafficPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100)
+							+ greenPreference * world.getGreenIntensity(location);
 		
+		// Soziologie = WLAN + Licht - Gestank
 		double soziologie = wLanPreference * world.getWlanAtLocation(location) 
 							+ lightPreference * world.getLightIntensity(location)
 							- smellPreference * world.getSmellIntensity(location);
 		
+		// Produktivität = WLAN - Verkehr - Gestank
 		double produktivitaet = wLanPreference * world.getWlanAtLocation(location)
 							- trafficPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100)
 							- smellPreference * world.getSmellIntensity(location);
