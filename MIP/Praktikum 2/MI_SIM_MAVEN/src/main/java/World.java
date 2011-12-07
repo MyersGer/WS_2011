@@ -35,6 +35,7 @@ public class World {
 
 	private static String NAME_TRAFFIC_TYPE = "strasse";
 	private static String NAME_WALL_TYPE = "mauer";
+	private static String NAME_GREEN_TYPE = "gruenflaeche";
 
 	private static Set<Point> neighborModifications = new HashSet<Point>();
 
@@ -54,6 +55,7 @@ public class World {
 	private int[][] smell_map;
 	private int[][] wlan_map;
 	private int[][] traffic_map;
+	private int[][] green_map;
 
 	private Clock clk;
 
@@ -75,12 +77,17 @@ public class World {
 		this.traffic_map = new int[map.getWidth()][map.getHeight()];
 		initLayerMap(NAME_TRAFFIC_LAYER, traffic_map, PROPERTY_RADIUS,
 				PROPERTY_RADIUS_DEFAULT, NAME_TRAFFIC_TYPE);
-		for (int y = 0; y < map.getHeight(); y++) {
-			for (int x = 0; x < map.getWidth(); x++) {
-				System.out.print(traffic_map[x][y] + " ");
-			}
-			System.out.print("\n\r");
-		}
+		
+		this.green_map = new int[map.getWidth()][map.getHeight()];
+		initLayerMap(NAME_TOPOLOGY_LAYER, green_map, PROPERTY_RADIUS,
+				PROPERTY_RADIUS_DEFAULT, NAME_GREEN_TYPE);
+//		for (int y = 0; y < map.getHeight(); y++) {
+//			for (int x = 0; x < map.getWidth(); x++) {
+//				System.out.print(green_map[x][y] + " ");
+//			}
+//			System.out.print("\n\r");
+//		}
+		
 
 		clk = new Clock(startDate);
 	}
@@ -169,6 +176,11 @@ public class World {
 	public int getSmellIntensity(Point p) {
 		return this.smell_map[p.x][p.y];
 	}
+	
+	public int getGreenIntensity(Point p) {
+		return this.green_map[p.x][p.y];
+	}
+ 	
  	
 	public int getTrafficAtLocation(Point location){ 	
     		return this.traffic_map[location.x][location.y];

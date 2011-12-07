@@ -110,15 +110,18 @@ public class Agent implements Names{
 		logger.debug("sample()");
 		
 		double sicherheit = lightPreference * world.getLightIntensity(location) 
+							+ ((world.calcSpace(location, spacePreferenceRadius)/spacePreference)-1)
 							- ( trafficPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100));
 		
 		double vergnuegen = wLanPreference * world.getWlanAtLocation(location) 
+							+ ((world.calcSpace(location, spacePreferenceRadius)/spacePreference)-1)
 							- smellPreference * world.getSmellIntensity(location)
-							- distanceStreetPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100)
-							;
+							- distanceStreetPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100);
+		
 		double soziologie = wLanPreference * world.getWlanAtLocation(location) 
 							+ lightPreference * world.getLightIntensity(location)
 							- smellPreference * world.getSmellIntensity(location);
+		
 		double produktivitaet = wLanPreference * world.getWlanAtLocation(location)
 							- trafficPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100)
 							- smellPreference * world.getSmellIntensity(location);
@@ -136,7 +139,14 @@ public class Agent implements Names{
 		dataLogger.addEntry(tempMap);
 		
 		//System.out.println("Smell " + world.getSmellIntensity(location));
-		System.out.println("Sicherheit " + sicherheit);
+		
+		logger.debug("Sicherheit: " + sicherheit);
+		logger.debug("Vergnügen: " + vergnuegen);
+		logger.debug("Soziologie: " + soziologie);
+		logger.debug("Produktivität: " + produktivitaet);
+		logger.debug("Gesamt: " + gesamt);
+		
+		logger.debug("WLAN: " + world.getWlanAtLocation(location));
 
 	}
 

@@ -12,6 +12,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class SimpleGame extends BasicGame {
@@ -28,7 +30,7 @@ public class SimpleGame extends BasicGame {
 	private static final String TILED_MAP_LOCATION = "maps/map_campus_berliner_tor.tmx";
 	private static final String TILED_RESOURCE_LOCATION = "maps";
 
-	private static final int AGENT_SPEED_KMH = 50;
+	private static final int AGENT_SPEED_KMH = 5;
 	private static final String NAME_CSV_FILE = "gamelog.csv";
 
 	private int speedMultiplicator = 1;
@@ -62,7 +64,7 @@ public class SimpleGame extends BasicGame {
 
 		map = new TiledMap(TILED_MAP_LOCATION, TILED_RESOURCE_LOCATION);
 		world = new World(map, startDate);
-		agent = new Agent(world, 1, 1, 1, 1, 1, 1, 1, 2);
+		agent = new Agent(world, 1, 1, 1, 1, 1, 1, 1, 3);
 
 		agentIMG = new Image("gfx/stickman.png");
 		world.getClock().start(); // Zeitzählung starten
@@ -84,7 +86,7 @@ public class SimpleGame extends BasicGame {
 			} catch (IOException e) {
 				logger.debug("Could not write gameLog", e);
 			}
-			app.exit();
+			app.destroy();
 		}
 
 		double stepTime = Math.ceil(1 / ((AGENT_SPEED_KMH * 1000) / 3600000F)); // ms
@@ -114,7 +116,7 @@ public class SimpleGame extends BasicGame {
 			if (speedMultiplicator > 1)
 				speedMultiplicator--;
 		} else if (in.isKeyDown(Input.KEY_UP)) {
-			if (speedMultiplicator < 6)
+			if (speedMultiplicator < 10)
 				speedMultiplicator++;
 		} else if (in.isKeyDown(Input.KEY_LEFT)) {
 
@@ -144,7 +146,7 @@ public class SimpleGame extends BasicGame {
 		agentIMG.draw((centerx - 0.5f) * tileWidth, (centery - 1) * tileHeight, 2 * tileWidth, 2 * tileHeight);
 
 		g.setColor(new Color(0, 0, 0));
-		g.fillRect(0, 0, 150, 250);
+		g.fillRect(0, 0, 180, 280);
 		g.setColor(new Color(255, 255, 255));
 		g.drawString(world.getClock().getTimeString(), 10, 30);
 		g.drawString("Speed: " + this.speedMultiplicator, 10, 60);
@@ -155,6 +157,7 @@ public class SimpleGame extends BasicGame {
 		g.drawString("Verkehr: " + world.getTrafficAtLocation(agent.getLocation()), 10, 150);
 		g.drawString("Geruch: " + world.getSmellIntensity(agent.getLocation()), 10, 180);
 		g.drawString("Platz: "+ world.calcSpace(agent.getLocation(), agent.getSpacePreference()), 10, 210);
+		g.drawString("Gruenflaeche: "+ world.getGreenIntensity(agent.getLocation()), 10, 240);
 
 	}
 
@@ -166,5 +169,10 @@ public class SimpleGame extends BasicGame {
 		app.start();
 	}
 
+	@Override
+	public boolean closeRequested() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

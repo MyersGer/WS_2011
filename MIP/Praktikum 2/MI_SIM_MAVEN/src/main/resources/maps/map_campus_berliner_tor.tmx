@@ -4,6 +4,7 @@
   <image source="topo_tiles.png" width="80" height="80"/>
   <tile id="5">
    <properties>
+    <property name="Radius" value="4"/>
     <property name="Typ" value="gruenflaeche"/>
    </properties>
   </tile>
