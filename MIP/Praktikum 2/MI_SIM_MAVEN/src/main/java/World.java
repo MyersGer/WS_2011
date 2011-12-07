@@ -199,10 +199,6 @@ public class World {
 			return 0;
 	}
 
-	public int getTrafficAtLocation(Point location) {
-		return this.traffic_map[location.x][location.y];
-	}
-
 	public Clock getClock() {
 		return clk;
 	}
