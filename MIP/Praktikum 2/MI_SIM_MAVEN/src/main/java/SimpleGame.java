@@ -28,7 +28,7 @@ public class SimpleGame extends BasicGame {
 	private static final String TILED_MAP_LOCATION = "maps/map_campus_berliner_tor.tmx";
 	private static final String TILED_RESOURCE_LOCATION = "maps";
 
-	private static final int AGENT_SPEED_KMH = 20;
+	private static final int AGENT_SPEED_KMH = 50;
 	private static final String NAME_CSV_FILE = "gamelog.csv";
 
 	private int speedMultiplicator = 1;
@@ -166,10 +166,5 @@ public class SimpleGame extends BasicGame {
 		app.start();
 	}
 
-	@Override
-	public boolean closeRequested() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 }
