@@ -129,10 +129,8 @@ public class SimpleGame extends BasicGame {
 			
 		agentIMG.draw((centerx-0.5f)*tileWidth, (centery-1)*tileHeight, 2*tileWidth, 2*tileHeight);
 		
-		Shape s = new Rectangle(0,0, 150, 50);
-		
 		g.setColor(new Color(0, 0, 0));
-		g.fillRect(0, 0, 180, 200);
+		g.fillRect(0, 0, 150, 250);
 		g.setColor(new Color(255, 255, 255));
 		g.drawString(world.getClock().getTimeString(), 10, 30);
 		g.drawString("Speed: "+this.speedMultiplicator, 10, 60);
@@ -142,6 +140,7 @@ public class SimpleGame extends BasicGame {
 		g.drawString("Licht: "+ world.getLightIntensity(agent.getLocation()), 10, 120);
 		g.drawString("Verkehr: "+ world.getTrafficAtLocation(agent.getLocation()), 10, 150);
 		g.drawString("Geruch: "+ world.getSmellIntensity(agent.getLocation()), 10, 180);
+		g.drawString("Platz: "+ world.calcSpace(agent.getLocation(), agent.getSpacePreference()), 10, 210);
 		
 	}
 

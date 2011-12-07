@@ -14,7 +14,7 @@ public class Agent implements Names{
 	private Point lastLocation = null;
 	private Point location = START_POINT;
 
-	private double spacePreferenceRadius;
+	private int spacePreferenceRadius;
 	private double spacePreference;
 	private double lightPreference;
 	private double trafficPreference;
@@ -45,6 +45,10 @@ public class Agent implements Names{
 		this.spacePreference = (((spaceRadiusPreference * 2) + 1) * ((spaceRadiusPreference * 2) + 1)) - 1;
 	}
 	
+	
+	public int getSpacePreference(){
+		return spacePreferenceRadius;
+	}
 	
 	public Point getLocation() {
 		return location;
