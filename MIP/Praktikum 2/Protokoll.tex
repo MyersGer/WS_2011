@@ -82,7 +82,7 @@ Die Ebenen-Daten liegen in Form von Arrays vor und zu jedem Zeitpunkt $t$ bestim
 Die Berechnung der Ebenen könnte nach folgendem Schema erfolgen:
 \begin{align}
 	\text{Sicherheit } &= \text{ Verkehrswert } + \text{ Beleuchtungswert }\\
-	\sigma &= a * \nu(t,x) + b * \lambda(x)
+	\sigma &= v * \nu(t,x) + l * \lambda(x)
 \end{align}
 
 Zusammen mit den jeweils aktuellen Werten für den Verkehrs- und dem Beleuchtungswert wird der Wert der Sicherheitsebene berechnet.
@@ -91,11 +91,24 @@ Die verschiedenen Werte-Funktionen liefern Werte für die jeweiligen Aspekte in 
 Während der Implementierung ist für die Funktionen noch zu spezifizieren, nach welchen Kriterien sich die Funktionswerte berechnen.
 Für die weiteren Ebenen wird das gleiche Vorgehen angewendet z.B. für die Vergnügungsebene:
 \begin{align}
-	\text{Vergnügen } &= \text{ Entfernung zur Straße } + \text{ Grünflächenwert } + \text{ WLAN-Empfang}\\
-	\alpha &= a * \beta(x) + b * \gamma(x) + c * \delta(x)
+	\text{Vergnügen } &= \text{ WLAN-Empfang} + \text{ Grünflächenwert } - \text{ Entfernung zur Straße } - \text{ Geruch }\\
+	\alpha &= a * \alpha(x) + b * \beta(x) + c * \gamma(x) + d * \delta(x)\
 \end{align}
 
 Auch hier geben die Faktoren $a$, $b$, $c$ die Gewichtung wieder, mit der die einzelnen Aspekte in die Ebene einfließen.\\
+Entsprechend sehen die zwei restlichen Ebenen aus:
+
+\begin{align}
+	\text{Soziologie } &= \text{ WLAN-Empfang } + \text{ Beleuchtungswert } - \text{ Geruch}\\
+	\alpha &= a * \alpha(x) + l * \lambda(x) + d * \delta(x)
+\end{align}
+
+\begin{align}
+	\text{Produktivität } &= \text{ WLAN-Empfang} - \text{ Entfernung zur Straße } - \text{ Geruch }\\
+	\alpha &= a * \alpha(x) + c * \gamma(x) + d * \delta(x)
+\end{align}
+
+
 Die zu modellierende Ebene Straße weicht von den Berechnungen der übrigen Ebenen etwas ab. Sie soll in einem zeitlichen Verlauf den Wert der Emitter ändern können. Allerdings nicht in Abhängigkeit von einzelnen Fahrzeugen, sondern als gesamte Straße, d.h. es gibt nicht nur einzelne Punkte, die unterschiedliche Werte ausstrahlen, sondern es gibt einen Wert für die Straße, der sich mit der Tageszeit ändert.\\
 Dabei soll es zwei Stoßzeiten bzw. Maxima geben, die morgens zum Vorlesungs- und Arbeitsbeginn sowie abends zum Feierabend auftreten sollen.\\
 Als Funktion für diesen zeitlichen Verlauf bietet sich ein Polynom zweiten Grades ein, die diesen Verlauf approximieren kann.
