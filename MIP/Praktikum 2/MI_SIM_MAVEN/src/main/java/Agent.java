@@ -17,6 +17,8 @@ public class Agent implements Names{
 	private Point lastLocation = null;
 	private Point location = START_POINT;
 
+	private int spacePreferenceRadius;
+	private double spacePreference;
 	private double lightPreference;
 	private double trafficPreference;
 	private double smellPreference;
@@ -31,7 +33,7 @@ public class Agent implements Names{
 	private static Logger logger = Logger.getLogger("SimpleGame");
 
 	public Agent(World world, double lightPreference, double trafficPreference, double smellPreference, double wLanPreference, double cleanPreference, double greenPreference,
-			double distanceStreetPreference) {
+			double distanceStreetPreference, int spaceRadiusPreference) {
 		super();
 		this.lightPreference = lightPreference;
 		this.trafficPreference = trafficPreference;
@@ -42,8 +44,14 @@ public class Agent implements Names{
 		this.distanceStreetPreference = distanceStreetPreference;
 		this.world = world;
 		this.dataLogger = new DataPointLog();
+		this.spacePreferenceRadius = spaceRadiusPreference;
+		this.spacePreference = (((spaceRadiusPreference * 2) + 1) * ((spaceRadiusPreference * 2) + 1)) - 1;
 	}
 	
+	
+	public int getSpacePreference(){
+		return spacePreferenceRadius;
+	}
 	
 	public Point getLocation() {
 		return location;
@@ -96,15 +104,25 @@ public class Agent implements Names{
 
 		return target;
 	}
+	
 
 	private void sample() {
 		logger.debug("sample()");
 		
-		double sicherheit = lightPreference * world.getLightIntensity(location) - ( trafficPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100));
+		double sicherheit = lightPreference * world.getLightIntensity(location) 
+							- ( trafficPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100));
 		
-		double vergnuegen = 0;
-		double soziologie = 0;
-		double produktivitaet = 0;
+		double vergnuegen = wLanPreference * world.getWlanAtLocation(location) 
+							- smellPreference * world.getSmellIntensity(location)
+							- distanceStreetPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100)
+							;
+		double soziologie = wLanPreference * world.getWlanAtLocation(location) 
+							+ lightPreference * world.getLightIntensity(location)
+							- smellPreference * world.getSmellIntensity(location);
+		double produktivitaet = wLanPreference * world.getWlanAtLocation(location)
+							- trafficPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100)
+							- smellPreference * world.getSmellIntensity(location);
+		
 		
 		double gesamt = 0.5 * sicherheit + 0.2 * vergnuegen + 0.2 * produktivitaet + 0.1 * soziologie;
 		
