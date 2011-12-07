@@ -170,6 +170,15 @@ public class World {
 		return this.smell_map[p.x][p.y];
 	}
 
+	public int getTrafficAtLocation(Point location){
+		return this.traffic_map[location.x][location.y];
+	}
+	
+	public int getWlanAtLocation(Point location) {
+		return this.wlan_map[location.x][location.y];
+	}
+	
+
 	public int getCurrentTraffic() {
 		Calendar cal = Calendar.getInstance();
 		int currentHour = cal.get(Calendar.HOUR);
