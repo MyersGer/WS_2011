@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-public class Agent {
+public class Agent implements Names{
 
 	public Point START_POINT = new Point(4, 180);
 	public Point END_POINT = new Point(108,31);
@@ -101,11 +101,11 @@ public class Agent {
 		double gesamt = 0.5 * sicherheit + 0.2 * vergnuegen + 0.2 * produktivitaet + 0.1 * soziologie;
 		
 		HashMap<String, Double> tempMap = new HashMap<String, Double>();
-		tempMap.put("Sicherheit", sicherheit);
-		tempMap.put("Vergnuegen", vergnuegen);
-		tempMap.put("Soziologie", soziologie);
-		tempMap.put("Produktivitaet", produktivitaet);
-		tempMap.put("Gesamt", gesamt);
+		tempMap.put(EB_SECURITY, sicherheit);
+		tempMap.put(EB_FUN, vergnuegen);
+		tempMap.put(EB_SOZIOLOGY, soziologie);
+		tempMap.put(EB_PRODUCTIVITY, produktivitaet);
+		tempMap.put(EB_OVERALL, gesamt);
 		
 		Set<Map<String, Double>> entry = new HashSet<Map<String, Double>>();
 		

@@ -20,13 +20,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.csvreader.CsvWriter;
 
-public class Convert2X {
+public class Convert2X implements Names{
 	
 	// quantity of layer
 	private static int quanLayer = 4;
 
 	// head titles
-    private static String[] titles = {"Turn/Zeit", "Sicherheit", "Vergnuegen", "Sozial", "Produktivitaet"};
+    private static String[] titles = {"Turn/Zeit", EB_SECURITY, EB_FUN, EB_SOZIOLOGY, EB_PRODUCTIVITY};
     
 	public static void Convert2Excel(List<Map<String,Double>> data, String filename) throws Exception
 	{		
@@ -61,16 +61,16 @@ public class Convert2X {
             	    	value = i + 1.0;
             	    	break;
             	    case 1:
-            	    	value = data.get(i).get("Sicherheit");
+            	    	value = data.get(i).get(EB_SECURITY);
             	    	break;
             	    case 2:
-            	    	value = data.get(i).get("Vergnuegen");
+            	    	value = data.get(i).get(EB_FUN);
             	    	break;
             	    case 3:
-            	    	value = data.get(i).get("Sozial");
+            	    	value = data.get(i).get(EB_SOZIOLOGY);
             	    	break;
             	    case 4:
-            	    	value = data.get(i).get("Produktivitaet");
+            	    	value = data.get(i).get(EB_PRODUCTIVITY);
             	    	break;
             	}
                 cell = row.createCell(j);
@@ -108,16 +108,16 @@ public class Convert2X {
             	    	value = i + 1.0;
             	    	break;
             	    case 1:
-            	    	value = data.get(i).get("Sicherheit");
+            	    	value = data.get(i).get(EB_SECURITY);
             	    	break;
             	    case 2:
-            	    	value = data.get(i).get("Vergnuegen");
+            	    	value = data.get(i).get(EB_FUN);
             	    	break;
             	    case 3:
-            	    	value = data.get(i).get("Sozial");
+            	    	value = data.get(i).get(EB_SOZIOLOGY);
             	    	break;
             	    case 4:
-            	    	value = data.get(i).get("Produktivitaet");
+            	    	value = data.get(i).get(EB_PRODUCTIVITY);
             	    	break;
             	}
             	
