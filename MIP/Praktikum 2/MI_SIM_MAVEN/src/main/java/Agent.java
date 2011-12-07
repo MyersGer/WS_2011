@@ -107,11 +107,7 @@ public class Agent implements Names{
 		tempMap.put(EB_PRODUCTIVITY, produktivitaet);
 		tempMap.put(EB_OVERALL, gesamt);
 		
-		Set<Map<String, Double>> entry = new HashSet<Map<String, Double>>();
-		
-		entry.add(tempMap);
-		
-		dataLogger.addEntry(entry);
+		dataLogger.addEntry(tempMap);
 		
 		//System.out.println("Smell " + world.getSmellIntensity(location));
 		System.out.println("Sicherheit " + sicherheit);

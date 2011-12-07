@@ -6,13 +6,13 @@ import java.util.Set;
 
 public class DataPointLog {
 
-	private List<Set<Map<String, Double>>> dataSetList;
+	private List<Map<String, Double>> dataSetList;
 	
 	public DataPointLog(){
-		dataSetList = new ArrayList<Set<Map<String, Double>>>();
+		dataSetList = new ArrayList<Map<String, Double>>();
 	}
 	
-	public void addEntry(Set<Map<String, Double>> entry){
+	public void addEntry(Map<String, Double> entry){
 		dataSetList.add(entry);
 	}
 	
