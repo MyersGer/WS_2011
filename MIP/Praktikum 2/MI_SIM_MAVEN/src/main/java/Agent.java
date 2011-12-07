@@ -88,6 +88,7 @@ public class Agent implements Names{
 
 		return target;
 	}
+	
 
 	private void sample() {
 		logger.debug("sample()");
