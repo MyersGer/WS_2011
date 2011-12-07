@@ -10,6 +10,9 @@ public class Agent implements Names{
 
 	public Point START_POINT = new Point(4, 180);
 	public Point END_POINT = new Point(108,31);
+	
+	public  final static boolean MOVED = true;
+	public  final static boolean NOT_MOVED = false;
 
 	private Point lastLocation = null;
 	private Point location = START_POINT;
@@ -51,27 +54,32 @@ public class Agent implements Names{
 	}
 
 
-	public void doTurn() {
+	public boolean doTurn() {
 		logger.debug("doTurn()");
 		if (location != END_POINT) {
 			sample();
-			movement();
+			return movement();
+		}else {
+			return NOT_MOVED;
 		}
 
 	}
 
-	private void movement() {
+	private boolean movement() {
 		logger.debug("move()");
 		Point targetCell = getNextLocation();
-		moveToLocation(targetCell);
+		return moveToLocation(targetCell);
 	}
 
-	private void moveToLocation(Point targetCell) {
+	private boolean moveToLocation(Point targetCell) {
 		logger.debug("moveToLocation()");
 		if (targetCell != null) {
 			logger.info(targetCell.toString());
 			lastLocation = location;
 			location = targetCell;
+			return MOVED;
+		}else{
+			return NOT_MOVED;
 		}
 
 	}
@@ -113,5 +121,12 @@ public class Agent implements Names{
 		System.out.println("Sicherheit " + sicherheit);
 
 	}
+
+
+	public DataPointLog getDataLogger() {
+		return dataLogger;
+	}
+	
+	
 
 }

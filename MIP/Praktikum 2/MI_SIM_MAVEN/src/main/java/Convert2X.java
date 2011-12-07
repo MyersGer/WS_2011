@@ -8,6 +8,7 @@
 
 // Java Libs
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +85,7 @@ public class Convert2X implements Names{
         out.close();        
 	}
 	
-	public static void Convert2CSV(List<Map<String,Double>> data, String filename) throws Exception
+	public static void Convert2CSV(List<Map<String,Double>> data, String filename) throws IOException 
 	{		
 		CsvWriter writer = new CsvWriter(filename, ',', Charset.forName("ISO-8859-1"));
 		

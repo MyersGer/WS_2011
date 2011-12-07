@@ -15,6 +15,12 @@ public class DataPointLog {
 	public void addEntry(Map<String, Double> entry){
 		dataSetList.add(entry);
 	}
+
+	public List<Map<String, Double>> getDataSetList() {
+		return dataSetList;
+	}
+	
+	
 	
 	
 
