@@ -169,9 +169,9 @@ public class World {
 	public int getSmellIntensity(Point p) {
 		return this.smell_map[p.x][p.y];
 	}
-
-	public int getTrafficAtLocation(Point location){
-		return this.traffic_map[location.x][location.y];
+ 	
+	public int getTrafficAtLocation(Point location){ 	
+    		return this.traffic_map[location.x][location.y];
 	}
 	
 	public int getWlanAtLocation(Point location) {
