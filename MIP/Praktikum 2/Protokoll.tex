@@ -82,11 +82,11 @@ Die Ebenen-Daten liegen in Form von Arrays vor und zu jedem Zeitpunkt $t$ bestim
 Die Berechnung der Ebenen könnte nach folgendem Schema erfolgen:
 \begin{align}
 	\text{Sicherheit } &= \text{ Verkehrswert } + \text{ Beleuchtungswert }\\
-	\sigma &= v * \nu(t,x) + l * \lambda(x)
+	\sigma &= t * \nu(t,x) + l * \lambda(x)
 \end{align}
 
 Zusammen mit den jeweils aktuellen Werten für den Verkehrs- und dem Beleuchtungswert wird der Wert der Sicherheitsebene berechnet.
-Die Koeffizienten $a$ und $b$ dienen dazu um den Einfluss der verschiedenen Faktoren auf den Ebenen-Wert zu beschreiben.
+Die Koeffizienten $t$ und $l$ dienen dazu um den Einfluss der verschiedenen Faktoren auf den Ebenen-Wert zu beschreiben.
 Die verschiedenen Werte-Funktionen liefern Werte für die jeweiligen Aspekte in Abhängigkeit verschiedener Variablen (z.B. $x$ dem Ort oder $t$ der Zeit).
 Während der Implementierung ist für die Funktionen noch zu spezifizieren, nach welchen Kriterien sich die Funktionswerte berechnen.
 Für die weiteren Ebenen wird das gleiche Vorgehen angewendet z.B. für die Vergnügungsebene:
@@ -95,7 +95,7 @@ Für die weiteren Ebenen wird das gleiche Vorgehen angewendet z.B. für die Verg
 	\alpha &= a * \alpha(x) + b * \beta(x) + c * \gamma(x) + d * \delta(x)\
 \end{align}
 
-Auch hier geben die Faktoren $a$, $b$, $c$ die Gewichtung wieder, mit der die einzelnen Aspekte in die Ebene einfließen.\\
+Auch hier geben die Faktoren $a$, $b$, $c$, $d$ die Gewichtung wieder, mit der die einzelnen Aspekte in die Ebene einfließen.\\
 Entsprechend sehen die zwei restlichen Ebenen aus:
 
 \begin{align}
