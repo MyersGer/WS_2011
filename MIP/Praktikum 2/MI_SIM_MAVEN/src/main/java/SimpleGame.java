@@ -1,3 +1,4 @@
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,6 +34,8 @@ public class SimpleGame extends BasicGame {
 	
 	private int speedMultiplicator = 1;
 	
+	private static SimpleDateFormat SIMULATIONTIMEFORMAT = new SimpleDateFormat("HH:mm:ss");
+	
 	World world;
 	long lastTime = System.nanoTime();//, beforeTime, afterTime, timeDiff, sleepTime; 
 
@@ -51,7 +54,7 @@ public class SimpleGame extends BasicGame {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 		Date startDate;
 		try {
-			startDate = dateFormat.parse("1.1.2001 12:05");
+			startDate = dateFormat.parse("7.12.2011 12:05");
 		} catch (ParseException e) {
 			logger.error("Fehler beim Datumparsen. Aktuelle Zeit wird genommen!");
 			startDate = new Date(System.currentTimeMillis());
@@ -126,14 +129,20 @@ public class SimpleGame extends BasicGame {
 			
 		agentIMG.draw((centerx-0.5f)*tileWidth, (centery-1)*tileHeight, 2*tileWidth, 2*tileHeight);
 		
-		Shape s = new Rectangle(0,0, 180, 200);
+		Shape s = new Rectangle(0,0, 150, 50);
 		
 		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0, 0, 180, 200);
 		g.setColor(new Color(255, 255, 255));
 		g.drawString(world.getClock().getTimeString(), 10, 30);
 		g.drawString("Speed: "+this.speedMultiplicator, 10, 60);
-		g.drawString(world.getClock().getAbsoluteTime().toString(), 10, 90);
+		Date outputTime = world.getClock().getAbsoluteTime();
+		g.drawString(SIMULATIONTIMEFORMAT.format(outputTime), 10, 90);
+		//Ausgabe der Umgebungsparameter
+		g.drawString("Licht: "+ world.getLightIntensity(agent.getLocation()), 10, 120);
+		g.drawString("Verkehr: "+ world.getTrafficAtLocation(agent.getLocation()), 10, 150);
+		g.drawString("Geruch: "+ world.getSmellIntensity(agent.getLocation()), 10, 180);
+		
 	}
 
 	public static void main(String[] args) throws SlickException {
