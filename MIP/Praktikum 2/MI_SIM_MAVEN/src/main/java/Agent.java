@@ -14,6 +14,8 @@ public class Agent implements Names{
 	private Point lastLocation = null;
 	private Point location = START_POINT;
 
+	private double spacePreferenceRadius;
+	private double spacePreference;
 	private double lightPreference;
 	private double trafficPreference;
 	private double smellPreference;
@@ -28,7 +30,7 @@ public class Agent implements Names{
 	private static Logger logger = Logger.getLogger("SimpleGame");
 
 	public Agent(World world, double lightPreference, double trafficPreference, double smellPreference, double wLanPreference, double cleanPreference, double greenPreference,
-			double distanceStreetPreference) {
+			double distanceStreetPreference, int spaceRadiusPreference) {
 		super();
 		this.lightPreference = lightPreference;
 		this.trafficPreference = trafficPreference;
@@ -39,6 +41,8 @@ public class Agent implements Names{
 		this.distanceStreetPreference = distanceStreetPreference;
 		this.world = world;
 		this.dataLogger = new DataPointLog();
+		this.spacePreferenceRadius = spaceRadiusPreference;
+		this.spacePreference = (((spaceRadiusPreference * 2) + 1) * ((spaceRadiusPreference * 2) + 1)) - 1;
 	}
 	
 	

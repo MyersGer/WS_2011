@@ -63,7 +63,7 @@ public class SimpleGame extends BasicGame {
 		
 		map = new TiledMap(TILED_MAP_LOCATION, TILED_RESOURCE_LOCATION);
 		world = new World(map, startDate);
-		agent = new Agent(world, 1, 1, 1, 1, 1, 1, 1);
+		agent = new Agent(world, 1, 1, 1, 1, 1, 1, 1, 2);
 		
 		agentIMG = new Image("gfx/stickman.png");
 		world.getClock().start(); //Zeitzählung starten
