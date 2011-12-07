@@ -12,8 +12,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class SimpleGame extends BasicGame {
@@ -86,7 +84,7 @@ public class SimpleGame extends BasicGame {
 			} catch (IOException e) {
 				logger.debug("Could not write gameLog", e);
 			}
-			app.destroy();
+			app.exit();
 		}
 
 		double stepTime = Math.ceil(1 / ((AGENT_SPEED_KMH * 1000) / 3600000F)); // ms
