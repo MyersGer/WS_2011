@@ -17,7 +17,9 @@ import javax.sip.TransportNotSupportedException;
 public class Test {
 
 	private static final String USERNAME = "Hexren";
-	private static final String HOST = "141.22.27.133";
+//	private static final String HOST = "141.22.27.133";
+	private static final String HOST = "192.168.1.20";
+	
 	private static final String PROXY = "tiserver03.cpt.haw-hamburg.de";
 	private static final String MULTICAST_GROUP = "239.238.237.17";
 	private static final int MULTICAST_PORT = 9017;
