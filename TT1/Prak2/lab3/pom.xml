@@ -56,23 +56,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.sip</groupId>
-			<artifactId>jain-sip-sctp</artifactId>
-			<version>1.2.164</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.sip</groupId>
-			<artifactId>jain-sip-ri</artifactId>
-			<version>1.2-2007-07-25</version>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.sip</groupId>
-			<artifactId>jain-sip-api</artifactId>
-			<version>1.2-2007-07-25</version>
-		</dependency>
-		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.1</version>
@@ -84,6 +67,30 @@
 			<version>1.0.3</version>
 		</dependency>
 
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<type>jar</type>
+		</dependency>
+  	
+		<dependency>
+			<groupId>javax.sip</groupId>
+			<artifactId>jain-sip-sctp</artifactId>
+			<version>1.2.164</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.sip</groupId>
+			<artifactId>jain-sip-ri</artifactId>
+			<version>1.2.166</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.sip</groupId>
+			<artifactId>jain-sip-api</artifactId>
+			<version>1.2.1.4</version>
+		</dependency>
 
 
 	</dependencies>  

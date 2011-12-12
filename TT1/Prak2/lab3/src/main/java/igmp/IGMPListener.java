@@ -27,7 +27,7 @@ public class IGMPListener extends IGMPComponent{
 	 * @param port			Port auf den 
 	 * @throws IOException  Fehler beim erzeugen des IPAdressen-Objekts oder Port
 	 */
-	protected void initialize(InetAddress ip, int port) throws IOException{
+	public void initialize(InetAddress ip, int port) throws IOException{
 		
 		// Socket anlegen und Gruppe joinen
 		mSocket = new MulticastSocket(port);

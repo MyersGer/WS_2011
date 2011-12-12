@@ -35,7 +35,7 @@ public class IGMPSender extends IGMPComponent {
 	 * @throws IOException
 	 *             Fehler beim erzeugen des IPAdressen-Objekts oder Port
 	 */
-	protected void initialize(InetAddress ip, int port, UAS uas) throws IOException {
+	public void initialize(InetAddress ip, int port, UAS uas) throws IOException {
 		this.uas = uas;
 
 		// Socket anlegen
