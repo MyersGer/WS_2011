@@ -5,54 +5,96 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
-import javax.swing.plaf.SliderUI;
-
 import org.apache.log4j.Logger;
+import org.example.ttp2.UAS;
 
-public class IGMPSender implements Runnable {
-	private static Logger logger = Logger.getLogger("IGMP_Server");
-	final Integer PORT = 9017;
+public class IGMPSender extends IGMPComponent {
 
-	boolean stop = true;
-	MulticastSocket socket;
-	InetAddress group;
+	// Name des Loggers
+	public static final String TAG = "IGMPSender";
+	// Loggerinstanz
+	private static final Logger LOGGER = Logger.getLogger(TAG);
+	// private static final byte TTL = 1;
+	private UAS uas;
 
-	public void join() throws IOException {
-		logger.debug("join()");
-		socket.joinGroup(group);
-		stop = false;
-	}
+	public IGMPSender() {
 
-	public void leave() throws IOException {
-		logger.debug("leave()");
-		stop = true;
-		socket.leaveGroup(group);
-	}
-
-	public IGMPSender() throws IOException {
 		super();
-		group = InetAddress.getByName("239.238.237.17");
-		socket = new MulticastSocket(PORT);
+
+		buf = "Hallo von Noetzel Steudte".getBytes();
+		pack = new DatagramPacket(buf, buf.length);
 	}
 
+	/**
+	 * Initialisiert den MulticastSocket
+	 * 
+	 * @param ip
+	 *            IPAdresse der Multicastgruppe
+	 * @param port
+	 *            Port auf den
+	 * @throws IOException
+	 *             Fehler beim erzeugen des IPAdressen-Objekts oder Port
+	 */
+	protected void initialize(InetAddress ip, int port, UAS uas) throws IOException {
+		this.uas = uas;
+
+		// Socket anlegen
+		mSocket = new MulticastSocket();
+
+		// Datagram mit Zielsocket versehen
+		pack.setAddress(ip);
+		pack.setPort(port);
+
+		// IP und Port für später speichern
+		mcastAdr = ip;
+		this.port = port;
+
+	}
+
+	@Override
 	public void run() {
-		logger.debug("run()");
-		String msg = "Hello from Oliver";
-		while (!stop) {
-			DatagramPacket hi = new DatagramPacket(msg.getBytes(), msg.length(), group, PORT);
+
+		LOGGER.debug("run()-Methode aufgerufen");
+		LOGGER.debug("isRunning: " + isRunning);
+
+		while (isRunning) {
+
 			try {
-				logger.debug("send(" + msg + ")");
-				socket.send(hi);
+				if (uas.sessionCount() > 0) {
+					mSocket.send(pack);
+					LOGGER.debug("Nachricht erfolgreich gesendet: " + new String(buf));
+				} else {
+					LOGGER.debug("Keine Nachricht gesendet, weil session count <= 0");
+				}
 				Thread.sleep(2000);
 
 			} catch (IOException e) {
-				e.printStackTrace();
+
+				LOGGER.error("Fehler beim Senden der Nachrichten an die MulticastGruppe: " + e);
+				stop();
+
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+				LOGGER.error("Fehler beim Sleep des Threads: " + e);
+				stop();
+
 			}
 
 		}
+
+		LOGGER.debug("Schleife beendet");
+
+		try {
+
+			mSocket.leaveGroup(mcastAdr);
+
+		} catch (IOException e) {
+			LOGGER.error("Fehler beim verlassend er Multicastgruppe: " + e);
+		} finally {
+			mSocket.close();
+		}
+
+		LOGGER.debug("MulticastSocket abgebaut");
 
 	}
 
