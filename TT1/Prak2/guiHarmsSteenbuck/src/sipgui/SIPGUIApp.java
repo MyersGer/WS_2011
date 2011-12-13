@@ -6,12 +6,17 @@ package sipgui;
 
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
+import sip.UAC;
+import sip.UAS;
 
 /**
  * The main class of the application.
  */
 public class SIPGUIApp extends SingleFrameApplication {
 
+    private UAS uas;
+    private UAC uac;
+    
     /**
      * At startup create and show the main frame of the application.
      */
