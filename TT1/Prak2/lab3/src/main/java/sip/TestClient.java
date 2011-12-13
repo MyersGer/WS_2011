@@ -1,6 +1,6 @@
-package org.example.ttp2;
+package sip;
 
-import igmp.IGMPSender;
+import igmp.IGMPListener;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -14,12 +14,14 @@ import javax.sip.PeerUnavailableException;
 import javax.sip.SipException;
 import javax.sip.TransportNotSupportedException;
 
-public class Test {
+import org.apache.log4j.Logger;
 
-	private static final String USERNAME = "Hexren";
-//	private static final String HOST = "141.22.27.133";
-	private static final String HOST = "192.168.1.20";
+public class TestClient {
 	
+	private static final Logger LOGGER = Logger.getLogger("SIPLayerLogger");
+
+	private static final String USERNAME = "Testikel";
+	private static final String HOST = "141.22.27.135";
 	private static final String PROXY = "tiserver03.cpt.haw-hamburg.de";
 	private static final String MULTICAST_GROUP = "239.238.237.17";
 	private static final int MULTICAST_PORT = 9017;
@@ -31,15 +33,25 @@ public class Test {
 	public static void main(String[] args) {
 		try {
 			SIPLayer sippy = new SIPLayer(USERNAME, HOST, SIP_PORT);
-			// UAC client = new UAC(sippy);
-			UAS server = new UAS(sippy);
-			server.registerAtProxy(PROXY, SIP_PORT);
-			// client.sendInvite(USERNAME, PROXY);
+			UAC client = new UAC(sippy);
 
-			IGMPSender sender = new IGMPSender();
+			client.sendInvite("Hexren", PROXY);
 
-			sender.initialize(InetAddress.getByName(MULTICAST_GROUP), MULTICAST_PORT, server);
-			new Thread(sender).start();
+			IGMPListener listener = new IGMPListener();
+		
+			listener.initialize(InetAddress.getByName(MULTICAST_GROUP), MULTICAST_PORT);
+			new Thread(listener).start();
+			
+			Thread.sleep(5000);
+			LOGGER.info("Wartezeit vorbei");
+			
+			if (client.removeDialog()) {
+				LOGGER.info("RemoveDialog OK");
+			} else {
+				LOGGER.info("RemoveDialog FAIL");
+			}
+			
+			
 
 		} catch (PeerUnavailableException e) {
 			// TODO Auto-generated catch block
@@ -68,8 +80,12 @@ public class Test {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
+
 
 }

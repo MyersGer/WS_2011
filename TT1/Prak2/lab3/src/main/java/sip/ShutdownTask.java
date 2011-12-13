@@ -1,4 +1,4 @@
-package org.example.ttp2;
+package sip;
 
 /**
  * Klasse beinhaltet die Aufgaben, die beim Beenden des 

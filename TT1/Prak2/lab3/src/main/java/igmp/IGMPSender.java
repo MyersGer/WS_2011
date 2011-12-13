@@ -6,7 +6,8 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 
 import org.apache.log4j.Logger;
-import org.example.ttp2.UAS;
+
+import sip.UAS;
 
 public class IGMPSender extends IGMPComponent {
 
