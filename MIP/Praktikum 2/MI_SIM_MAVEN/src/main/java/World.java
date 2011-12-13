@@ -26,7 +26,7 @@ public class World {
 	private static Point RIGHT_UP = new Point(1, -1);
 	private static Point UP = new Point(0, -1);
 
-	private static String NAME_MOVEMENT_LAYER = "movement";
+	private static String NAME_MOVEMENT_LAYER = "movement1";
 	private static String NAME_LIGHT_LAYER = "leuchtmittelebene";
 	private static String NAME_SMELL_LAYER = "stinkebene";
 	private static String NAME_WLAN_LAYER = "wlanebene";
