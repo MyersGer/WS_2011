@@ -3,6 +3,10 @@
  */
 package sipgui;
 
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 import sip.UAC;
@@ -18,7 +22,14 @@ public class SIPGUIApp extends SingleFrameApplication {
      */
     @Override
     protected void startup() {
-        show(new SIPGUIView(this));
+        try {
+            show(new SIPGUIView(this));
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(SIPGUIApp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SocketException ex) {
+            Logger.getLogger(SIPGUIApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**

@@ -138,8 +138,14 @@ public class SIPLayer implements SipListener {
 		// values.
 		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, null);
 
+		
+		SipURI to = addressFactory.createSipURI(user, host + ":" + getPort());
+		// Creates an Address with the new URI attribute value
+		Address toNameAddress = addressFactory.createAddress(to);
+		// Sets the display name of the Address.
+		toNameAddress.setDisplayName(user);
 		// To: Header = From: Header at Registration
-		ToHeader toHeader = headerFactory.createToHeader(fromNameAddress, null);
+		ToHeader toHeader = headerFactory.createToHeader(toNameAddress, null);
 
 		// Create RequestUri and define Transportprotocol
 		SipURI requestURI = addressFactory.createSipURI(user, host);
