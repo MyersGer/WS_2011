@@ -31,17 +31,14 @@
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" alignment="1" attributes="1">
-                              <Component id="jTextField2" max="32767" attributes="1"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="jTextField2" alignment="1" max="32767" attributes="1"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jScrollPane1" min="-2" pref="230" max="-2" attributes="1"/>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="71" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -129,22 +126,22 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="SelfHost" pref="163" max="32767" attributes="1"/>
-                              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                              <Component id="selfHostTextField" pref="163" max="32767" attributes="1"/>
+                              <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="174" max="32767" attributes="0"/>
+                              <EmptySpace pref="235" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="SelfName" pref="163" max="32767" attributes="1"/>
-                              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                              <Component id="selfNameTextField" pref="163" max="32767" attributes="1"/>
+                              <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="99" max="32767" attributes="0"/>
-                              <Component id="SetButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="setButton" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -156,21 +153,21 @@
                       <EmptySpace pref="13" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <Component id="SetButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="setButton" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="SelfName" min="-2" max="-2" attributes="0"/>
+                      <Component id="selfNameTextField" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="SelfHost" min="-2" max="-2" attributes="0"/>
+                      <Component id="selfHostTextField" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JTextField" name="SelfName">
+            <Component class="javax.swing.JTextField" name="selfNameTextField">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="txtName.text"/>
                 <Property name="name" type="java.lang.String" value="txtName" noResource="true"/>
@@ -188,17 +185,20 @@
                 <Property name="name" type="java.lang.String" value="jLabel4" noResource="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="SelfHost">
+            <Component class="javax.swing.JTextField" name="selfHostTextField">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="txtHost.text"/>
                 <Property name="name" type="java.lang.String" value="txtHost" noResource="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="SetButton">
+            <Component class="javax.swing.JButton" name="setButton">
               <Properties>
-                <Property name="text" type="java.lang.String" resourceKey="SetButton.text"/>
-                <Property name="name" type="java.lang.String" value="SetButton" noResource="true"/>
+                <Property name="text" type="java.lang.String" resourceKey="setButton.text"/>
+                <Property name="name" type="java.lang.String" value="setButton" noResource="true"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="setButtonActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -221,12 +221,12 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="CalleeName" alignment="0" pref="163" max="32767" attributes="1"/>
+                          <Component id="calleeNameTextField" alignment="0" pref="163" max="32767" attributes="1"/>
                           <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="CallButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="CalleeHost" alignment="0" max="32767" attributes="1"/>
+                          <Component id="callButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="calleeHostTextField" alignment="0" max="32767" attributes="1"/>
                       </Group>
-                      <EmptySpace pref="44" max="32767" attributes="0"/>
+                      <EmptySpace pref="105" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -236,20 +236,20 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="CalleeName" min="-2" max="-2" attributes="0"/>
+                      <Component id="calleeNameTextField" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="17" max="32767" attributes="0"/>
                       <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="CalleeHost" min="-2" max="-2" attributes="0"/>
+                      <Component id="calleeHostTextField" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="CallButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="callButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="CallButton">
+            <Component class="javax.swing.JButton" name="callButton">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnCall.text"/>
                 <Property name="name" type="java.lang.String" value="btnCall" noResource="true"/>
@@ -267,13 +267,13 @@
                 <Property name="name" type="java.lang.String" value="jLabel8" noResource="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="CalleeName">
+            <Component class="javax.swing.JTextField" name="calleeNameTextField">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="txtRemoteName.text"/>
                 <Property name="name" type="java.lang.String" value="txtRemoteName" noResource="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="CalleeHost">
+            <Component class="javax.swing.JTextField" name="calleeHostTextField">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="txtRemoteHost.text"/>
                 <Property name="name" type="java.lang.String" value="txtRemoteHost" noResource="true"/>
@@ -345,11 +345,11 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="statusPanelSeparator" alignment="0" pref="866" max="32767" attributes="0"/>
+              <Component id="statusPanelSeparator" alignment="0" pref="868" max="32767" attributes="0"/>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="statusMessageLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="682" max="32767" attributes="0"/>
+                  <EmptySpace pref="684" max="32767" attributes="0"/>
                   <Component id="progressBar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="statusAnimationLabel" min="-2" max="-2" attributes="0"/>
@@ -434,6 +434,6 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,59,0,0,3,98"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,59,0,0,3,100"/>
   </AuxValues>
 </Form>

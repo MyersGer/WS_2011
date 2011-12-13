@@ -1,7 +1,6 @@
 /*
  * SIPGUIView.java
  */
-
 package sipgui;
 
 import org.jdesktop.application.Action;
@@ -15,11 +14,22 @@ import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import sip.UAC;
+import sip.UAS;
 
 /**
  * The application's main frame.
  */
 public class SIPGUIView extends FrameView {
+
+    private UAS uas;
+    private UAC uac;
+    private String selfName = "";
+    private String selfHost = "";
+    private static final String PROXY = "tiserver03.cpt.haw-hamburg.de";
+    private static final String MULTICAST_GROUP = "239.238.237.17";
+    private static final int MULTICAST_PORT = 9017;
+    private static int SIP_PORT = 5060;
 
     public SIPGUIView(SingleFrameApplication app) {
         super(app);
@@ -30,6 +40,7 @@ public class SIPGUIView extends FrameView {
         ResourceMap resourceMap = getResourceMap();
         int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
         messageTimer = new Timer(messageTimeout, new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 statusMessageLabel.setText("");
             }
@@ -40,6 +51,7 @@ public class SIPGUIView extends FrameView {
             busyIcons[i] = resourceMap.getIcon("StatusBar.busyIcons[" + i + "]");
         }
         busyIconTimer = new Timer(busyAnimationRate, new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 busyIconIndex = (busyIconIndex + 1) % busyIcons.length;
                 statusAnimationLabel.setIcon(busyIcons[busyIconIndex]);
@@ -52,6 +64,7 @@ public class SIPGUIView extends FrameView {
         // connecting action tasks to status bar via TaskMonitor
         TaskMonitor taskMonitor = new TaskMonitor(getApplication().getContext());
         taskMonitor.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 String propertyName = evt.getPropertyName();
                 if ("started".equals(propertyName)) {
@@ -68,11 +81,11 @@ public class SIPGUIView extends FrameView {
                     progressBar.setVisible(false);
                     progressBar.setValue(0);
                 } else if ("message".equals(propertyName)) {
-                    String text = (String)(evt.getNewValue());
+                    String text = (String) (evt.getNewValue());
                     statusMessageLabel.setText((text == null) ? "" : text);
                     messageTimer.restart();
                 } else if ("progress".equals(propertyName)) {
-                    int value = (Integer)(evt.getNewValue());
+                    int value = (Integer) (evt.getNewValue());
                     progressBar.setVisible(true);
                     progressBar.setIndeterminate(false);
                     progressBar.setValue(value);
@@ -97,18 +110,18 @@ public class SIPGUIView extends FrameView {
         jTextField2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        SelfName = new javax.swing.JTextField();
+        selfNameTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        SelfHost = new javax.swing.JTextField();
-        SetButton = new javax.swing.JButton();
+        selfHostTextField = new javax.swing.JTextField();
+        setButton = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        CallButton = new javax.swing.JButton();
+        callButton = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        CalleeName = new javax.swing.JTextField();
-        CalleeHost = new javax.swing.JTextField();
+        calleeNameTextField = new javax.swing.JTextField();
+        calleeHostTextField = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
@@ -143,8 +156,8 @@ public class SIPGUIView extends FrameView {
         jPanel1.setBackground(resourceMap.getColor("jPanel1.background")); // NOI18N
         jPanel1.setName("jPanel1"); // NOI18N
 
-        SelfName.setText(resourceMap.getString("txtName.text")); // NOI18N
-        SelfName.setName("txtName"); // NOI18N
+        selfNameTextField.setText(resourceMap.getString("txtName.text")); // NOI18N
+        selfNameTextField.setName("txtName"); // NOI18N
 
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
         jLabel1.setName("jLabel1"); // NOI18N
@@ -152,11 +165,16 @@ public class SIPGUIView extends FrameView {
         jLabel4.setText(resourceMap.getString("jLabel4.text")); // NOI18N
         jLabel4.setName("jLabel4"); // NOI18N
 
-        SelfHost.setText(resourceMap.getString("txtHost.text")); // NOI18N
-        SelfHost.setName("txtHost"); // NOI18N
+        selfHostTextField.setText(resourceMap.getString("txtHost.text")); // NOI18N
+        selfHostTextField.setName("txtHost"); // NOI18N
 
-        SetButton.setText(resourceMap.getString("SetButton.text")); // NOI18N
-        SetButton.setName("SetButton"); // NOI18N
+        setButton.setText(resourceMap.getString("setButton.text")); // NOI18N
+        setButton.setName("setButton"); // NOI18N
+        setButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -166,19 +184,19 @@ public class SIPGUIView extends FrameView {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(SelfHost, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                        .addGap(44, 44, 44))
+                        .addComponent(selfHostTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                        .addGap(105, 105, 105))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel4)
-                        .addContainerGap(174, Short.MAX_VALUE))
+                        .addContainerGap(235, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(SelfName, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                        .addGap(44, 44, 44))
+                        .addComponent(selfNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                        .addGap(105, 105, 105))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 99, Short.MAX_VALUE)
-                        .addComponent(SetButton)
-                        .addGap(32, 32, 32))))
+                        .addComponent(setButton)
+                        .addGap(58, 58, 58))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,13 +204,13 @@ public class SIPGUIView extends FrameView {
                 .addContainerGap(13, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
-                    .addComponent(SetButton))
+                    .addComponent(setButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(SelfName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(selfNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(SelfHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(selfHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -202,8 +220,8 @@ public class SIPGUIView extends FrameView {
         jPanel2.setBackground(resourceMap.getColor("jPanel2.background")); // NOI18N
         jPanel2.setName("jPanel2"); // NOI18N
 
-        CallButton.setText(resourceMap.getString("btnCall.text")); // NOI18N
-        CallButton.setName("btnCall"); // NOI18N
+        callButton.setText(resourceMap.getString("btnCall.text")); // NOI18N
+        callButton.setName("btnCall"); // NOI18N
 
         jLabel7.setText(resourceMap.getString("jLabel7.text")); // NOI18N
         jLabel7.setName("jLabel7"); // NOI18N
@@ -211,11 +229,11 @@ public class SIPGUIView extends FrameView {
         jLabel8.setText(resourceMap.getString("jLabel8.text")); // NOI18N
         jLabel8.setName("jLabel8"); // NOI18N
 
-        CalleeName.setText(resourceMap.getString("txtRemoteName.text")); // NOI18N
-        CalleeName.setName("txtRemoteName"); // NOI18N
+        calleeNameTextField.setText(resourceMap.getString("txtRemoteName.text")); // NOI18N
+        calleeNameTextField.setName("txtRemoteName"); // NOI18N
 
-        CalleeHost.setText(resourceMap.getString("txtRemoteHost.text")); // NOI18N
-        CalleeHost.setName("txtRemoteHost"); // NOI18N
+        calleeHostTextField.setText(resourceMap.getString("txtRemoteHost.text")); // NOI18N
+        calleeHostTextField.setName("txtRemoteHost"); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -225,11 +243,11 @@ public class SIPGUIView extends FrameView {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel7)
-                    .addComponent(CalleeName, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                    .addComponent(calleeNameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                     .addComponent(jLabel8)
-                    .addComponent(CallButton)
-                    .addComponent(CalleeHost))
-                .addContainerGap(44, Short.MAX_VALUE))
+                    .addComponent(callButton)
+                    .addComponent(calleeHostTextField))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,13 +255,13 @@ public class SIPGUIView extends FrameView {
                 .addContainerGap()
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CalleeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(calleeNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(CalleeHost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(calleeHostTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(CallButton)
+                .addComponent(callButton)
                 .addGap(14, 14, 14))
         );
 
@@ -275,13 +293,11 @@ public class SIPGUIView extends FrameView {
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)))
                     .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                            .addComponent(jTextField2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(26, 26, 26))))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,11 +351,11 @@ public class SIPGUIView extends FrameView {
         statusPanel.setLayout(statusPanelLayout);
         statusPanelLayout.setHorizontalGroup(
             statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
+            .addComponent(statusPanelSeparator, javax.swing.GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
             .addGroup(statusPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(statusMessageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 682, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 684, Short.MAX_VALUE)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusAnimationLabel)
@@ -362,13 +378,15 @@ public class SIPGUIView extends FrameView {
         setStatusBar(statusPanel);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void setButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setButtonActionPerformed
+        this.selfName = this.selfNameTextField.getText();
+        this.selfHost = this.selfHostTextField.getText();
+        System.out.println(selfName + "@" + selfHost);
+    }//GEN-LAST:event_setButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CallButton;
-    private javax.swing.JTextField CalleeHost;
-    private javax.swing.JTextField CalleeName;
-    private javax.swing.JTextField SelfHost;
-    private javax.swing.JTextField SelfName;
-    private javax.swing.JButton SetButton;
+    private javax.swing.JButton callButton;
+    private javax.swing.JTextField calleeHostTextField;
+    private javax.swing.JTextField calleeNameTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -386,16 +404,17 @@ public class SIPGUIView extends FrameView {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JProgressBar progressBar;
+    private javax.swing.JTextField selfHostTextField;
+    private javax.swing.JTextField selfNameTextField;
+    private javax.swing.JButton setButton;
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
     // End of variables declaration//GEN-END:variables
-
     private final Timer messageTimer;
     private final Timer busyIconTimer;
     private final Icon idleIcon;
     private final Icon[] busyIcons = new Icon[15];
     private int busyIconIndex = 0;
-
     private JDialog aboutBox;
 }
