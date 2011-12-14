@@ -2,6 +2,7 @@ package sip;
 
 import java.text.ParseException;
 
+import javax.sip.ClientTransaction;
 import javax.sip.Dialog;
 import javax.sip.DialogTerminatedEvent;
 import javax.sip.InvalidArgumentException;
@@ -19,26 +20,42 @@ public class UAC implements IMessageProcessor {
 	private String inviteCallId = "";
 	private long cSeqInvite;
 	private Dialog dialog;
+	private Dialog clientDiag;
+
+	private ClientTransaction lastClientTrans;
+
+	private boolean canceled = false;
+
+
 
 	public UAC(SIPLayer sipLayer) {
 		this.sipLayer = sipLayer;
 		sipLayer.registerObserver(this);
 	}
 
-	public void sendBye(String user, String host) throws ParseException, InvalidArgumentException, SipException {
-		LOGGER.debug("sendBye(" + user + ", " + host + " )");
-		sipLayer.send(user, host, Request.BYE);
+	public void sendBye() throws ParseException, InvalidArgumentException, SipException {
+		LOGGER.debug("sendBye()");
+		
+		Request bye = clientDiag.createRequest(Request.BYE);
+		ClientTransaction byeTrans = sipLayer.getNewClientTransaction(bye);
+		clientDiag.sendRequest(byeTrans);
 	}
 
-	public void sendCancel(String user, String host) throws ParseException, InvalidArgumentException, SipException {
-		LOGGER.debug("sendCancel(" + user + ", " + host + " )");
-		sipLayer.send(user, host, Request.CANCEL);
+	public void sendCancel() throws ParseException, InvalidArgumentException, SipException {
+		LOGGER.debug("sendCancel()");
+		canceled = true;
+		Request cancel = lastClientTrans.createCancel();
+		ClientTransaction cancelTran = sipLayer.getNewClientTransaction(cancel);
+		cancelTran.sendRequest();		
 	}
 
 	public void sendInvite(String user, String host) throws ParseException, InvalidArgumentException, SipException {
 		LOGGER.debug("sendInvite(" + user + ", " + host + " )");
-		inviteCallId = sipLayer.send(user, host, Request.INVITE);
+		canceled = false;
+		lastClientTrans = sipLayer.sendInvite(user, host, Request.INVITE);
+		inviteCallId = lastClientTrans.getDialog().getCallId().getCallId();
 		cSeqInvite = sipLayer.INVITE_SEQUENCE_NUMBER;
+		
 		LOGGER.info("inviteCallId: " + inviteCallId);
 	}
 
@@ -55,13 +72,14 @@ public class UAC implements IMessageProcessor {
 		String callId = SIPLayer.getCallId(responseEvent);
 		LOGGER.trace("callId: " + callId);
 		try {
-			if (inviteCallId.equals(callId)) {
-				dialog = responseEvent.getDialog();
+			if (inviteCallId.equals(callId) && !canceled ) {
+//				dialog = responseEvent.getDialog();
 				Request ack = responseEvent.getDialog().createAck(cSeqInvite);			
 				LOGGER.info("Sending ACK: " + ack.toString());
 				responseEvent.getDialog().sendAck(ack);
+				clientDiag = responseEvent.getDialog();
 			} else {
-				LOGGER.info("Received OK, not for me");
+				LOGGER.info("Received OK, not for me or canceled ");
 			}
 		} catch (Exception e) {
 			LOGGER.warn("Could not build/send ack: ", e);

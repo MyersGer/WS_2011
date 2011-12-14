@@ -27,6 +27,7 @@ import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import sip.SIPLayer;
 import sip.UAC;
 import sip.UAS;
@@ -75,10 +76,10 @@ public class SIPGUIView extends FrameView {
 
         initComponents();
         //set defaults
-        selfHostTextField.setText(getFirstNonLoopbackAddress(true,false).toString().replace("/", ""));
+        selfHostTextField.setText(getFirstNonLoopbackAddress(true, false).toString().replace("/", ""));
         selfNameTextField.setText("Hexren");
         calleeHostTextField.setText(PROXY);
-        
+
         // status bar initialization - message timeout, idle icon and busy animation, etc
         ResourceMap resourceMap = getResourceMap();
         int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
@@ -166,6 +167,7 @@ public class SIPGUIView extends FrameView {
         calleeNameTextField = new javax.swing.JTextField();
         calleeHostTextField = new javax.swing.JTextField();
         byeButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
@@ -292,6 +294,14 @@ public class SIPGUIView extends FrameView {
             }
         });
 
+        cancelButton.setText(resourceMap.getString("cancelButton.text")); // NOI18N
+        cancelButton.setName("cancelButton"); // NOI18N
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -305,6 +315,8 @@ public class SIPGUIView extends FrameView {
                     .addComponent(calleeHostTextField)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(callButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(cancelButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(byeButton)))
                 .addContainerGap(105, Short.MAX_VALUE))
@@ -323,7 +335,8 @@ public class SIPGUIView extends FrameView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(callButton)
-                    .addComponent(byeButton))
+                    .addComponent(byeButton)
+                    .addComponent(cancelButton))
                 .addGap(14, 14, 14))
         );
 
@@ -468,7 +481,7 @@ public class SIPGUIView extends FrameView {
 
     private void byeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_byeButtonActionPerformed
         try {
-            uac.sendBye(this.calleeNameTextField.getText(), this.calleeHostTextField.getText());
+            uac.sendBye();
         } catch (ParseException ex) {
             Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidArgumentException ex) {
@@ -478,11 +491,28 @@ public class SIPGUIView extends FrameView {
         }
     }//GEN-LAST:event_byeButtonActionPerformed
 
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+
+        try {
+            uac.sendCancel();
+        } catch (ParseException ex) {
+            Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidArgumentException ex) {
+            Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SipException ex) {
+            Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+
+
+    }//GEN-LAST:event_cancelButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton byeButton;
     private javax.swing.JButton callButton;
     private javax.swing.JTextField calleeHostTextField;
     private javax.swing.JTextField calleeNameTextField;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

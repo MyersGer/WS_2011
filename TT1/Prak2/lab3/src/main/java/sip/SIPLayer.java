@@ -2,6 +2,7 @@ package sip;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 import java.util.TooManyListenersException;
 
@@ -121,7 +122,7 @@ public class SIPLayer implements SipListener {
 		return this.port;
 	}
 
-	public String send(String user, String host, String type) throws ParseException, InvalidArgumentException, SipException {
+	public ClientTransaction sendInvite(String user, String host, String type) throws ParseException, InvalidArgumentException, SipException {
 		LOGGER.debug("send(" + user + ", " + host + ", " + type + " )");
 
 		String dialogId;
@@ -136,9 +137,8 @@ public class SIPLayer implements SipListener {
 		fromNameAddress.setDisplayName(getUsername());
 		// Creates a new FromHeader based on the newly supplied address and tag
 		// values.
-		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, null);
+		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, "SteenbuckFooHarms");
 
-		
 		SipURI to = addressFactory.createSipURI(user, host + ":" + getPort());
 		// Creates an Address with the new URI attribute value
 		Address toNameAddress = addressFactory.createAddress(to);
@@ -177,9 +177,9 @@ public class SIPLayer implements SipListener {
 		request.addHeader(contactHeader);
 
 		// Send Message
-
+		ClientTransaction trans;
 		if (type == Request.INVITE) {
-			ClientTransaction trans = sipProvider.getNewClientTransaction(request);
+			trans = sipProvider.getNewClientTransaction(request);
 
 			LOGGER.trace("GESENDET: \n" + request.toString());
 
@@ -188,7 +188,8 @@ public class SIPLayer implements SipListener {
 			throw new RuntimeException("Request should be send statefull" + request.toString());
 		}
 
-		return callIdHeader.getCallId();
+		// return callIdHeader.getCallId();
+		return trans;
 	}
 
 	/**
@@ -211,7 +212,7 @@ public class SIPLayer implements SipListener {
 		fromNameAddress.setDisplayName(getUsername());
 		// Creates a new FromHeader based on the newly supplied address and tag
 		// values.
-		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, null);
+		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, "SteenbuckFooHarmsRegister");
 
 		// To: Header = From: Header at Registration
 		ToHeader toHeader = headerFactory.createToHeader(fromNameAddress, null);
