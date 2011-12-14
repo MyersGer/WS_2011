@@ -3,6 +3,9 @@
  */
 package sipgui;
 
+import igmp.IGMPListener;
+import igmp.IGMPSender;
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.util.TooManyListenersException;
@@ -45,6 +48,7 @@ public class SIPGUIView extends FrameView {
     private static final String MULTICAST_GROUP = "239.238.237.17";
     private static final int MULTICAST_PORT = 9017;
     private static int SIP_PORT = 5060;
+    private Thread igmpListenerThread;
 
     private InetAddress getFirstNonLoopbackAddress(boolean preferIpv4, boolean preferIPv6) throws SocketException {
         Enumeration en = NetworkInterface.getNetworkInterfaces();
@@ -462,6 +466,10 @@ public class SIPGUIView extends FrameView {
             uas = new UAS(sipLayer);
             uac = new UAC(sipLayer);
             uas.registerAtProxy(PROXY, SIP_PORT);
+            IGMPSender sender = new IGMPSender();
+            sender.initialize(InetAddress.getByName(MULTICAST_GROUP), MULTICAST_PORT, uas);
+            new Thread(sender).start();
+
         } catch (Exception ex) {
             Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -470,17 +478,26 @@ public class SIPGUIView extends FrameView {
     private void callButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_callButtonActionPerformed
         try {
             uac.sendInvite(this.calleeNameTextField.getText(), this.calleeHostTextField.getText());
+            IGMPListener igmpListener = new IGMPListener();
+            igmpListener.initialize(InetAddress.getByName(MULTICAST_GROUP), MULTICAST_PORT);
+            igmpListenerThread = new Thread(igmpListener);
+            igmpListenerThread.start();
         } catch (ParseException ex) {
             Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidArgumentException ex) {
             Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SipException ex) {
             Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_callButtonActionPerformed
 
     private void byeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_byeButtonActionPerformed
         try {
+            igmpListenerThread.stop();
             uac.sendBye();
         } catch (ParseException ex) {
             Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
@@ -494,6 +511,7 @@ public class SIPGUIView extends FrameView {
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
 
         try {
+            igmpListenerThread.stop();
             uac.sendCancel();
         } catch (ParseException ex) {
             Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
