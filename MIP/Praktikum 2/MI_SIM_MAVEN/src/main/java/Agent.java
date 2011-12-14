@@ -119,7 +119,7 @@ public class Agent implements Names{
 							+ ((world.calcSpace(location, spacePreferenceRadius)/spacePreference)-1)
 							- smellPreference * world.getSmellIntensity(location)
 							- trafficPreference * world.getCurrentTraffic() * (world.getTrafficAtLocation(location)/100)
-							+ greenPreference * world.getGreenIntensity(location);
+							+ greenPreference * (world.getGreenIntensity(location)/10);
 		
 		// Soziologie = WLAN + Licht - Gestank
 		double soziologie = wLanPreference * world.getWlanAtLocation(location) 
