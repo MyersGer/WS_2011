@@ -1,12 +1,17 @@
 package org.example.ttp2;
 
-import java.text.ParseException;
-
 import javax.sip.DialogTerminatedEvent;
 import javax.sip.RequestEvent;
 import javax.sip.ResponseEvent;
-import javax.sip.message.Request;
 
+/**
+ * MessageProcessorInterface zur Benachrichtigung der Observer des SIP-Layers
+ * Klassen die diese Interface implementieren, können sich als Observer am 
+ * SIP-Layer registrieren und werden über ankommende Requests und Responses
+ * informiert um diese zu verarbeiten
+ * @author Carsten Noetzel, Armin Steudte
+ *
+ */
 public interface IMessageProcessor {
 	
 	public void processDialogTerminated(DialogTerminatedEvent dte);

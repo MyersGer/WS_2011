@@ -8,11 +8,14 @@ import java.net.MulticastSocket;
 import org.apache.log4j.Logger;
 
 /**
- * 
- * @author Armin
+ * IGMP Listener zum Empfang von Multicast Nachrichten
+ * @author Carsten Noetzel, Armin Steudte
  *
  */
 public class IGMPListener extends IGMPComponent{
+	
+	//Referenz auf Interface zur Aktualisierung der GUI
+	private IUpdateGUI gui;
 	
 	// Name des Loggers
 	public static final String TAG = "IGMPListener";
@@ -24,10 +27,12 @@ public class IGMPListener extends IGMPComponent{
 	 * Initialisiert den MulticastSocket 
 	 * 
 	 * @param ip			IPAdresse der Multicastgruppe
-	 * @param port			Port auf den 
+	 * @param port			Port auf dem Nachrichten empfangen werden
 	 * @throws IOException  Fehler beim erzeugen des IPAdressen-Objekts oder Port
 	 */
-	protected void initialize(InetAddress ip, int port) throws IOException{
+	protected void initialize(InetAddress ip, int port, IUpdateGUI gui) throws IOException{
+		
+		this.gui = gui;
 		
 		// Socket anlegen und Gruppe joinen
 		mSocket = new MulticastSocket(port);
@@ -51,6 +56,8 @@ public class IGMPListener extends IGMPComponent{
 		while(isRunning) {
 			
 			LOGGER.debug("Schleife erreicht");
+			//Status in der GUI anzeigen
+			gui.setStatusListener(true);		
 			
 			try {
 				
@@ -60,11 +67,11 @@ public class IGMPListener extends IGMPComponent{
 				//Empfangene Daten ausgeben
 				System.out.write(pack.getData(),0,pack.getLength());
 				System.out.println();
+				gui.addMessage(new String(pack.getData()));
 				
 			} catch (IOException e) {
 				
 				LOGGER.error("Fehler beim Lesen aus dem MulticastSocket: "+e);
-				
 				stop();
 				
 			}
@@ -73,9 +80,11 @@ public class IGMPListener extends IGMPComponent{
 		}
 		
 		LOGGER.debug("Schleife beendet");
+		//Status in der GUI anzeigen
+		gui.setStatusListener(false);
 		
 		try {
-			
+			//Multicastgruppe verlassen
 			mSocket.leaveGroup(mcastAdr);
 			
 		} catch (IOException e) {

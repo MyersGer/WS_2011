@@ -1,5 +1,6 @@
 package org.example.ttp2;
 
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -43,6 +44,15 @@ import javax.sip.message.Response;
 
 import org.apache.log4j.Logger;
 
+/**
+ * SIPLayer zur Versand und Empfang von SIP Nachrichten
+ * In dieser Klasse werden die Nachrichten zusammengebaut und versendet
+ * ankommende Requests oder Responses werden an die Observer (implementieren
+ * das IMessageProcessor Interface) weitergeleitet, damit diese die Nachrichten 
+ * verarbeiten und entsprechend darauf reagieren können
+ * @author Carsten Noetzel, Armin Steudte
+ *
+ */
 public class SIPLayer implements SipListener {
 	private static final Logger LOGGER = Logger.getLogger("SIPLayerLogger");
 
@@ -50,8 +60,10 @@ public class SIPLayer implements SipListener {
 
 	public final long INVITE_SEQUENCE_NUMBER = 1;
 
-	private String username;
-	private ArrayList<IMessageProcessor> observers;
+	private String username;							//Username unter dem man am Proxy registriert ist
+	private String host;								//IP-Adresse unter der man erreichbar ist
+	private int port;									//Port auf dem man SIP-Nachrichten empfängt
+	private ArrayList<IMessageProcessor> observers;		//Liste der Observer die benachrichtigt werden sollen
 
 	private SipStack sipStack;
 	private SipFactory sipFactory;
@@ -59,9 +71,6 @@ public class SIPLayer implements SipListener {
 	private HeaderFactory headerFactory;
 	private MessageFactory messageFactory;
 	private SipProvider sipProvider;
-
-	private String host;
-	private int port;
 
 	public SIPLayer(String username, String ip, int port) throws PeerUnavailableException, TransportNotSupportedException, InvalidArgumentException, ObjectInUseException, TooManyListenersException {
 
@@ -100,31 +109,59 @@ public class SIPLayer implements SipListener {
 
 	}
 
+	/**
+	 * Registriert einen Observer der bei Nachrichtenempfang benachrichtigt werden soll 
+	 * @param mp	Observer der das IMessageProcessor Interface implementiert
+	 */
 	public void registerObserver(IMessageProcessor mp) {
 		LOGGER.debug("registerObserver()");
 		observers.add(mp);
 	}
 
-	public String getUsername() {
+	/**
+	 * Getter für den Username unter dem man am Proxy registriert ist
+	 * @return	Username unter dem man am Proxy registriert ist
+	 */
+	private String getUsername() {
 		return username;
 	}
 
-	public void setUsername(String username) {
+	/**
+	 * Setter für den Username unter dem man am Proxy registriert ist
+	 * @param username	Username unter dem man am Proxy registriert ist
+	 */
+	private void setUsername(String username) {
 		this.username = username;
 	}
 
+	/**
+	 * Getter für die IP-Adresse unter der man erreichbar ist 
+	 * @return	IP-Adresse unter der man erreichbar ist
+	 */
 	private String getHost() {
 		return this.host;
 	}
-
+	
+	/**
+	 * Getter für den Port auf dem man SIP-Nachrichten empfängt
+	 * @return	Port auf dem man SIP-Nachrichten empfängt
+	 */
 	private int getPort() {
 		return this.port;
 	}
 
-	public String send(String user, String host, String type) throws ParseException, InvalidArgumentException, SipException {
+	/**
+	 * Sendet eine SIP-Invite Nachricht an den übergebenen Empfänger
+	 * @param user		User der eingeladen werden soll
+	 * @param host		IP-Adresse unter der der User erreichbar ist
+	 * @param type		Typ der Nachrich die gesendet werden soll
+	 * @return			Transaktionsobjekt welches durch das Versenden der Nachricht entsteht
+	 * @throws ParseException
+	 * @throws InvalidArgumentException
+	 * @throws SipException
+	 */
+	public ClientTransaction sendInvite(String user, String host, String type) throws ParseException, InvalidArgumentException, SipException {
 		LOGGER.debug("send(" + user + ", " + host + ", " + type + " )");
-
-		String dialogId;
 
 		// Create Main Elements
 
@@ -136,10 +173,15 @@ public class SIPLayer implements SipListener {
 		fromNameAddress.setDisplayName(getUsername());
 		// Creates a new FromHeader based on the newly supplied address and tag
 		// values.
-		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, null);
+		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, "NoetzelSteudte");
 
+		SipURI to = addressFactory.createSipURI(user, host + ":" + getPort());
+		// Creates an Address with the new URI attribute value
+		Address toNameAddress = addressFactory.createAddress(to);
+		// Sets the display name of the Address.
+		toNameAddress.setDisplayName(user);
 		// To: Header = From: Header at Registration
-		ToHeader toHeader = headerFactory.createToHeader(fromNameAddress, null);
+		ToHeader toHeader = headerFactory.createToHeader(toNameAddress, null);
 
 		// Create RequestUri and define Transportprotocol
 		SipURI requestURI = addressFactory.createSipURI(user, host);
@@ -171,9 +213,9 @@ public class SIPLayer implements SipListener {
 		request.addHeader(contactHeader);
 
 		// Send Message
-
+		ClientTransaction trans;
 		if (type == Request.INVITE) {
-			ClientTransaction trans = sipProvider.getNewClientTransaction(request);
+			trans = sipProvider.getNewClientTransaction(request);
 
 			LOGGER.trace("GESENDET: \n" + request.toString());
 
@@ -182,13 +224,15 @@ public class SIPLayer implements SipListener {
 			throw new RuntimeException("Request should be send statefull" + request.toString());
 		}
 
-		return callIdHeader.getCallId();
+		return trans;
 	}
 
+
 	/**
-	 * @param proxyAddress
-	 * @param proxyPort
-	 * @return CallId as String
+	 * Methode zum registrieren des Users am übergebenen Proxy
+	 * @param proxyAddress		IP-Adresse des Proxy an dem man sich registrieren möchte
+	 * @param proxyPort			Port des Proxys auf dem SIP-Nachrichten empfangen werden
+	 * @return					Call ID des Registrierung um eine Antwort dem Request zuordnen zu können
 	 * @throws ParseException
 	 * @throws InvalidArgumentException
 	 * @throws SipException
@@ -196,7 +240,7 @@ public class SIPLayer implements SipListener {
 	public String registerAtProxy(String proxyAddress, int proxyPort) throws ParseException, InvalidArgumentException, SipException {
 		LOGGER.debug("registerAtProxy(" + proxyAddress + ", " + proxyPort + " )");
 		// Create Main Elements
-
+		
 		// Creates a SipURI based on the given user and host components
 		SipURI from = addressFactory.createSipURI(getUsername(), getHost() + ":" + getPort());
 		// Creates an Address with the new URI attribute value
@@ -205,7 +249,7 @@ public class SIPLayer implements SipListener {
 		fromNameAddress.setDisplayName(getUsername());
 		// Creates a new FromHeader based on the newly supplied address and tag
 		// values.
-		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, null);
+		FromHeader fromHeader = headerFactory.createFromHeader(fromNameAddress, "NoetzelSteudteRegister");
 
 		// To: Header = From: Header at Registration
 		ToHeader toHeader = headerFactory.createToHeader(fromNameAddress, null);
@@ -245,9 +289,11 @@ public class SIPLayer implements SipListener {
 		return callIdHeader.getCallId();
 	}
 
+
 	@Override
 	public void processDialogTerminated(DialogTerminatedEvent dte) {
 		LOGGER.debug("processDialogTerminated(" + dte.toString() + " )");
+		//Alle Observer benachrichtigen
 		for (IMessageProcessor mp : observers) {
 			mp.processDialogTerminated(dte);
 		}
@@ -256,7 +302,6 @@ public class SIPLayer implements SipListener {
 	@Override
 	public void processIOException(IOExceptionEvent ioEx) {
 		LOGGER.debug("processDialogTerminated(" + ioEx.toString() + " )");
-
 	}
 
 	@Override
@@ -266,7 +311,7 @@ public class SIPLayer implements SipListener {
 
 			Request request = requestEvent.getRequest();
 			String method = request.getMethod();
-
+			//Alle Observer benachrichtigen je nachdem von welchem Typ der Request ist
 			if (method.equals(Request.INVITE)) {
 				for (IMessageProcessor mp : observers) {
 					mp.processInvite(requestEvent);
@@ -291,10 +336,11 @@ public class SIPLayer implements SipListener {
 		LOGGER.debug("processResponse(" + responseEvent.toString() + " )");
 
 		Response response = responseEvent.getResponse();
-		int status = response.getStatusCode();
+		int status = response.getStatusCode();				//Status der Response auslesen
 
 		LOGGER.trace("ERHALTEN \n" + response.toString());
 
+		//Alle Observer benachrichtigen je nachdem welchen Status die Response hat
 		switch (status) {
 		case Response.TRYING:
 			for (IMessageProcessor mp : observers) {
@@ -316,15 +362,31 @@ public class SIPLayer implements SipListener {
 		}
 	}
 
+	
+	/**
+	 * Gibt die CallID des übergebenen ReponseEvents zurück
+	 * @param responseEvent		ResponseEvent dessen CallID ermittelt werden soll
+	 * @return					CallID des ReponseEvents
+	 */
 	static public String getCallId(ResponseEvent responseEvent) {
 		return getCallId(responseEvent.getResponse().getHeader(CallIdHeader.NAME));
 	}
 
+	/**
+	 * Gibt die CallID des übergebenen Headers zurück
+	 * @param header			Header dessen CallID ermittelt werden soll
+	 * @return					CallID des Headers
+	 */
 	private static String getCallId(Header header) {
 		CallIdHeader callIdHeader = (CallIdHeader) header;
 		return callIdHeader.getCallId();
 	}
 
+	/**
+	 * Gibt die CallID des übergebenen RequestEvents zurück
+	 * @param requestEvent		RequestEvent dessen CallID ermittelt werden soll
+	 * @return					CallID des RequestEvents
+	 */
 	public static String getCallId(RequestEvent requestEvent) {
 		return getCallId(requestEvent.getRequest().getHeader(CallIdHeader.NAME));
 	}
@@ -340,6 +402,11 @@ public class SIPLayer implements SipListener {
 		LOGGER.debug("processTransactionTerminated(" + transactionTerminatedEvent.toString() + " )");
 	}
 
+	
+	/**
+	 * Diese Methode gibt den Contact Header für Nachrichten zurück
+	 * @return
+	 */
 	public ContactHeader getContactHeader() {
 		try {
 			SipURI contactURI = addressFactory.createSipURI(getUsername(), getHost());
@@ -354,16 +421,27 @@ public class SIPLayer implements SipListener {
 
 	}
 
-	public Response createResponse(int arg0, Request arg1) {
+	
+	/**
+	 * Diese Methode erzeugt eine neue Response für den übergebenen Request
+	 * @param type		Typ der Response die erzeugt werden soll
+	 * @param req		Request für den die Response erzeugt werden soll
+	 * @return			Response-Objekt vom übergebenen Typ für den übergebenen Request
+	 */
+	public Response createResponse(int type, Request req) {
 		LOGGER.debug("createResponse()");
 		try {
-			return messageFactory.createResponse(arg0, arg1);
+			return messageFactory.createResponse(type, req);	//über MessageFactory Response erzeugen
 		} catch (ParseException e) {
 			LOGGER.error("Could not generate: ", e);
 			throw new RuntimeException(e);
 		}
 	}
 
+	/**
+	 * Diese Methode versendet eine Response über den SipProvider 
+	 * @param response		Response die versendet werden soll
+	 */
 	public void sendResponse(Response response) {
 		LOGGER.debug("sendResponse()");
 		LOGGER.trace(response.toString());
@@ -374,14 +452,27 @@ public class SIPLayer implements SipListener {
 		}
 	}
 
-	public ServerTransaction getNewServerTransaction(Request arg0) throws TransactionAlreadyExistsException, TransactionUnavailableException {
+	/**
+	 * Diese Methode erzeugt eine neue  ServerTransaction und gibt diese zurück
+	 * @param req		Request für die die Transaktion erzeugt werden soll
+	 * @return			ServerTransaktionsobjekt für den übergebenen Request
+	 * @throws TransactionAlreadyExistsException
+	 * @throws TransactionUnavailableException
+	 */
+	public ServerTransaction getNewServerTransaction(Request req) throws TransactionAlreadyExistsException, TransactionUnavailableException {
 		LOGGER.debug("getNewServerTransaction()");
-		return sipProvider.getNewServerTransaction(arg0);
+		return sipProvider.getNewServerTransaction(req);	//neue Server-Transaktion erzeugen
 	}
 
-	public ClientTransaction getNewClientTransaction(Request arg0) throws TransactionUnavailableException {
+	/**
+	 * Diese Methode erzeugt eine neue  ClientTransaction und gibt diese zurück
+	 * @param req		Request für die die Transaktion erzeugt werden soll
+	 * @return			ClientTransaktionsobjekt für den übergebenen Request
+	 * @throws TransactionUnavailableException
+	 */
+	public ClientTransaction getNewClientTransaction(Request req) throws TransactionUnavailableException {
 		LOGGER.debug("getNewClientTransaction()");
-		return sipProvider.getNewClientTransaction(arg0);
+		return sipProvider.getNewClientTransaction(req);	//neue Client-Transaktion erzeugen
 	}
 
 }

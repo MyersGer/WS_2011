@@ -5,8 +5,10 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 
 /**
- * 
- * @author Armin
+ * IGMPComponent Klasse als Basisklasse für den IGMP-Listener und den IGMP-Sender
+ * Dient zur Kapselung von Funktionalität die sowohl im Listener als auch im Sender
+ * benötigt wird
+ * @author Carsten Noetzel, Armin Steudte
  *
  */
 public abstract class IGMPComponent implements Runnable {
