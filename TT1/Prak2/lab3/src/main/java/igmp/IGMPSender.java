@@ -22,7 +22,7 @@ public class IGMPSender extends IGMPComponent {
 
 		super();
 
-		buf = "Hallo von Noetzel Steudte".getBytes();
+		buf = "Steenbuck Harms".getBytes();
 		pack = new DatagramPacket(buf, buf.length);
 	}
 
@@ -55,7 +55,7 @@ public class IGMPSender extends IGMPComponent {
 	@Override
 	public void run() {
 
-		LOGGER.debug("run()-Methode aufgerufen");
+		LOGGER.debug("run()");
 		LOGGER.debug("isRunning: " + isRunning);
 
 		while (isRunning) {

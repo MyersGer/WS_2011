@@ -21,7 +21,8 @@ public class UAS implements IMessageProcessor {
 
 	private static final boolean REGISTERED = true;
 	private static final boolean UNREGISTERED = false;
-
+	
+	private UASObserver observer = null;
 	private SIPLayer sipLayer;
 	private static final Logger LOGGER = Logger.getLogger("UAS");
 	private boolean registered = UNREGISTERED;
@@ -30,6 +31,8 @@ public class UAS implements IMessageProcessor {
 	Set<String> dialogsActive = new HashSet<String>();
 	private ContactHeader contactHeader;
 
+	
+	
 	public UAS(SIPLayer sipLayer) {
 		this.sipLayer = sipLayer;
 		sipLayer.registerObserver(this);
@@ -136,16 +139,23 @@ public class UAS implements IMessageProcessor {
 			LOGGER.info("Changing DialogId: " + dialogId + " to active");
 			dialogsActive.add(dialogId);
 			dialogWaitingForAck.remove(dialogId);
+			if(null != observer)
+				observer.notifyChangedActiveDialogs(dialogsActive);
 		} else {
 			LOGGER.warn("DialogId: " + dialogId + " is unknown in set of waiting dialogs");
 			Response response = sipLayer.createResponse(Response.DECLINE, requestEvent.getRequest());
 			// TODO send response
 		}
-
 	}
+	
+	
 
 	public int sessionCount() {
 		return dialogsActive.size();
+	}
+
+	public void setObserver(UASObserver observer) {
+		this.observer = observer;
 	}
 
 }

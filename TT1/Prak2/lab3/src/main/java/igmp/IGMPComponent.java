@@ -4,11 +4,7 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 
-/**
- * 
- * @author Armin
- *
- */
+
 public abstract class IGMPComponent implements Runnable {
 
 	// Größe der erwarteten Pakete

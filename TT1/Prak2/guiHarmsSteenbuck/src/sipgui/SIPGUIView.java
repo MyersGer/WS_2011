@@ -4,10 +4,12 @@
 package sipgui;
 
 import igmp.IGMPListener;
+import igmp.IGMPListenerObserver;
 import igmp.IGMPSender;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.text.ParseException;
+import java.util.Set;
 import java.util.TooManyListenersException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,14 +33,16 @@ import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import sip.SIPLayer;
 import sip.UAC;
 import sip.UAS;
+import sip.UASObserver;
 
 /**
  * The application's main frame.
  */
-public class SIPGUIView extends FrameView {
+public class SIPGUIView extends FrameView implements IGMPListenerObserver, UASObserver {
 
     private UAS uas;
     private UAC uac;
@@ -153,10 +157,8 @@ public class SIPGUIView extends FrameView {
 
         mainPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        verbClientsText = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         selfNameTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -173,7 +175,7 @@ public class SIPGUIView extends FrameView {
         byeButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        igmpMessagesText = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -187,21 +189,14 @@ public class SIPGUIView extends FrameView {
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setName("jTextArea1"); // NOI18N
-        jScrollPane1.setViewportView(jTextArea1);
+        verbClientsText.setColumns(20);
+        verbClientsText.setRows(5);
+        verbClientsText.setName("verbClientsText"); // NOI18N
+        jScrollPane1.setViewportView(verbClientsText);
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(sipgui.SIPGUIApp.class).getContext().getResourceMap(SIPGUIView.class);
         jLabel2.setText(resourceMap.getString("jLabel2.text")); // NOI18N
         jLabel2.setName("jLabel2"); // NOI18N
-
-        jTextField2.setEditable(false);
-        jTextField2.setText(resourceMap.getString("txtClientCount.text")); // NOI18N
-        jTextField2.setName("txtClientCount"); // NOI18N
-
-        jLabel3.setText(resourceMap.getString("jLabel3.text")); // NOI18N
-        jLabel3.setName("jLabel3"); // NOI18N
 
         jPanel1.setBackground(resourceMap.getColor("jPanel1.background")); // NOI18N
         jPanel1.setName("jPanel1"); // NOI18N
@@ -346,10 +341,10 @@ public class SIPGUIView extends FrameView {
 
         jScrollPane2.setName("jScrollPane2"); // NOI18N
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jTextArea2.setName("jTextArea2"); // NOI18N
-        jScrollPane2.setViewportView(jTextArea2);
+        igmpMessagesText.setColumns(20);
+        igmpMessagesText.setRows(5);
+        igmpMessagesText.setName("igmpMessagesText"); // NOI18N
+        jScrollPane2.setViewportView(igmpMessagesText);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -364,18 +359,14 @@ public class SIPGUIView extends FrameView {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(95, 95, 95)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)))
-                    .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(26, 26, 26))))
+                        .addGap(25, 25, 25)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))
+                    .addGroup(mainPanelLayout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(jLabel2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
@@ -389,10 +380,7 @@ public class SIPGUIView extends FrameView {
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(mainPanelLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
+                                .addGap(78, 78, 78)
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -464,6 +452,7 @@ public class SIPGUIView extends FrameView {
             Logger.getLogger(SIPGUIView.class.getName()).log(Level.INFO, selfName + "@" + selfHost);
             SIPLayer sipLayer = new SIPLayer(selfName, selfHost, SIP_PORT);
             uas = new UAS(sipLayer);
+            uas.setObserver(this);
             uac = new UAC(sipLayer);
             uas.registerAtProxy(PROXY, SIP_PORT);
             IGMPSender sender = new IGMPSender();
@@ -479,6 +468,7 @@ public class SIPGUIView extends FrameView {
         try {
             uac.sendInvite(this.calleeNameTextField.getText(), this.calleeHostTextField.getText());
             IGMPListener igmpListener = new IGMPListener();
+            igmpListener.setObserver(this);
             igmpListener.initialize(InetAddress.getByName(MULTICAST_GROUP), MULTICAST_PORT);
             igmpListenerThread = new Thread(igmpListener);
             igmpListenerThread.start();
@@ -531,9 +521,9 @@ public class SIPGUIView extends FrameView {
     private javax.swing.JTextField calleeHostTextField;
     private javax.swing.JTextField calleeNameTextField;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JTextArea igmpMessagesText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -542,9 +532,6 @@ public class SIPGUIView extends FrameView {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JProgressBar progressBar;
@@ -554,6 +541,7 @@ public class SIPGUIView extends FrameView {
     private javax.swing.JLabel statusAnimationLabel;
     private javax.swing.JLabel statusMessageLabel;
     private javax.swing.JPanel statusPanel;
+    private javax.swing.JTextArea verbClientsText;
     // End of variables declaration//GEN-END:variables
     private final Timer messageTimer;
     private final Timer busyIconTimer;
@@ -561,4 +549,17 @@ public class SIPGUIView extends FrameView {
     private final Icon[] busyIcons = new Icon[15];
     private int busyIconIndex = 0;
     private JDialog aboutBox;
+
+    public void addMessage(String message) {
+        String newText = this.igmpMessagesText.getText() + "\n" + message;
+        this.igmpMessagesText.setText(newText);
+    }
+
+    public void notifyChangedActiveDialogs(Set<String> dialogs) {
+        StringBuilder sb = new StringBuilder();
+        for(String entry: dialogs){
+            sb.append(entry + "\n");
+        }
+        this.verbClientsText.setText(sb.toString());
+    }
 }

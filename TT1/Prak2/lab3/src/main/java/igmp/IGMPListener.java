@@ -7,12 +7,14 @@ import java.net.MulticastSocket;
 
 import org.apache.log4j.Logger;
 
-/**
- * 
- * @author Armin
- *
- */
+
 public class IGMPListener extends IGMPComponent{
+	
+	private IGMPListenerObserver observer = null;
+	
+	public void setObserver(IGMPListenerObserver observer){
+		this.observer = observer;
+	}
 	
 	// Name des Loggers
 	public static final String TAG = "IGMPListener";
@@ -50,7 +52,7 @@ public class IGMPListener extends IGMPComponent{
 		
 		while(isRunning) {
 			
-			LOGGER.debug("Schleife erreicht");
+			
 			
 			try {
 				
@@ -58,8 +60,10 @@ public class IGMPListener extends IGMPComponent{
 				mSocket.receive(pack);
 				
 				//Empfangene Daten ausgeben
-				System.out.write(pack.getData(),0,pack.getLength());
-				System.out.println();
+				String message = new String(pack.getData());
+				LOGGER.trace("Message: " + message);
+				if(null!=observer)
+					observer.addMessage(message);
 				
 			} catch (IOException e) {
 				
