@@ -1,0 +1,49 @@
+No.     Time        Source                Destination           Protocol Info
+     98 25.614657   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+     99 25.615179   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+    204 41.822356   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+    205 41.822646   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+    218 44.803430   141.22.26.101         224.0.1.76            IGMP     V1 Membership Report
+    219 44.803445   141.22.26.101         224.0.1.76            IGMP     V1 Membership Report
+    232 47.601569   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+    233 47.601589   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+    266 52.512117   141.22.26.101         224.0.1.76            IGMP     V1 Membership Report
+    267 52.512140   141.22.26.101         224.0.1.76            IGMP     V1 Membership Report
+    301 57.380077   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+    302 57.380481   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+    387 75.899504   141.22.27.35          141.22.27.3           SIP      Request: REGISTER sip:registrar@tiserver03.cpt.haw-hamburg.de;transport=udp
+    388 75.900445   141.22.27.3           141.22.27.35          SIP      Status: 100 Trying    (0 bindings)
+    389 75.902152   141.22.27.3           141.22.27.35          SIP      Status: 200 OK    (1 bindings)
+    403 77.978448   141.22.26.101         224.0.1.76            IGMP     V1 Membership Report
+    404 77.978472   141.22.26.101         224.0.1.76            IGMP     V1 Membership Report
+    420 82.427791   141.22.27.3           141.22.27.35          SIP      Request: INVITE sip:Hexren@141.22.27.35:5060;transport=udp
+    421 82.465282   141.22.27.35          141.22.27.3           SIP      Status: 200 OK
+    422 82.572783   141.22.27.34          224.0.0.22            IGMP     V3 Membership Report / Join group 239.238.237.17 for any sources
+    423 82.685764   141.22.27.34          224.0.0.22            IGMP     V3 Membership Report / Join group 239.238.237.17 for any sources
+    424 82.966892   141.22.27.35          141.22.27.3           SIP      Status: 200 OK
+    425 82.975416   141.22.27.3           141.22.27.35          SIP      Request: ACK sip:Hexren@141.22.27.35:5060
+    450 86.775992   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+    451 86.776332   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+    452 86.903762   141.22.27.35          141.22.27.3           SIP      Request: INVITE sip:Hexren@tiserver03.cpt.haw-hamburg.de;transport=udp
+    453 86.904636   141.22.27.3           141.22.27.35          SIP      Status: 100 Trying
+    454 86.905798   141.22.27.3           141.22.27.35          SIP      Request: INVITE sip:Hexren@141.22.27.35:5060;transport=udp
+    455 86.920546   141.22.27.35          224.0.0.22            IGMP     V3 Membership Report / Join group 239.238.237.17 for any sources
+    456 86.924005   141.22.27.35          141.22.27.3           SIP      Status: 200 OK
+    457 86.925172   141.22.27.3           141.22.27.35          SIP      Status: 200 OK
+    458 86.928967   141.22.27.35          141.22.27.3           SIP      Request: ACK sip:Hexren@141.22.27.3:5060
+    459 86.930068   141.22.27.3           141.22.27.35          SIP      Request: ACK sip:Hexren@141.22.27.35:5060
+    478 91.175251   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+    479 91.175773   141.22.26.100         224.0.1.76            IGMP     V1 Membership Report
+    480 91.197674   141.22.27.3           141.22.27.35          SIP      Request: BYE sip:Hexren@141.22.27.35:5060
+    481 91.203654   141.22.27.35          141.22.27.3           SIP      Status: 200 OK
+    483 91.284850   141.22.27.34          224.0.0.22            IGMP     V3 Membership Report / Leave group 239.238.237.17
+    484 91.350541   141.22.27.35          224.0.0.22            IGMP     V3 Membership Report / Join group 239.238.237.17 for any sources
+    486 91.691495   141.22.27.34          224.0.0.22            IGMP     V3 Membership Report / Leave group 239.238.237.17
+    537 97.565622   141.22.26.101         224.0.1.76            IGMP     V1 Membership Report
+    538 97.565646   141.22.26.101         224.0.1.76            IGMP     V1 Membership Report
+    540 97.665727   141.22.27.35          141.22.27.3           SIP      Request: BYE sip:Hexren@141.22.27.3:5060
+    541 97.666961   141.22.27.3           141.22.27.35          SIP      Request: BYE sip:Hexren@141.22.27.35:5060
+    542 97.672257   141.22.27.35          141.22.27.3           SIP      Status: 200 OK
+    543 97.673306   141.22.27.3           141.22.27.35          SIP      Status: 200 OK
+    549 97.929314   141.22.27.35          224.0.0.22            IGMP     V3 Membership Report / Leave group 239.238.237.17
+    567 100.488110  141.22.27.35          224.0.0.22            IGMP     V3 Membership Report / Leave group 239.238.237.17
