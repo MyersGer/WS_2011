@@ -27,7 +27,7 @@ public class GUI extends javax.swing.JFrame implements IUpdateGUI{
 	private IGMPSender sender;
 	
 	private static final String USERNAME = "Carmin";
-	private static final String HOST = "141.22.27.135";
+	private static final String HOST = "141.22.27.34";
 	private static final String PROXY = "tiserver03.cpt.haw-hamburg.de";
 	private static final String MULTICAST_GROUP = "239.238.237.17";
 	private static final int MULTICAST_PORT = 9017;
