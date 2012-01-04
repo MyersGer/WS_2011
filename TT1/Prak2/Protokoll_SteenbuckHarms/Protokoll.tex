@@ -19,6 +19,7 @@
 \usepackage{colortbl}
 \usepackage[absolute]{textpos}
 \usepackage{float}
+\usepackage{verbatim}
 \usepackage[colorinlistoftodos,textsize=small,textwidth=2cm,shadow,bordercolor=black,backgroundcolor={red!100!green!33},linecolor=black]{todonotes}
 
 \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, breaklines=true, showstringspaces=false} 
@@ -62,6 +63,15 @@ Beim Testen der Anwendung, um einen Dump der Netzwerkkommunikation zu erhalten, 
 	
 \section{Beobachtung}
 
+	\begin{figure}[H]
+        \centering
+                \includegraphics[width=\textwidth]{img/udp_after_leaving}
+        \caption{Empfang von UDP Nachrichten nach Austritt aus Multicastgruppe}
+        \label{img:cap1}
+	\end{figure}
+
+
+
 \section{Bedienung der Anwendung}
 \begin{enumerate}
 	\item entpacken \verb!harmsSteenbuckSIP.tgz!
@@ -70,7 +80,7 @@ Beim Testen der Anwendung, um einen Dump der Netzwerkkommunikation zu erhalten, 
 	\item Die unter \ref{sec:bedienung:anwendung} beschrieben Anwendung startet
 \end{enumerate}
 
-\section{Bedienung der Anwendung}
+
 \label{sec:bedienung:anwendung}		
 	\begin{figure}[H]
         \centering
