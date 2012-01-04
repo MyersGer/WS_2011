@@ -30,6 +30,7 @@ public class UAC implements IMessageProcessor {
 	private ClientTransaction lastClientTrans;
 
 	private boolean canceled = false;
+	private boolean established = false; 
 
 
 
@@ -72,6 +73,7 @@ public class UAC implements IMessageProcessor {
 		Request cancel = lastClientTrans.createCancel();							//Request erzeugen
 		ClientTransaction cancelTran = sipLayer.getNewClientTransaction(cancel);	//ClientTransaktion erzeugen
 		cancelTran.sendRequest();													//Cancel senden
+		established = false;
 	}
 
 	/**
@@ -107,12 +109,14 @@ public class UAC implements IMessageProcessor {
 		try {
 			//Wenn die CallID des versendeten Invites gleich der CallID der Response ist und das Invite nicht vorher durch einen Cancel-Request
 			//gecancelt wurde gilt das OK dem Invite
-			if (inviteCallId.equals(callId) && !canceled ) {
+			if (inviteCallId.equals(callId) && !canceled && !established) {
+				established = true;
 				Request ack = responseEvent.getDialog().createAck(cSeqInvite);		//ACK für das Invite erzeugen		
 				LOGGER.info("Sending ACK: " + ack.toString());
 				responseEvent.getDialog().sendAck(ack);								//ACK senden
 				clientDiag = responseEvent.getDialog();								//Dialog setzen
 			} else {
+				established = false;
 				LOGGER.info("Received OK, not for me or canceled ");
 			}
 		} catch (Exception e) {
