@@ -13,7 +13,7 @@
 \usepackage{lastpage}
 \usepackage[perpage,para,symbol*]{footmisc}
 \usepackage{listings} 
-\usepackage[pdfborder={0 0 0},colorlinks=false]{hyperref}
+
 \usepackage[numbers,square]{natbib}
 \usepackage{color}
 \usepackage{colortbl}
@@ -21,6 +21,10 @@
 \usepackage{float}
 \usepackage{verbatim}
 \usepackage[colorinlistoftodos,textsize=small,textwidth=2cm,shadow,bordercolor=black,backgroundcolor={red!100!green!33},linecolor=black]{todonotes}
+
+\usepackage[pdfborder={0 0 0},colorlinks=false]{hyperref}
+\usepackage[all]{hypcap}
+
 
 \lstset{numbers=left, numberstyle=\tiny, numbersep=5pt, breaklines=true, showstringspaces=false} 
 \restylefloat{figure}
@@ -62,13 +66,18 @@
 Beim Testen der Anwendung, um einen Dump der Netzwerkkommunikation zu erhalten, wurde die Anwendung am SIP-Proxy registriert und von zwei Clients angerufen (invited). Anschließend haben die Clients nacheinander mittels eines Byes die Verbindung beendet. Dieses Vorgehen und der Multicastverkehr wurden aufgezeichnet.
 	
 \section{Beobachtung}
-
-	\begin{figure}[H]
+	Die Ergebnisse auf der IGMP Seite der Anwendung entsprechen den Erwartungen (\verb!join! nach \verb!invite! und \verb!leave! nach \verb!bye! auf Clientseite sowie analog auf der Serverseite das starten/stopen des sendens)
+	
+	Die einzige Ausnahme ist das nach dem clientseitigen \verb!leave! festgestellt wurde das wie weiterhin \verb!UDP Multicast! Nachrichten empfangen wurde, siehe Abbildung \ref{img:cap1}. 
+	Die Erklärung hierfür dürfte sein, dass die Infrastrutkur in den Laborräumen kein IGMP Snooping unterstützt und daher die Multicastnachrichten über Ethernet Broadcasts implementiert. Diese kommen dann auch bei dem nicht in der Gruppe registriertem Rechner an.
+	
+	
+	\begin{figure}[htb]
         \centering
-                \includegraphics[width=\textwidth]{img/udp_after_leaving}
-        \caption{Empfang von UDP Nachrichten nach Austritt aus Multicastgruppe}
+         \includegraphics[width=\textwidth]{img/udp_after_leaving}
+         \caption{Empfang von UDP Nachrichten nach Austritt aus Multicastgruppe}
         \label{img:cap1}
-	\end{figure}
+	\end{figure}	
 
 
 
