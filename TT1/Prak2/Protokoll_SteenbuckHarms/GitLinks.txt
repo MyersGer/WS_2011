@@ -1,0 +1,5 @@
+Eclipse Project library:
+https://github.com/MyersGer/WS_2011/tree/master/TT1/Prak2/lab3
+
+Netbeans Project Oberfläche:
+https://github.com/MyersGer/WS_2011/tree/master/TT1/Prak2/guiHarmsSteenbuck
