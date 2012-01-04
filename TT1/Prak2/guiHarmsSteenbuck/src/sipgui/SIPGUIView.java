@@ -53,6 +53,7 @@ public class SIPGUIView extends FrameView implements IGMPListenerObserver, UASOb
     private static final int MULTICAST_PORT = 9017;
     private static int SIP_PORT = 5060;
     private Thread igmpListenerThread;
+    private IGMPListener igmpListener;
 
     private InetAddress getFirstNonLoopbackAddress(boolean preferIpv4, boolean preferIPv6) throws SocketException {
         Enumeration en = NetworkInterface.getNetworkInterfaces();
@@ -467,7 +468,7 @@ public class SIPGUIView extends FrameView implements IGMPListenerObserver, UASOb
     private void callButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_callButtonActionPerformed
         try {
             uac.sendInvite(this.calleeNameTextField.getText(), this.calleeHostTextField.getText());
-            IGMPListener igmpListener = new IGMPListener();
+            igmpListener = new IGMPListener();
             igmpListener.setObserver(this);
             igmpListener.initialize(InetAddress.getByName(MULTICAST_GROUP), MULTICAST_PORT);
             igmpListenerThread = new Thread(igmpListener);
@@ -487,7 +488,7 @@ public class SIPGUIView extends FrameView implements IGMPListenerObserver, UASOb
 
     private void byeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_byeButtonActionPerformed
         try {
-            igmpListenerThread.stop();
+            igmpListener.stop();        
             uac.sendBye();
         } catch (ParseException ex) {
             Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
@@ -501,7 +502,7 @@ public class SIPGUIView extends FrameView implements IGMPListenerObserver, UASOb
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
 
         try {
-            igmpListenerThread.stop();
+            igmpListener.stop();        
             uac.sendCancel();
         } catch (ParseException ex) {
             Logger.getLogger(SIPGUIView.class.getName()).log(Level.SEVERE, null, ex);
