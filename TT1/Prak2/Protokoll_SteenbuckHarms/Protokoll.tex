@@ -57,7 +57,7 @@
 %	\listoftables                                 												% 
 %	\listoffigures   
 
-\section{Durchführung des Tests}
+\section{Durchführung des Versuchs}
 Beim Testen der Anwendung, um einen Dump der Netzwerkkommunikation zu erhalten, wurde die Anwendung am SIP-Proxy registriert und von zwei Clients angerufen (invited). Anschließend haben die Clients nacheinander mittels eines Byes die Verbindung beendet. Dieses Vorgehen und der Multicastverkehr wurden aufgezeichnet.
 	
 \section{Beobachtung}
@@ -67,11 +67,23 @@ Beim Testen der Anwendung, um einen Dump der Netzwerkkommunikation zu erhalten, 
 		
 	\begin{figure}[H]
         \centering
-                \includegraphics[width=\textwidth]{img/screenshot}
+                \includegraphics[width=\textwidth]{img/screenshotApplication}
         \caption{Screenshot der GUI}
         \label{img:gui}
 	\end{figure}
-	
+
+\begin{enumerate}
+	\item Bereich in dem die empfangenen IGMP Nachrichten angezeigt werden
+	\item Zum Server verbundene Clients
+	\item Name mit dem sich beim Proxy registriert wird
+	\item IP Adresse des Rechners
+	\item Knopf zum Registrieren
+	\item Name des zu invitenden Teilnehmers
+	\item IP Adresse des zu invitenden Teilnehmers
+	\item Knopf zum Anrufen (inviten) des in X angegebenen Teilnehmers
+	\item Knopf zum Abbrechen eines Invites
+	\item Knopf zum Beenden der Verbindung
+\end{enumerate}
 
 
 \section{Anlagen}
