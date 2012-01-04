@@ -62,9 +62,16 @@ Beim Testen der Anwendung, um einen Dump der Netzwerkkommunikation zu erhalten, 
 	
 \section{Beobachtung}
 
+\section{Bedienung der Anwendung}
+\begin{enumerate}
+	\item entpacken \verb!harmsSteenbuckSIP.tgz!
+	\item wechseln in das Verzeichnis \verb!dist!
+	\item \verb!java -jar "SIPGUI.jar"!
+	\item Die unter \ref{sec:bedienung:anwendung} beschrieben Anwendung startet
+\end{enumerate}
 
 \section{Bedienung der Anwendung}
-		
+\label{sec:bedienung:anwendung}		
 	\begin{figure}[H]
         \centering
                 \includegraphics[width=\textwidth]{img/screenshotApplication}
@@ -85,10 +92,17 @@ Beim Testen der Anwendung, um einen Dump der Netzwerkkommunikation zu erhalten, 
 	\item Knopf zum Beenden der Verbindung
 \end{enumerate}
 
+\section{Sourcen}
+Das Project besteht im wesentlichen asu 2 teilen. Zum ersten eine Bibliothekt die SIP und IGMP funktionalitäten bietet und in Eclipse mit Maven entwickelt wurde zum anderene ine Oberfläche die in Netbeans entwickelt wurde und die Bibliothek nutzt.
+
+Die Sourcen für beide Projekte sind auf githup unter folgenden Pfaden verfügbar.
+\begin{description}
+	\item[Bibliothek] Eclipse \\ \verb!https://github.com/MyersGer/WS_2011/tree/master/TT1/Prak2/lab3!
+	\item[Oberfläche] Netbeans \\ \verb!https://github.com/MyersGer/WS_2011/tree/master/TT1/Prak2/guiHarmsSteenbuck!
+\end{description}
 
 \section{Anlagen}
 \begin{itemize}
-	\item Quelltext
 	\item ausführbare Jar
 \end{itemize}
 
