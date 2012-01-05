@@ -66,7 +66,7 @@
 
 \subsection{Versuchsaufbau}\label{subsec:versuchsaufbau}
 Der Versuch wurde mit der Gruppe Noetzel/Steude zusammen durchgeführt.
-Es wurde jeweils auf einem Rechner jeder Gruppe ein Server und ein Client gestartet. Die IP Adressen der am Versuch beteiligten entsprechenden Rechner waren:
+Es wurde pro Gruppe auf einem Rechner der Client gestartet, ein Server wurde nur auf dem Rechner der Gruppe Harms/Steenbuck gestartet. Die IP Adressen der am Versuch beteiligten entsprechenden Rechner waren:
 \begin{description}
 	\item[Noetzel/Steude] \verb!141.22.27.34!
 	\item[Harms/Steenbuck] \verb!141.22.27.35!
@@ -74,9 +74,35 @@ Es wurde jeweils auf einem Rechner jeder Gruppe ein Server und ein Client gestar
 \end{description}
 
 \subsection{Versuchsablauf}
-Der Versuch soltle sowohl die SIP Funktionalität der jeweiligen Implementierungen als auch das IGMP Netzwerk im Labor testen. Um diese Ziele zu erreichen wurden folgende Handlungen im unter 
+Der Versuch sollte sowohl die SIP Funktionalität der jeweiligen Implementierungen als auch das IGMP Netzwerk im Labor testen. Um diese Ziele zu erreichen wurde folgendes Vorgehen (aus Sicht Server: Steenbuck/Harms) gewählt:
+
+\begin{enumerate}
+	\item \verb!Register! beim Proxy
+	\item \verb!Invite! durch Client Noetzel/Steude
+	\item \verb!Invite! durch Client Steenbuck/Harms
+	\item \verb!Bye! durch Client Noetzel/Steude
+	\item \verb!Bye! durch Steenbuck/Harms
+	\item Server Stop
+\end{enumerate}
+
+Während des gesamten Versuchablaufes wurde der Netzwerkverkehr aufgezeichnet um diesen später auszuwerten, siehe \ref{sec:beobachtung}.
 	
-\section{Beobachtung}
+\section{Beobachtung} \label{sec:beobachtung}
+
+\subsection{SIP}
+
+\subsection{IGMP}
+
+	\subsection{Join}
+	
+	
+	\subsubsection{Message Pakete}
+	
+	\subsubsection{Leave}
+	
+	
+	\subsection{Besonderheiten}
+	
 	Die Ergebnisse auf der IGMP Seite der Anwendung entsprechen den Erwartungen (\verb!join! nach \verb!invite! und \verb!leave! nach \verb!bye! auf Clientseite sowie analog auf der Serverseite das starten/stopen des sendens)
 	
 	Die einzige Ausnahme ist das nach dem clientseitigen \verb!leave! festgestellt wurde das wie weiterhin \verb!UDP Multicast! Nachrichten empfangen wurde, siehe Abbildung \ref{img:cap1}. 
