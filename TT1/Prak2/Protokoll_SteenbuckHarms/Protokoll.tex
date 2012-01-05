@@ -63,7 +63,18 @@
 %	\listoffigures   
 
 \section{Durchführung des Versuchs}
-Beim Testen der Anwendung, um einen Dump der Netzwerkkommunikation zu erhalten, wurde die Anwendung am SIP-Proxy registriert und von zwei Clients angerufen (invited). Anschließend haben die Clients nacheinander mittels eines Byes die Verbindung beendet. Dieses Vorgehen und der Multicastverkehr wurden aufgezeichnet.
+
+\subsection{Versuchsaufbau}\label{subsec:versuchsaufbau}
+Der Versuch wurde mit der Gruppe Noetzel/Steude zusammen durchgeführt.
+Es wurde jeweils auf einem Rechner jeder Gruppe ein Server und ein Client gestartet. Die IP Adressen der am Versuch beteiligten entsprechenden Rechner waren:
+\begin{description}
+	\item[Noetzel/Steude] \verb!141.22.27.34!
+	\item[Harms/Steenbuck] \verb!141.22.27.35!
+	\item[SIP Gateway] \verb!141.22.27.3!
+\end{description}
+
+\subsection{Versuchsablauf}
+Der Versuch soltle sowohl die SIP Funktionalität der jeweiligen Implementierungen als auch das IGMP Netzwerk im Labor testen. Um diese Ziele zu erreichen wurden folgende Handlungen im unter 
 	
 \section{Beobachtung}
 	Die Ergebnisse auf der IGMP Seite der Anwendung entsprechen den Erwartungen (\verb!join! nach \verb!invite! und \verb!leave! nach \verb!bye! auf Clientseite sowie analog auf der Serverseite das starten/stopen des sendens)
