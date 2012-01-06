@@ -73,7 +73,7 @@ Es wurde pro Gruppe auf einem Rechner der Client gestartet, ein Server wurde nur
 	\item[SIP Gateway] \verb!141.22.27.3!
 \end{description}
 
-\subsection{Versuchsablauf}
+\subsection{Versuchsplanung} \label{subsec:versuchplanung}
 Der Versuch sollte sowohl die SIP Funktionalität der jeweiligen Implementierungen als auch das IGMP Netzwerk im Labor testen. Um diese Ziele zu erreichen wurde folgendes Vorgehen (aus Sicht Server: Steenbuck/Harms) gewählt:
 
 \begin{enumerate}
@@ -86,6 +86,55 @@ Der Versuch sollte sowohl die SIP Funktionalität der jeweiligen Implementierung
 \end{enumerate}
 
 Während des gesamten Versuchablaufes wurde der Netzwerkverkehr aufgezeichnet um diesen später auszuwerten, siehe \ref{sec:beobachtung}.
+
+\subsection{Definition/Darstellung Systemzustände}\label{subsec:systemzusatende}
+Aufgrund der Aufgabenspezifikation und der dem Versuch vorhergehenden tests während der Implementierung haben wir die folgenden Zustände für die am Test beteiligten Komponenten (Server, Clients) definiert.
+
+
+\subsubsection{Server}
+	\begin{description}
+		\item[UDPSending] der Server versendet UDP Nachrichten
+		\item[UDPWaiting] der Server hat keine aktiven Clients, er versendet keine UDP Nachrichten
+		\item[CallWaiting] der client hat keinen aktiven call
+		\item[CallActive] der client hat einen aktiven call
+		\item[Registered] der Server ist am Proxy angemeldet
+		\item[Shutdown] der Server ist heruntergefahren
+	\end{description}
+	
+\subsubsection{Client}	
+\begin{description}
+		\item[CallWaiting] der client hat keinen aktiven call
+		\item[CallActive] der client hat einen aktiven call
+		\item[UDPNotReceiving] der Client erhält keine UDP Pakete
+		\item[UDPReceiving] der Client erhält UDP Pakete
+	\end{description}	
+	
+\subsection{Erwartetes Verhalten der Komponenten}
+Im folgenden ist das erwartete Systemverhalten für Server und beide Clients in der in \ref{subsec:systemzusatende} beschrieben Form dargestellt.
+
+\subsubsection{Server}
+
+\subsubsection{Client Noetzel/Steude}
+
+\subsubsection{Client Harms/Steenbuck}
+	
+
+\subsubsection{Beispiel}
+Um zu darzzustellen, daß wir beim Server nach dem der 2. in \ref{subsec:versuchplanung} beschrieben Vorgang ausgeführt wurde (\verb!Invite! durch Client Noetzel/Steude) erwarten, dass der Server am Proxy registriert ist, UDP Nachrichten sendet und einen aktiven call hat nutzen wir folgende Darstellung:
+
+Server:
+\begin{enumerate}
+	\item --
+	\item UDPSending, CallActive, Registered
+	\item --
+	\item --
+	\item --
+	\item --
+\end{enumerate}
+
+\subsection{Versuchsdurchführung}
+
+	
 	
 \section{Beobachtung} \label{sec:beobachtung}
 
