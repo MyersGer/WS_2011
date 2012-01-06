@@ -197,7 +197,7 @@ Mit der unter \ref{subsec:besonderheiten} beschriebenen Ausnahme zeigten alle Ko
 
 \subsection{IGMP}
 
-	\subsection{Join}
+	\subsubsection{Join}
 	Nach dem invite setzten die Clients erwartungsgemäß IGMP Joins ab um der Multicastgruppe \verb!239.238.237.17! beizutretten. Die doppelten Join Nachrichten sind automatisiert durch die Java Multicast Implementierung abgestezt um UDP Paketverlusten vorzubeugen.
 	
 	\begin{figure}[htb]
@@ -220,8 +220,6 @@ Mit der unter \ref{subsec:besonderheiten} beschriebenen Ausnahme zeigten alle Ko
 	
 	\subsubsection{Leave}
 	Nachdem der Call beendet wurde, ist der Client aus der Multicastgruppe ausgetreten. Es sind jedoch weiterhin Nachrichten eingetroffen, siehe \ref{subsec:besonderheiten}.
-	
-		
 	
 	
 	\subsection{Besonderheiten}\label{subsec:besonderheiten}
