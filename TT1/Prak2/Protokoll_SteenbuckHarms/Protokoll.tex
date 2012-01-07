@@ -65,10 +65,10 @@
 \section{Durchführung des Versuchs}
 
 \subsection{Versuchsaufbau}\label{subsec:versuchsaufbau}
-Der Versuch wurde mit der Gruppe Noetzel/Steude zusammen durchgeführt.
+Der Versuch wurde mit der Gruppe Noetzel/Steudte zusammen durchgeführt.
 Es wurde pro Gruppe auf einem Rechner der Client gestartet, ein Server wurde nur auf dem Rechner der Gruppe Harms/Steenbuck gestartet. Die IP Adressen der am Versuch beteiligten entsprechenden Rechner waren:
 \begin{description}
-	\item[Noetzel/Steude] \verb!141.22.27.34!
+	\item[Noetzel/Steudte] \verb!141.22.27.34!
 	\item[Harms/Steenbuck] \verb!141.22.27.35!
 	\item[SIP Gateway] \verb!141.22.27.3!
 \end{description}
@@ -78,9 +78,9 @@ Der Versuch sollte sowohl die SIP Funktionalität der jeweiligen Implementierung
 
 \begin{enumerate}
 	\item \verb!Register! beim Proxy
-	\item \verb!Invite! durch Client Noetzel/Steude
+	\item \verb!Invite! durch Client Noetzel/Steudte
 	\item \verb!Invite! durch Client Steenbuck/Harms
-	\item \verb!Bye! durch Client Noetzel/Steude
+	\item \verb!Bye! durch Client Noetzel/Steudte
 	\item \verb!Bye! durch Steenbuck/Harms
 	\item Server Stop
 \end{enumerate}
@@ -88,23 +88,23 @@ Der Versuch sollte sowohl die SIP Funktionalität der jeweiligen Implementierung
 Während des gesamten Versuchablaufes wurde der Netzwerkverkehr aufgezeichnet um diesen später auszuwerten, siehe \ref{sec:beobachtung}.
 
 \subsection{Definition/Darstellung Systemzustände}\label{subsec:systemzusatende}
-Aufgrund der Aufgabenspezifikation und der dem Versuch vorhergehenden tests während der Implementierung haben wir die folgenden Zustände für die am Test beteiligten Komponenten (Server, Clients) definiert.
+Aufgrund der Aufgabenspezifikation und der dem Versuch vorhergehenden Tests während der Implementierung haben wir die folgenden Zustände für die am Test beteiligten Komponenten (Server, Clients) definiert:
 
 
 \subsubsection{Server}
 	\begin{description}
 		\item[UDPSending] der Server versendet UDP Nachrichten
 		\item[UDPWaiting] der Server hat keine aktiven Clients, er versendet keine UDP Nachrichten
-		\item[CallWaiting] der client hat keinen aktiven call
-		\item[CallActive] der client hat einen aktiven call
+		\item[CallWaiting] der Client hat keinen aktiven Call
+		\item[CallActive] der Client hat einen aktiven Call
 		\item[Registered] der Server ist am Proxy angemeldet
 		\item[Shutdown] der Server ist heruntergefahren
 	\end{description}
 	
 \subsubsection{Client}	
 	\begin{description}
-		\item[CallWaiting] der client hat keinen aktiven call
-		\item[CallActive] der client hat einen aktiven call
+		\item[CallWaiting] der Client hat keinen aktiven Call
+		\item[CallActive] der Client hat einen aktiven Call
 		\item[UDPNotReceiving] der Client erhält keine UDP Pakete
 		\item[UDPReceiving] der Client erhält UDP Pakete
 	\end{description}	
@@ -113,7 +113,9 @@ Aufgrund der Aufgabenspezifikation und der dem Versuch vorhergehenden tests wäh
 	
 
 \subsubsection{Beispiel}
-Um zu darzzustellen, daß wir beim Server nach dem der 2. in \ref{subsec:versuchplanung} beschrieben Vorgang ausgeführt wurde (\verb!Invite! durch Client Noetzel/Steude) erwarten, dass der Server am Proxy registriert ist, UDP Nachrichten sendet und einen aktiven call hat nutzen wir folgende Darstellung:
+
+TODO: ??? verstehe nicht, was Du sagen willst
+Um darzustellen, dass wir beim Server nach dem der 2. - in \ref{subsec:versuchplanung} beschriebene - Vorgang ausgeführt wurde (\verb!Invite! durch Client Noetzel/Steudte) erwarten, dass der Server am Proxy registriert ist, UDP Nachrichten sendet und einen aktiven call hat nutzen wir folgende Darstellung:
 
 Server:
 \begin{enumerate}
@@ -138,7 +140,7 @@ Im folgenden ist das erwartete Systemverhalten für Server und beide Clients in 
 	\item Shutdown
 \end{enumerate}
 
-\subsubsection{Client Noetzel/Steude}
+\subsubsection{Client Noetzel/Steudte}
 \begin{enumerate}
 	\item CallWaiting, UDPNotReceiving
 	\item CallActive, UDPReceiving
@@ -161,11 +163,11 @@ Im folgenden ist das erwartete Systemverhalten für Server und beide Clients in 
 	
 	
 \section{Beobachtungungen aus dem Versuch} \label{sec:beobachtung}
-Mit der unter \ref{subsec:besonderheiten} beschriebenen Ausnahme zeigten alle Komponenten das unter \ref{subsec:erwartetesSystemverhalten} beschriebene Verhalten.
+Mit der unter \ref{subsec:besonderheiten} beschriebenen Ausnahme, zeigten alle Komponenten das unter \ref{subsec:erwartetesSystemverhalten} beschriebene Verhalten.
 
 \subsection{SIP}
 	\subsubsection{Register} 
-	Der Register SIP Call des Servers (siehe Abbildung: \ref{img:registerServer}) hat dazu geführt das korrekt eine Eintrag auf dem Proxy angelegt wurde, dies konnte über die Weboberfläche erfolgreich verifiziert werden.
+	Der Register SIP Call des Servers (siehe Abbildung: \ref{img:registerServer}) hat dazu geführt, dass korrekt ein Eintrag auf dem Proxy angelegt wurde, dies konnte über die Weboberfläche erfolgreich verifiziert werden.
 	
 	\begin{figure}[htb]
         \centering
@@ -175,22 +177,22 @@ Mit der unter \ref{subsec:besonderheiten} beschriebenen Ausnahme zeigten alle Ko
 	\end{figure}	
 	
 	\subsubsection{Invite}
-	Die Invites der Clients wurde vom Server erfolgreich verarbeitet und bearbeitet. In Abbildung \ref{img:invites} der Invite den der Client Noetzel/Steude abgesetzt hat abgebildet. Hier ist auch gut zu erkennen das die Kommunikation über den Proxy läuft.
+	Die Invites der Clients wurden vom Server erfolgreich verarbeitet und bearbeitet. In Abbildung \ref{img:invites} ist der Invite, den der Client Noetzel/Steudte abgesetzt hat, abgebildet. Hier ist auch gut zu erkennen, dass die Kommunikation über den Proxy läuft.
 
 	\begin{figure}[htb]
         \centering
          \includegraphics[width=\textwidth]{img/invite}
-         \caption{Invite call des Clients Noetzel/Steude}
+         \caption{Invite call des Clients Noetzel/Steudte}
         \label{img:invites}
 	\end{figure}		
 
 	\subsubsection{Bye}
-	Die Byes  der Clients wurden ebenfalls erfolgreich über den Proxy gesendet und vom Server verarbeitet, in Abbildung \ref{img:byes} ist die Abmeldung des Clients Noetzel/Steude gezeigt.
+	Die Byes  der Clients wurden ebenfalls erfolgreich über den Proxy gesendet und vom Server verarbeitet. In Abbildung \ref{img:byes} ist die Abmeldung des Clients Noetzel/Steudte gezeigt.
 	
 	\begin{figure}[htb]
         \centering
          \includegraphics[width=\textwidth]{img/bye}
-         \caption{Bye call des Clients Noetzel/Steude}
+         \caption{Bye Call des Clients Noetzel/Steudte}
         \label{img:byes}
 	\end{figure}		
 	
@@ -198,18 +200,18 @@ Mit der unter \ref{subsec:besonderheiten} beschriebenen Ausnahme zeigten alle Ko
 \subsection{IGMP}
 
 	\subsubsection{Join}
-	Nach dem invite setzten die Clients erwartungsgemäß IGMP Joins ab um der Multicastgruppe \verb!239.238.237.17! beizutretten. Die doppelten Join Nachrichten sind automatisiert durch die Java Multicast Implementierung abgestezt um UDP Paketverlusten vorzubeugen.
+	Nach dem invite setzten die Clients erwartungsgemäß IGMP Joins ab, um der Multicastgruppe \verb!239.238.237.17! beizutreten. Die doppelten Join-Nachrichten sind automatisiert durch die Java Multicast Implementierung abgestezt, um UDP Paketverlusten vorzubeugen.
 	
 	\begin{figure}[htb]
         \centering
          \includegraphics[width=\textwidth]{img/join}
-         \caption{IGMP Join des Clients Hamrs/Steenbuck 141.22.27.35}
+         \caption{IGMP Join des Clients Harms/Steenbuck 141.22.27.35}
         \label{img:join}
 	\end{figure}	
 
 	
 	\subsubsection{Message Pakete}
-	Nachdem der Multicastgruppe	beigetreten wurde hat die Client Implementierung erfolgreich Nachrichten empfangen. 
+	Nachdem der Multicastgruppe	beigetreten wurde, hat die Client Implementierung erfolgreich Nachrichten empfangen. 
 	
 	\begin{figure}[htb]
         \centering
@@ -226,7 +228,7 @@ Mit der unter \ref{subsec:besonderheiten} beschriebenen Ausnahme zeigten alle Ko
 	
 	Die Ergebnisse auf der IGMP Seite der Anwendung entsprechen den Erwartungen (\verb!join! nach \verb!invite! und \verb!leave! nach \verb!bye! auf Clientseite sowie analog auf der Serverseite das starten/stopen des sendens)
 	
-	Die einzige Ausnahme ist das nach dem clientseitigen \verb!leave! festgestellt wurde das wie weiterhin \verb!UDP Multicast! Nachrichten empfangen wurde, siehe Abbildung \ref{img:cap1}. 
+	Die einzige Ausnahme ist das nach dem clientseitigen \verb!leave! festgestellt wurde, dass wie weiterhin \verb!UDP Multicast! Nachrichten empfangen wurden, siehe Abbildung \ref{img:cap1}. 
 	Die Erklärung hierfür dürfte sein, dass die Infrastrutkur in den Laborräumen kein IGMP Snooping unterstützt und daher die Multicastnachrichten über Ethernet Broadcasts implementiert. Diese kommen dann auch bei dem nicht in der Gruppe registriertem Rechner an.
 	
 	
@@ -273,9 +275,9 @@ Mit der unter \ref{subsec:besonderheiten} beschriebenen Ausnahme zeigten alle Ko
 \end{enumerate}
 
 \subsection{Sourcen}
-Das Project besteht im wesentlichen aus 2 teilen. Zum ersten eine Bibliothekt die SIP und IGMP funktionalitäten bietet und in Eclipse mit Maven entwickelt wurde zum anderene ine Oberfläche die in Netbeans entwickelt wurde und die Bibliothek nutzt. In den Sourcen sollte sich seit der Abgabe nichts mehr geändert haben, im Zweifelsfall ist der commit \verb!fd4d802c26! der letzte vor der Abgabe gewesen.
+Das Project besteht im wesentlichen aus 2 Teilen. Zum ersten eine Bibliothek, die SIP und IGMP Funktionalitäten bietet und in Eclipse mit Maven entwickelt wurde. Zum anderen eine Oberfläche, die in Netbeans entwickelt wurde und die Bibliothek nutzt. In den Sourcen sollte sich seit der Abgabe nichts mehr geändert haben, im Zweifelsfall ist der commit \verb!fd4d802c26! der letzte vor der Abgabe gewesen.
 
-Die Sourcen für beide Projekte sind auf githup unter folgenden Pfaden verfügbar.
+Die Sourcen für beide Projekte sind auf GitHub unter folgenden Pfaden verfügbar:
 \begin{description}
 	\item[Bibliothek] Eclipse \\ \verb!https://github.com/MyersGer/WS_2011/tree/master/TT1/Prak2/lab3!
 	\item[Oberfläche] Netbeans \\ \verb!https://github.com/MyersGer/WS_2011/tree/master/TT1/Prak2/guiHarmsSteenbuck!
