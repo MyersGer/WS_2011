@@ -1,0 +1,19 @@
+Verbesserungen:
+- Gang Beleuchtung verbessert
+- Blaues Haus Wlan in der Lobby verbessert
+- Gang verbreitert
+- Mülleimer entfernt
+- Gulli/Kanal entfernt
+- Lichter verbessert (Leuchtstärker)
+- Licht auf Weg zur U-Bahn
+- Grünanlagen vergrößert
+
+
+Verschlechterungen:
+- Müllkontainer verschoben
+- Gang (blaues Haus) zu gestellt
+- Straße verbreitert
+- Mülleiner hinzugefügt (Gang, blaues Haus, U-Bahn-Weg)
+- Weger verbreitert (weniger Grün)
+- Wlan weg
+- Gang Licht entfernt
