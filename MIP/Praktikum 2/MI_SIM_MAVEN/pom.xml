@@ -50,12 +50,14 @@
 						<configuration>
 							<descriptorRefs>
 								<descriptorRef>
-                  jar-with-dependencies
+                  					jar-with-dependencies
 								</descriptorRef>
 							</descriptorRefs>
 							<archive>
 								<manifest>
 									<mainClass>SimpleGame</mainClass>
+									<addClasspath>true</addClasspath>
+
 								</manifest>
 							</archive>
 						</configuration>
