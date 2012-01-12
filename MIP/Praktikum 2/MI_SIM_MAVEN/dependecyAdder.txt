@@ -1,0 +1,52 @@
+Before packaging build these statements should be excecuted to add all local jars to the local repository.
+
+
+
+mvn install:install-file -Dfile=slick.jar \
+                         -DgroupId=org.newdawn\
+                         -DartifactId=slick \
+                         -Dversion=1.0 \
+                         -Dpackaging=jar
+
+mvn install:install-file -Dfile=lwjgl.jar \
+                         -DgroupId=org.lwjgl\
+                         -DartifactId=lwjgl \
+                         -Dversion=1.0 \
+                         -Dpackaging=jar
+                         
+mvn install:install-file -Dfile=lwjgl_util.jar \
+                         -DgroupId=org.lwjgl\
+                         -DartifactId=lwjgl_util \
+                         -Dversion=1.0 \
+                         -Dpackaging=jar
+                         
+mvn install:install-file -Dfile=natives-linux.jar \
+                         -DgroupId=org.lwjgl\
+                         -DartifactId=nativeslinux \
+                         -Dversion=1.0 \
+                         -Dpackaging=jar                                                  
+                         
+                         
+java -Djava.library.path=/home/hexren/Uni_top/WS_2011/MIP/Praktikum\ 2/MI_SIM_MAVEN/src/main/resources/lwjgl/native/linux                         
+                         
+ 
+ 
+todo:
+hiero.jar
+ibxm.jar
+jinput.jar
+jnlp.jar
+jogg-0.0.7.jar
+jorbis-0.0.15.jar
+
+
+#natives-mac.jar
+#natives-win32.jar
+packulike.jar
+pedigree.jar
+scalar.jar
+slick-examples.jar
+slick-sources.jar
+slick-util.jar
+slick-util-src.zip
+tinylinepp.jar                         
