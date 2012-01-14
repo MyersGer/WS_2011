@@ -65,6 +65,35 @@ In dieser wird beschrieben wie die jvm mit den nativen lwjgl (Linux Lightweight 
 \subsection{Export}
 Ergebniss der Simulation ist eine csv Datei \verb!gamelog.csv! die im Ordner liegt von dem aus die Simulation gestartet wurde.
 
+
+\subsection{Sourcen}
+Das Project ist in Eclipse entwickelt als build tool kommt Maven zum Einsatz. Die sourcen incl. Eclipse Projektkonfigurationen sind auf githup (\verb!https://github.com/MyersGer/WS_2011/tree/master/MIP/Praktikum%202/MI_SIM_MAVEN!).
+
+\subsubsection{Maven Konfiguration}
+Da slick leider nicht für Maven verfügbar ist müßen die betreffenden Bibliotheken manuell in die systemlokalen repositories geladen werden. Die betreffenden Kommandos sind in der Datei \verb!dependecyAdder.txt! im Projectroot enthalten.
+
+\subsubsection{Native libs}
+Auch für das ausführen aus eclipse müßen die nativen lwjgl Bibliotheken eingebunden werden. In der Version im repository sind die linux libs eingebunden. Alle nativen libraries befinden sich im project in \verb!src/main/resources/lwjgl/native!. Es exisitert hier jeweils ein Ordner pro unterstütztem OS.
+
+Um die native libraries einzubinden gibt es zwei Wege, einmal über die GUI und einmal direkt im config file. Wir empfehlen das config file.
+
+\subsubsection{GUI}
+Die betreffendne Konfiguration findet sich in eclipse im Kontextmenü des Projektes. BuildPath->configure buildpath->fenster öffnet sich->linksJava Build Path auswählen-> Tab Libraries->aufklappen lwjgl.jar->Native library location->edit
+
+\subsubsection{Config File}
+Im projectroot öffnen der Datei \verb!.classpath! anpassen von:\begin{verbatim}
+
+
+	<classpathentry kind="lib" path="src/main/resources/lib/lwjgl.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" 
+			value="MI_SIM_MAVEN/src/main/resources/lwjgl/native/linux"/>
+		</attributes>
+	</classpathentry> 
+\end{verbatim}
+
+Es müßte hier zum wechsel auf einen Mac \verb!linux! durch \verb!macosx! ersetzt werden.
+
 \section{Versuchsdurchführung}
 Die Versuchsdurchführung erfolgte gemäß der Fragestellung. Zunächst wurde der IST-Zustand des Campus modelliert und die Simulation durchgeführt um die Ausgangswerte zur Bewertung des Ergebnisse zu erhalten. Im Anschluss wurden Maßnahmen zur Verbesserung bzw. Verschlechterung des Campus getroffen und die Simulationsergebnisse mit dem IST-Zustand verglichen.\\
 Betrachtet wird der Weg von der U-Bahn Lohmühlenstrasse durch das blaue Haus hin zu IT-Hochhaus (in den Grafiken ist dies durch den roten Weg zu erkennen).
