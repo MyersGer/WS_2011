@@ -67,21 +67,21 @@ Ergebniss der Simulation ist eine csv Datei \verb!gamelog.csv! die im Ordner lie
 
 
 \subsection{Sourcen}
-Das Project ist in Eclipse entwickelt als build tool kommt Maven zum Einsatz. Die sourcen incl. Eclipse Projektkonfigurationen sind auf githup (\verb!https://github.com/MyersGer/WS_2011/tree/master/MIP/Praktikum%202/MI_SIM_MAVEN!).
+Das Project ist in Eclipse entwickelt als build tool kommt Maven zum Einsatz. Die sourcen inkl. Eclipse-Projektkonfigurationen liegen auf github (\verb!https://github.com/MyersGer/WS_2011/tree/master/MIP/Praktikum%202/MI_SIM_MAVEN!).
 
 \subsubsection{Maven Konfiguration}
-Da slick leider nicht für Maven verfügbar ist müßen die betreffenden Bibliotheken manuell in die systemlokalen repositories geladen werden. Die betreffenden Kommandos sind in der Datei \verb!dependecyAdder.txt! im Projectroot enthalten.
+Da Slick leider nicht für Maven verfügbar ist müssen die betreffenden Bibliotheken manuell in die systemlokalen Repositories geladen werden. Die betreffenden Kommandos sind in der Datei \verb!dependecyAdder.txt! im Projectroot enthalten.
 
 \subsubsection{Native libs}
-Auch für das ausführen aus eclipse müßen die nativen lwjgl Bibliotheken eingebunden werden. In der Version im repository sind die linux libs eingebunden. Alle nativen libraries befinden sich im project in \verb!src/main/resources/lwjgl/native!. Es exisitert hier jeweils ein Ordner pro unterstütztem OS.
+Auch für das Ausführen aus Eclipse müssen die nativen lwjgl Bibliotheken eingebunden werden. In der Version im Repository sind die linux libs eingebunden. Alle nativen Libraries befinden sich im Projekt in \verb!src/main/resources/lwjgl/native!. Es existiert hier jeweils ein Ordner pro unterstütztem OS.
 
-Um die native libraries einzubinden gibt es zwei Wege, einmal über die GUI und einmal direkt im config file. Wir empfehlen das config file.
+Um die native libraries einzubinden gibt es zwei Wege, einmal über die GUI und einmal direkt im Config-File. Wir empfehlen das Config-File.
 
 \subsubsection{GUI}
-Die betreffendne Konfiguration findet sich in eclipse im Kontextmenü des Projektes. BuildPath $\rightarrow$ configure buildpath $\rightarrow$ fenster öffnet sich $\rightarrow$ linksJava Build Path auswählen $\rightarrow$ Tab Libraries $\rightarrow$ aufklappen lwjgl.jar $\rightarrow$ Native library location $\rightarrow$ edit
+Die betreffende Konfiguration findet sich in Eclipse im Kontextmenü des Projektes. BuildPath $\rightarrow$ Configure Buildpath $\rightarrow$ Fenster öffnet sich $\rightarrow$ links Java Build Path auswählen $\rightarrow$ Tab Libraries $\rightarrow$ aufklappen lwjgl.jar $\rightarrow$ Native Library Location $\rightarrow$ Edit
 
 \subsubsection{Config File}
-Im projectroot öffnen der Datei \verb!.classpath! anpassen von:\begin{verbatim}
+Im Projectroot öffnen der Datei \verb!.classpath! anpassen von:\begin{verbatim}
 
 
 	<classpathentry kind="lib" path="src/main/resources/lib/lwjgl.jar">
@@ -92,7 +92,7 @@ Im projectroot öffnen der Datei \verb!.classpath! anpassen von:\begin{verbatim}
 	</classpathentry> 
 \end{verbatim}
 
-Es müßte hier zum wechsel auf einen Mac \verb!linux! durch \verb!macosx! ersetzt werden.
+Es müsste hier zum Wechsel auf einen Mac \verb!linux! durch \verb!macosx! ersetzt werden.
 
 \section{Versuchsdurchführung}
 Die Versuchsdurchführung erfolgte gemäß der Fragestellung. Zunächst wurde der IST-Zustand des Campus modelliert und die Simulation durchgeführt um die Ausgangswerte zur Bewertung des Ergebnisse zu erhalten. Im Anschluss wurden Maßnahmen zur Verbesserung bzw. Verschlechterung des Campus getroffen und die Simulationsergebnisse mit dem IST-Zustand verglichen.\\
